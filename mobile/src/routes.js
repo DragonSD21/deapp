@@ -9,18 +9,27 @@ import ServosCallHistoryDetail from './pages/Servos/ServosCallHistoryDetail';
 
 const Routes = createAppContainer(
     createStackNavigator({
-        Home: {
-            screen: Home,
-            navigationOptions: {
-                title: null
-            },
-        }, 
         ServosMain: {
             screen: ServosMain,
             navigationOptions: {
                 title: 'Servos'
             },
         },
+        Home: {
+            screen: Home,
+            navigationOptions: {
+                title: null,
+                headerStyle: {
+                    backgroundColor: '#141932',
+                },
+            },
+        }, 
+        // ServosMain: {
+        //     screen: ServosMain,
+        //     navigationOptions: {
+        //         title: 'Servos'
+        //     },
+        // },
         ServosCall: {
             screen: ServosCall,
             navigationOptions: {
@@ -44,9 +53,11 @@ const Routes = createAppContainer(
             headerTintColor: '#FFF',
             headerBackTitleVisible: false,
             headerTitleAlign: 'center',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
             headerStyle: {
-                backgroundColor: '#141932',
-                
+                backgroundColor: '#070911',
             },
         },
     })

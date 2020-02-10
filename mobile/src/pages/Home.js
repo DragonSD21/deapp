@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         width: 120,
         height: 120,
+        borderRadius: 60,
     },
     buttonServos: {
         marginTop: 50,
