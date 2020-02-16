@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text, Image } from 'react-native';
 
-import Logo from '../../assets/LogoDEA.jpg'
+import Logo from '../../assets/LogoDEA.png'
 
 function Home({ navigation }) {
 

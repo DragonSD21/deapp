@@ -9,12 +9,6 @@ import ServosCallHistoryDetail from './pages/Servos/ServosCallHistoryDetail';
 
 const Routes = createAppContainer(
     createStackNavigator({
-        ServosMain: {
-            screen: ServosMain,
-            navigationOptions: {
-                title: 'Servos'
-            },
-        },
         Home: {
             screen: Home,
             navigationOptions: {
@@ -24,12 +18,12 @@ const Routes = createAppContainer(
                 },
             },
         }, 
-        // ServosMain: {
-        //     screen: ServosMain,
-        //     navigationOptions: {
-        //         title: 'Servos'
-        //     },
-        // },
+        ServosMain: {
+            screen: ServosMain,
+            navigationOptions: {
+                title: 'Servos'
+            },
+        },
         ServosCall: {
             screen: ServosCall,
             navigationOptions: {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, FlatList, Text, TouchableOpacity, TextInput } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'
 
-function ServosMain() {
+function ServosMain({ navigation }) {
     
     var arrayServos = [
         {
@@ -52,7 +52,9 @@ function ServosMain() {
         
         return (
             <View style={styles.containerItem}>
-                <Text style={styles.textName}>{item.name}</Text>
+                <View style={styles.containerName}>
+                    <Text style={styles.textName}>{item.name}</Text>
+                </View>
                 <View style={[styles.containerFaltas, {backgroundColor: colorFaltas}]}>
                     <Text style={styles.textFaltas}>{item.faltas}</Text>
                 </View>
@@ -63,7 +65,12 @@ function ServosMain() {
     return (
         <View style={styles.container}>
             <View style={styles.containerButtonsTop}>
-                <TouchableOpacity onPress={() => {}} style={styles.buttonChamada}>
+                <TouchableOpacity 
+                    onPress={() => {
+                        navigation.navigate('ServosCall')
+                    }}
+                    style={styles.buttonChamada}
+                >
                     <MaterialIcons name="add-circle-outline" size={30} color="#FFF" />
                     <Text style={[styles.textButtonsTop, {marginLeft: 10}]}>Chamada</Text>
                 </TouchableOpacity>
@@ -74,6 +81,7 @@ function ServosMain() {
             </View>
 
             <View style={styles.containerSearchServo}>
+                <View style={styles.container2SearchServo}>
                 <TextInput
                     style={styles.searchServo}
                     placeholder="Pesquisar servo..."
@@ -81,6 +89,7 @@ function ServosMain() {
                     autoCapitalize="words"
                     autoCorrect={false}
                 />
+                </View>
             </View>
 
             <FlatList
@@ -117,7 +126,7 @@ const styles = StyleSheet.create({
     containerButtonsTop: {
         padding: 20,
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
     },
     buttonChamada: {
@@ -150,27 +159,34 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         marginBottom: 10,
     },
+    container2SearchServo: {
+        backgroundColor: "#fff",
+        borderRadius: 25,
+    },
     searchServo: {
         backgroundColor: "#fff",
         height: 40,
-        borderRadius: 5,
+        borderRadius: 25,
         fontSize: 16,
+        marginLeft: 20,
     },
 
     //Lista de servos
     list: {
-        marginTop: -10,
-        padding: 20,
+        paddingHorizontal: 20,
     },
     containerItem: {
-        backgroundColor: "#FFF",
+        backgroundColor: '#fff',
+        flexDirection: 'row',
         borderWidth: 1,
         borderColor: "#DDD",
-        borderRadius: 5,
         padding: 10,
         marginBottom: 10,
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
+    },
+    containerName: {
+        flex: 1,
     },
     textName: {
         fontSize: 16,
@@ -179,14 +195,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     containerFaltas: {
-        flex: 1,
         height: 50,
-        width: 100,
+        width: 80,
         borderRadius: 10,
         borderWidth: 2,
         borderColor: "#cbcbcb",
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: 5,
     },
     textFaltas: {
         fontSize: 16,
@@ -198,7 +214,7 @@ const styles = StyleSheet.create({
         padding: 20,
         marginTop: -10,
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
     },
     buttonBottom: {
