@@ -9,6 +9,12 @@ import ServosCallHistoryDetail from './pages/Servos/ServosCallHistoryDetail';
 
 const Routes = createAppContainer(
     createStackNavigator({
+        ServosCallHistory: {
+            screen: ServosCallHistory,
+            navigationOptions: {
+                title: 'Histórico de chamadas'
+            },
+        },
         Home: {
             screen: Home,
             navigationOptions: {
@@ -30,12 +36,12 @@ const Routes = createAppContainer(
                 title: 'Chamada dos Servos'
             },
         },
-        ServosCallHistory: {
-            screen: ServosCallHistory,
-            navigationOptions: {
-                title: 'Histórico de chamadas'
-            },
-        },
+        // ServosCallHistory: {
+        //     screen: ServosCallHistory,
+        //     navigationOptions: {
+        //         title: 'Histórico de chamadas'
+        //     },
+        // },
         ServosCallHistoryDetail: {
             screen: ServosCallHistoryDetail,
             navigationOptions: {

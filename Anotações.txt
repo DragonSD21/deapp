@@ -1,0 +1,10 @@
+Agentes -> Servos, ResponsávelC, ResponsávelGeral, ResponsávelApp
+	Servos - Acessar histórico
+	ResponsávelC - Servos, Fazer chamada, Excluir histório da chamada
+	ResponsávelGeral - ResponsávelC, Cadastro dos servos, Cadastro do ResponsávelC
+	ResponsávelApp - ResponsávelGeral, Inicia o App
+
+Ideias:
+	Utilizar QRCode para registrar a chamada
+	Cadastros com privilégios
+	Cadastros com login e senha
