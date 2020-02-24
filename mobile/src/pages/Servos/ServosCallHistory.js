@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, FlatList, Text, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, View, ScrollView, Text, TouchableOpacity, TextInput } from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion'
 import { MaterialIcons } from '@expo/vector-icons'
 
-function ServosCallHistory() {
+function ServosCallHistory({ navigation }) {
     const [activeSections, setActiveSections] = useState([]);
 
     var arrayDays = [
@@ -65,9 +65,36 @@ function ServosCallHistory() {
     function renderContent(section) {
         return (
             <View style={styles.contentAccordion}>
-                <Text style={styles.textContentAccordion}>{section.schedule[0]}</Text>
-                <Text style={styles.textContentAccordion}>{section.schedule[1]}</Text>
-                <Text style={styles.textContentAccordion}>{section.schedule[2]}</Text>
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate('ServosCallHistoryDetail', { 
+                            date: section.day,
+                            schedule: section.schedule[0]
+                        });
+                    }}
+                >
+                    <Text style={styles.textContentAccordion}>{section.schedule[0]}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate('ServosCallHistoryDetail', { 
+                            date: section.day,
+                            schedule: section.schedule[1]
+                        });
+                    }}
+                >
+                    <Text style={styles.textContentAccordion}>{section.schedule[1]}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate('ServosCallHistoryDetail', { 
+                            date: section.day,
+                            schedule: section.schedule[2]
+                        });
+                    }}
+                >
+                    <Text style={styles.textContentAccordion}>{section.schedule[2]}</Text>
+                </TouchableOpacity>
             </View>
         );
     }
@@ -91,15 +118,26 @@ function ServosCallHistory() {
                 </View>
             </View>
 
-            <Accordion
-                sections={arrayDays}
-                activeSections={activeSections}
-                renderHeader={renderHeader}
-                renderContent={renderContent}
-                onChange={updateSections}
-                expandMultiple={true}
-                touchableComponent={TouchableOpacity}
-            />
+            <ScrollView style={styles.scrollView}>
+                <Accordion
+                    sections={arrayDays}
+                    activeSections={activeSections}
+                    renderHeader={renderHeader}
+                    renderContent={renderContent}
+                    onChange={updateSections}
+                    expandMultiple={true}
+                    touchableComponent={TouchableOpacity}
+                />
+            </ScrollView>
+
+            <View style={styles.containerBottom}>
+                <TouchableOpacity
+                    onPress={() => {}}
+                    style={styles.buttonCallReset}
+                >
+                    <Text style={styles.textButtonCallReset}>Resetar Chamadas</Text>
+                </TouchableOpacity>
+            </View>
 
         </View>
     );
@@ -113,12 +151,13 @@ const styles = StyleSheet.create({
 
     //Pesquisar dia
     containerSearchDay: {
+        marginTop: 20,
         paddingHorizontal: 20,
         marginBottom: 10,
     },
     container2SearchDay: {
         backgroundColor: "#fff",
-        borderRadius: 25,
+        borderRadius: 10,
     },
     searchDay: {
         backgroundColor: "#fff",
@@ -129,6 +168,9 @@ const styles = StyleSheet.create({
     },
 
     //Lista dias
+    scrollView: {
+        // marginBottom: 10,
+    },
     headerAccordion: {
         backgroundColor: '#141932',
         padding: 10,
@@ -151,6 +193,25 @@ const styles = StyleSheet.create({
         textAlign: 'left',
     },
 
+    //Parte inferior
+    containerBottom: {
+        padding: 20,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    buttonCallReset: {
+        backgroundColor: "#3e56e8",
+        width: 250,
+        height: 70,
+        borderRadius: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    textButtonCallReset: {
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "#FFF",
+    },
 
 });
 

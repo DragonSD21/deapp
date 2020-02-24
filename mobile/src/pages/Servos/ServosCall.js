@@ -1,7 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { StyleSheet, View, FlatList, Text, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, View, FlatList, Text, TouchableOpacity, TextInput, Platform, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { MaterialIcons } from '@expo/vector-icons'
 import { parseISO, format } from 'date-fns'
+import { YellowBox } from 'react-native'
+
+YellowBox.ignoreWarnings([
+  'VirtualizedLists should never be nested'
+])
 
 function ServosCall() {
     const [selected, setSelected] = useState(new Map());
@@ -93,6 +100,7 @@ function ServosCall() {
                     </View>
                 </View>
             </TouchableOpacity>
+
         );
     }
 
@@ -101,38 +109,46 @@ function ServosCall() {
 
     return (
         <View style={styles.container}>
-            <View style={styles.containerTop}>
-                <Text style={styles.date}>{formattedDate}</Text>
-            </View>
 
-            <View style={styles.containerSearchServo}>
-                <View style={styles.container2SearchServo}>
-                <TextInput
-                    style={styles.searchServo}
-                    placeholder="Pesquisar servo..."
-                    placeholderTextColor="#999"
-                    autoCapitalize="words"
-                    autoCorrect={false}
-                />
+            <KeyboardAwareScrollView>
+            
+                <View style={styles.containerTop}>
+                    <Text style={styles.date}>{formattedDate}</Text>
                 </View>
-            </View>
 
-            <FlatList
-                contentContainerStyle={styles.list}
-                data={arrayServos}
-                keyExtractor={item => item.id}
-                renderItem={({ item }) => renderItem(item, selected)}
-                extraData={onSelect}
-            />
+                <View style={styles.containerSearchServo}>
+                    <View style={styles.container2SearchServo}>
+                    <TextInput
+                        style={styles.searchServo}
+                        placeholder="Pesquisar servo..."
+                        placeholderTextColor="#999"
+                        autoCapitalize="words"
+                        autoCorrect={false}
+                    />
+                    </View>
+                </View>
 
-            <View style={styles.containerBottom}>
-                <TouchableOpacity style={styles.buttonBottom}>
-                    <Text style={styles.textButtonsBottom}>Cancelar</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.buttonBottom}>
-                    <Text style={styles.textButtonsBottom}>Confirmar</Text>
-                </TouchableOpacity>
-            </View>
+                <FlatList
+                    contentContainerStyle={styles.list}
+                    data={arrayServos}
+                    keyExtractor={item => item.id}
+                    renderItem={({ item }) => renderItem(item, selected)}
+                    extraData={onSelect}
+                />
+                
+                <View style={styles.containerBottom}>
+                    <TouchableOpacity style={styles.buttonBottom}>
+                        <Text style={styles.textButtonsBottom}>Cancelar</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.buttonBottom}>
+                        <Text style={styles.textButtonsBottom}>Confirmar</Text>
+                    </TouchableOpacity>
+                </View>
+
+            </KeyboardAwareScrollView>
+            
+            <KeyboardSpacer/>
+            
         </View>
     );
 }

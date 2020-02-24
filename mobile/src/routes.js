@@ -9,19 +9,10 @@ import ServosCallHistoryDetail from './pages/Servos/ServosCallHistoryDetail';
 
 const Routes = createAppContainer(
     createStackNavigator({
-        ServosCallHistory: {
-            screen: ServosCallHistory,
-            navigationOptions: {
-                title: 'Histórico de chamadas'
-            },
-        },
         Home: {
             screen: Home,
             navigationOptions: {
-                title: null,
-                headerStyle: {
-                    backgroundColor: '#141932',
-                },
+                headerShown: false,
             },
         }, 
         ServosMain: {
@@ -36,16 +27,20 @@ const Routes = createAppContainer(
                 title: 'Chamada dos Servos'
             },
         },
-        // ServosCallHistory: {
-        //     screen: ServosCallHistory,
-        //     navigationOptions: {
-        //         title: 'Histórico de chamadas'
-        //     },
-        // },
+        ServosCallHistory: {
+            screen: ServosCallHistory,
+            navigationOptions: {
+                title: 'Histórico de chamadas'
+            },
+        },
         ServosCallHistoryDetail: {
             screen: ServosCallHistoryDetail,
             navigationOptions: {
-                title: 'Histórico de chamada detalhada'
+                title: 'Histórico de chamada detalhada',
+                headerTitleStyle: {
+                    fontSize: 18,
+                    fontWeight: 'bold',
+                },
             },
         },
     }, {
@@ -60,7 +55,8 @@ const Routes = createAppContainer(
                 backgroundColor: '#070911',
             },
         },
-    })
+    },
+    )
 );
 
 export default Routes;

@@ -75,7 +75,9 @@ function ServosMain({ navigation }) {
                     <Text style={[styles.textButtonsTop, {marginLeft: 10}]}>Chamada</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => {}} style={styles.buttonHistorico}>
+                <TouchableOpacity onPress={() => {
+                    navigation.navigate('ServosCallHistory')
+                }} style={styles.buttonHistorico}>
                     <Text style={styles.textButtonsTop}>Histórico</Text>
                 </TouchableOpacity>
             </View>
