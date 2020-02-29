@@ -30,9 +30,9 @@ function Home({ navigation }) {
                         placeholder="Digite sua senha"
                     />
 
-                    <View style={styles.containerButtonsLogin}>
+                    <View style={styles.containerButtonsDoneClear}>
                         <TouchableOpacity
-                            style={styles.buttonsLogin}
+                            style={styles.buttonsDoneClear}
                             onPress={() => { 
                                 setOpacityBackground(1);
                                 setModalVisible(!modalVisible) 
@@ -41,7 +41,7 @@ function Home({ navigation }) {
                             <MaterialIcons name="clear" size={50} color="#FF0000" />
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={styles.buttonsLogin}
+                            style={styles.buttonsDoneClear}
                             onPress={() => { 
                                 setOpacityBackground(1);
                                 setModalVisible(!modalVisible)
@@ -87,8 +87,8 @@ const styles = StyleSheet.create({
 
     //Login
     containerModal: {
-        flex: 1,
         backgroundColor: "#E7E7E7",
+        height: 270,
         marginTop: 150,
         marginBottom: 200,
         marginHorizontal: 20,
@@ -106,14 +106,15 @@ const styles = StyleSheet.create({
         marginTop: 10,
         width: 300,
         height: 50,
+        padding: 5,
     },
-    containerButtonsLogin: {
+    containerButtonsDoneClear: {
         marginTop: 25,
         flexDirection: "row",
         justifyContent: "space-between",
         width: 280,
     },
-    buttonsLogin: {
+    buttonsDoneClear: {
         height: 50,
         width: 60,
         borderWidth: 2,
