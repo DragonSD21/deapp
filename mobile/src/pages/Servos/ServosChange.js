@@ -2,51 +2,73 @@ import React, { useState } from 'react';
 import { StyleSheet, View, FlatList, Text, TouchableOpacity, TextInput, Modal, Picker } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'
 
-function ServosMain({ navigation }) {
+function ServosChange({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
     const [opacityBackground, setOpacityBackground] = useState(1);
-    const [typeServo, setTypeServo] = useState("Servo");
     
-    var arrayServos = [
+    const [idServo, setIdServo] = useState("");
+    const [nameServo, setNameServo] = useState("");
+    const [faltasServo, setFaltasServo] = useState("");
+    const [typeServo, setTypeServo] = useState("");
+    
+    var varArrayServos = [
         {
             _id: "1",
             name: "Rafael Rosman Rodrigues Montrezol",
-            faltas: 1,
+            faltas: "1",
+            type: "Servo responsável geral",
         },
         {
             _id: "2",
             name: "João Carlos de Jesus Silva Dias",
-            faltas: 3,
+            faltas: "3",
+            type: "Servo responsável pela chamada",
         },
         {
             _id: "3",
             name: "Maria Joana da Silva Rodrigues Colarinho",
-            faltas: 2.5,
+            faltas: "2.5",
+            type: "Servo",
         },
         {
             _id: "4",
             name: "Rafael Rosman Rodrigues Montrezol",
-            faltas: 1,
+            faltas: "1",
+            type: "Servo",
         },
         {
             _id: "5",
             name: "João Carlos de Jesus Silva Dias",
-            faltas: 3,
+            faltas: "3",
+            type: "Servo",
         },
         {
             _id: "6",
             name: "Maria Joana da Silva Rodrigues Colarinho",
-            faltas: 2.5,
+            faltas: "2.5",
+            type: "Servo",
         },
     ];
+    const [arrayServos, setArrayServos] = useState(varArrayServos);
+
+    function updateServo() {
+        var indexServo = arrayServos.findIndex(obj => obj._id === idServo);
+        varArrayServos[indexServo].name = nameServo;
+        if(faltasServo == "") varArrayServos[indexServo].faltas = "0";
+        else varArrayServos[indexServo].faltas = faltasServo;
+        varArrayServos[indexServo].type = typeServo;
+
+        setArrayServos(varArrayServos);
+    }
 
     function renderItem({ item }) {
         var colorFaltas;
+        var faltas = parseFloat(item.faltas);
 
-        if(item.faltas < 1.5) {
+        if(faltas < 1.5) {
             colorFaltas = "#70aa5e";
         }
-        else if(item.faltas < 3) {
+        else if(faltas < 3) {
             colorFaltas = "#f6e745";
         }
         else {
@@ -54,19 +76,31 @@ function ServosMain({ navigation }) {
         }
         
         return (
-            <View style={styles.containerItem}>
+            <TouchableOpacity
+                onPress={() => {
+                    setNameServo(item.name);
+                    setFaltasServo(item.faltas);
+                    setIdServo(item._id);
+                    setTypeServo(item.type);
+                    
+                    setOpacityBackground(0.5);
+                    setModalVisible(true);
+                }}
+                style={styles.containerItem}
+            >
                 <View style={styles.containerName}>
                     <Text style={styles.textName}>{item.name}</Text>
                 </View>
                 <View style={[styles.containerFaltas, {backgroundColor: colorFaltas}]}>
                     <Text style={styles.textFaltas}>{item.faltas}</Text>
                 </View>
-            </View>
+            </TouchableOpacity>
         );
     }
 
     return (
         <View style={styles.container}>
+
             <Modal
                 animationType="fade"
                 transparent={true}
@@ -76,16 +110,31 @@ function ServosMain({ navigation }) {
                     setModalVisible(!modalVisible) 
                 }}
             >
+
                 <View style={styles.containerModal}>
-                    <Text style={styles.textModalHeader}>Novo servo</Text>
+                    <Text style={styles.textModalHeader}>Alterar servo</Text>
 
                     <TextInput
-                        style={styles.textInputNewServo}
-                        placeholder="Digite o nome do novo servo"
-                        placeholderTextColor="#999"
+                        style={styles.textInputNameServo}
+                        defaultValue={nameServo}
                         autoCapitalize="words"
                         autoCorrect={false}
+                        value={nameServo}
+                        onChangeText={setNameServo}
                     />
+
+                    <View style={styles.containerTextInputFaltasServo}>
+                        <Text style={{ fontSize: 16 }}>Faltas: </Text>
+                        <TextInput
+                            style={styles.textInputFaltasServo}
+                            defaultValue={faltasServo}
+                            autoCapitalize="words"
+                            autoCorrect={false}
+                            keyboardType="numeric"
+                            value={faltasServo}
+                            onChangeText={setFaltasServo}
+                        />
+                    </View>
 
                     <View style={styles.containerPickerTypeServo}>
                         <Picker
@@ -96,8 +145,8 @@ function ServosMain({ navigation }) {
                             }}
                         >
                             <Picker.Item label="Servo" value="Servo" />
-                            <Picker.Item label="Servo responsável pela chamada" value="ResponsávelC" />
-                            <Picker.Item label="Servo responsável geral" value="ResponsávelGeral" />
+                            <Picker.Item label="Servo responsável pela chamada" value="Servo responsável pela chamada" />
+                            <Picker.Item label="Servo responsável geral" value="Servo responsável geral" />
                         </Picker>
                     </View>
 
@@ -113,7 +162,8 @@ function ServosMain({ navigation }) {
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.buttonsDoneClear}
-                            onPress={() => { 
+                            onPress={() => {
+                                updateServo();
                                 setOpacityBackground(1);
                                 setModalVisible(!modalVisible)
                             }}
@@ -125,26 +175,8 @@ function ServosMain({ navigation }) {
                 </View>
 
             </Modal>
-
+            
             <View style={{ flex: 1, opacity: opacityBackground }}>
-
-                <View style={styles.containerButtonsTop}>
-                    <TouchableOpacity 
-                        onPress={() => {
-                            navigation.navigate('ServosCall')
-                        }}
-                        style={styles.buttonChamada}
-                    >
-                        <MaterialIcons name="add-circle-outline" size={30} color="#FFF" />
-                        <Text style={[styles.textButtonsTop, {marginLeft: 10}]}>Chamada</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => {
-                        navigation.navigate('ServosCallHistory')
-                    }} style={styles.buttonHistorico}>
-                        <Text style={styles.textButtonsTop}>Histórico</Text>
-                    </TouchableOpacity>
-                </View>
 
                 <View style={styles.containerSearchServo}>
                     <TextInput
@@ -163,35 +195,6 @@ function ServosMain({ navigation }) {
                     renderItem={renderItem}
                 />
 
-                <View style={styles.containerButtonsBottom}>
-                    <TouchableOpacity
-                        onPress={() => {
-                            setOpacityBackground(0.5);
-                            setModalVisible(true);
-                        }}
-                        style={[styles.buttonBottom, {marginRight: 30}]}
-                    >
-                        <Text style={styles.textButtonsBottom}>Cadastrar</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity 
-                        onPress={() => {
-                            navigation.navigate('ServosChange')
-                        }}
-                        style={[styles.buttonBottom, {marginRight: 30}]}
-                    >
-                        <Text style={styles.textButtonsBottom}>Alterar</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        onPress={() => {
-                            navigation.navigate('ServosDelete')
-                        }}
-                        style={styles.buttonBottom}
-                    >
-                        <Text style={styles.textButtonsBottom}>Excluir</Text>
-                    </TouchableOpacity>
-                </View>
             </View>
         </View>
     );
@@ -206,8 +209,8 @@ const styles = StyleSheet.create({
     //Modal Cadastrar
     containerModal: {
         backgroundColor: "#E7E7E7",
-        height: 270,
-        marginTop: 120,
+        height: 320,
+        marginTop: 80,
         marginBottom: 200,
         marginHorizontal: 10,
         alignItems: 'center',
@@ -219,13 +222,28 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 30,
     },
-    textInputNewServo: {
+    textInputNameServo: {
         backgroundColor: "#fff",
         marginTop: 10,
         width: 300,
         height: 40,
         fontSize: 16,
         paddingHorizontal: 8,
+    },
+    containerTextInputFaltasServo: {
+        backgroundColor: "#fff",
+        flexDirection: "row",
+        marginTop: 10,
+        width: 300,
+        height: 40,
+        paddingHorizontal: 8,
+        alignItems: "center",
+    },
+    textInputFaltasServo: {
+        backgroundColor: "#fff",
+        width: 200,
+        fontSize: 16,
+        marginTop: 3,
     },
     containerPickerTypeServo: {
         backgroundColor: "#fff",
@@ -250,44 +268,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
     },
-    
-    //Botões superiores
-    containerButtonsTop: {
-        padding: 20,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    buttonChamada: {
-        backgroundColor: "#3e56e8",
-        width: 150,
-        height: 50,
-        borderRadius: 10,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    buttonHistorico: {
-        backgroundColor: "#3e56e8",
-        width: 150,
-        height: 50,
-        borderRadius: 10,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginLeft: 20,
-    },
-    textButtonsTop: {
-        fontSize: 20,
-        fontWeight: "bold",
-        color: "#FFF",
-    },
 
     //Pesquisar servos
     containerSearchServo: {
         paddingHorizontal: 15,
         paddingBottom: 10,
-        marginTop: -5,
+        marginTop: 10,
     },
     searchServo: {
         backgroundColor: "#fff",
@@ -334,29 +320,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "bold",
     },
-
-    //Botões inferiores
-    containerButtonsBottom: {
-        padding: 20,
-        marginTop: -10,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    buttonBottom: {
-        backgroundColor: "#3e56e8",
-        width: 80,
-        height: 50,
-        borderRadius: 10,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    textButtonsBottom: {
-        fontSize: 12,
-        fontWeight: "bold",
-        color: "#FFF",
-    },
 });
 
-export default ServosMain;
+export default ServosChange;

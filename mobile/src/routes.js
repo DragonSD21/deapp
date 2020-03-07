@@ -3,6 +3,8 @@ import { createStackNavigator } from 'react-navigation-stack';
 
 import Home from './pages/Home';
 import ServosMain from './pages/Servos/ServosMain';
+import ServosChange from './pages/Servos/ServosChange';
+import ServosDelete from './pages/Servos/ServosDelete';
 import ServosCall from './pages/Servos/ServosCall';
 import ServosCallHistory from './pages/Servos/ServosCallHistory';
 import ServosCallHistoryDetail from './pages/Servos/ServosCallHistoryDetail';
@@ -41,6 +43,18 @@ const Routes = createAppContainer(
                     fontSize: 18,
                     fontWeight: 'bold',
                 },
+            },
+        },
+        ServosChange: {
+            screen: ServosChange,
+            navigationOptions: {
+                title: 'Alterar servo'
+            },
+        },
+        ServosDelete: {
+            screen: ServosDelete,
+            navigationOptions: {
+                title: 'Excluir servo'
             },
         },
     }, {
