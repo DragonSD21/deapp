@@ -12,22 +12,12 @@ YellowBox.ignoreWarnings([
 
 function ServosCall() {
     const [selected, setSelected] = useState(new Map());
+    const [arrayServos, setArrayServos] = useState([]);
 
-    useEffect(() => {
-        setSelected(new Map());
-    }, []);
+    const [textSearchServo, setTextSearchServo] = useState("");
+    const [arrayServosFiltered, setArrayServosFiltered] = useState([]);
 
-    const onSelect = useCallback(
-        id => {
-            const newSelected = new Map(selected);
-            newSelected.set(id, !selected.get(id));
-
-            setSelected(newSelected);
-        },
-        [selected],
-    );
-    
-    var arrayServos = [
+    var varArrayServos = [
         {
             id: "1",
             name: "Rafael Rosman Rodrigues Montrezol",
@@ -60,6 +50,26 @@ function ServosCall() {
         },
     ];
 
+    useEffect(() => {
+        setSelected(new Map());
+        setArrayServos(
+            varArrayServos.sort(function (a, b) {
+                return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
+            })
+        );
+        setArrayServosFiltered([]);
+    }, []);
+
+    const onSelect = useCallback(
+        id => {
+            const newSelected = new Map(selected);
+            newSelected.set(id, !selected.get(id));
+
+            setSelected(newSelected);
+        },
+        [selected],
+    );
+    
     function renderItem(item, selected) {
         var colorFaltas;
 
@@ -107,6 +117,18 @@ function ServosCall() {
     const date = new Date();
     const formattedDate = format(date, 'dd/MM/yyyy');
 
+    function filterServos(searchText) {
+        setTextSearchServo(searchText);
+
+        let arrayFiltered  = arrayServos.filter(
+            function (item) {
+                return item.name.includes(searchText);
+            }
+        )
+
+        setArrayServosFiltered(arrayFiltered);
+    }
+
     return (
         <View style={styles.container}>
 
@@ -124,23 +146,37 @@ function ServosCall() {
                         placeholderTextColor="#999"
                         autoCapitalize="words"
                         autoCorrect={false}
+                        value={textSearchServo}
+                        onChangeText={filterServos}
                     />
                     </View>
                 </View>
 
                 <FlatList
                     contentContainerStyle={styles.list}
-                    data={arrayServos}
+                    data={
+                        arrayServosFiltered && arrayServosFiltered.length > 0 ? arrayServosFiltered : arrayServos
+                    }
                     keyExtractor={item => item.id}
                     renderItem={({ item }) => renderItem(item, selected)}
                     extraData={onSelect}
                 />
                 
                 <View style={styles.containerBottom}>
-                    <TouchableOpacity style={styles.buttonBottom}>
+                    <TouchableOpacity 
+                        onPress={() => {
+                            navigation.navigate('ServosMain')
+                        }}
+                        style={styles.buttonBottom}
+                    >
                         <Text style={styles.textButtonsBottom}>Cancelar</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttonBottom}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigation.navigate('ServosMain')
+                        }}
+                        style={styles.buttonBottom}
+                    >
                         <Text style={styles.textButtonsBottom}>Confirmar</Text>
                     </TouchableOpacity>
                 </View>

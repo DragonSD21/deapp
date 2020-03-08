@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, FlatList, Text, TouchableOpacity, TextInput, Modal, Picker } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'
 
@@ -6,8 +6,12 @@ function ServosDelete({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
     const [opacityBackground, setOpacityBackground] = useState(1);
     const [typeServo, setTypeServo] = useState("Servo");
+    const [arrayServos, setArrayServos] = useState([]);
+
+    const [textSearchServo, setTextSearchServo] = useState("");
+    const [arrayServosFiltered, setArrayServosFiltered] = useState([]);
     
-    var arrayServos = [
+    var varArrayServos = [
         {
             _id: "1",
             name: "Rafael Rosman Rodrigues Montrezol",
@@ -38,7 +42,15 @@ function ServosDelete({ navigation }) {
             name: "Maria Joana da Silva Rodrigues Colarinho",
             faltas: 2.5,
         },
-    ];
+    ];    
+    useEffect(() => {
+        setArrayServos(
+            varArrayServos.sort(function (a, b) {
+                return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
+            })
+        );
+        setArrayServosFiltered([]);
+    }, []);
 
     function renderItem({ item }) {
         var colorFaltas;
@@ -63,6 +75,18 @@ function ServosDelete({ navigation }) {
                 </View>
             </View>
         );
+    }
+
+    function filterServos(searchText) {
+        setTextSearchServo(searchText);
+
+        let arrayFiltered  = arrayServos.filter(
+            function (item) {
+                return item.name.includes(searchText);
+            }
+        )
+
+        setArrayServosFiltered(arrayFiltered);
     }
 
     return (

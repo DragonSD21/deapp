@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, ScrollView, Text, TouchableOpacity, TextInput } from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion'
 import { MaterialIcons } from '@expo/vector-icons'
 
 function ServosCallHistory({ navigation }) {
     const [activeSections, setActiveSections] = useState([]);
+    const [arrayDays, setArrayDays] = useState([]);
 
-    var arrayDays = [
+    const [textSearchDay, setTextSearchDay] = useState("");
+    const [arrayDaysFiltered, setArrayDaysFiltered] = useState([]);
+
+    var varArrayDays = [
         {
             day: "04/02/2020",
             schedule: [
@@ -48,6 +52,11 @@ function ServosCallHistory({ navigation }) {
             ],
         },
     ];
+
+    useEffect(() => {
+        setArrayDays(varArrayDays);
+        setArrayDaysFiltered([]);
+    }, []);
 
     function renderHeader(section, index, isActive) {
         return (
@@ -103,6 +112,18 @@ function ServosCallHistory({ navigation }) {
         setActiveSections(sections.includes(undefined) ? [] : sections);
     }
 
+    function filterDays(searchText) {
+        setTextSearchDay(searchText);
+
+        let arrayFiltered  = arrayDays.filter(
+            function (item) {
+                return item.day.includes(searchText);
+            }
+        )
+
+        setArrayDaysFiltered(arrayFiltered);
+    }
+
     return (
         <View style={styles.container}>
 
@@ -114,13 +135,17 @@ function ServosCallHistory({ navigation }) {
                     placeholderTextColor="#999"
                     autoCapitalize="words"
                     autoCorrect={false}
+                    value={textSearchDay}
+                    onChangeText={filterDays}
                 />
                 </View>
             </View>
 
             <ScrollView style={styles.scrollView}>
                 <Accordion
-                    sections={arrayDays}
+                    sections={
+                        arrayDaysFiltered && arrayDaysFiltered.length > 0 ? arrayDaysFiltered : arrayDays
+                    }
                     activeSections={activeSections}
                     renderHeader={renderHeader}
                     renderContent={renderContent}

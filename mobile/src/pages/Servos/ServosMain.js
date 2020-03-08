@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, FlatList, Text, TouchableOpacity, TextInput, Modal, Picker } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'
 
 function ServosMain({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
     const [opacityBackground, setOpacityBackground] = useState(1);
+    const [arrayServos, setArrayServos] = useState([]);
     const [typeServo, setTypeServo] = useState("Servo");
     
-    var arrayServos = [
+    const [textSearchServo, setTextSearchServo] = useState("");
+    const [arrayServosFiltered, setArrayServosFiltered] = useState([]);
+    
+    var varArrayServos = [
         {
             _id: "1",
             name: "Rafael Rosman Rodrigues Montrezol",
@@ -40,6 +44,15 @@ function ServosMain({ navigation }) {
         },
     ];
 
+    useEffect(() => {
+        setArrayServos(
+            varArrayServos.sort(function (a, b) {
+                return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
+            })
+        );
+        setArrayServosFiltered([]);
+    }, []);
+
     function renderItem({ item }) {
         var colorFaltas;
 
@@ -63,6 +76,18 @@ function ServosMain({ navigation }) {
                 </View>
             </View>
         );
+    }
+
+    function filterServos(searchText) {
+        setTextSearchServo(searchText);
+
+        let arrayFiltered  = arrayServos.filter(
+            function (item) {
+                return item.name.includes(searchText);
+            }
+        )
+
+        setArrayServosFiltered(arrayFiltered);
     }
 
     return (
@@ -153,12 +178,16 @@ function ServosMain({ navigation }) {
                         placeholderTextColor="#999"
                         autoCapitalize="words"
                         autoCorrect={false}
+                        value={textSearchServo}
+                        onChangeText={filterServos}
                     />
                 </View>
 
                 <FlatList
                     contentContainerStyle={styles.list}
-                    data={arrayServos}
+                    data={
+                        arrayServosFiltered && arrayServosFiltered.length > 0 ? arrayServosFiltered : arrayServos
+                    }
                     keyExtractor={item => item._id}
                     renderItem={renderItem}
                 />

@@ -143,6 +143,8 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         justifyContent: 'center',
         alignItems: 'center',
+        borderWidth: 3,
+        borderColor: "#fff",
     },
     buttonEncontristas: {
         marginTop: 20,
@@ -152,6 +154,8 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         justifyContent: 'center',
         alignItems: 'center',
+        borderWidth: 3,
+        borderColor: "#fff",
     },
     textButton: {
         fontSize: 25,
@@ -166,6 +170,8 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         justifyContent: 'center',
         alignItems: 'center',
+        borderWidth: 1,
+        borderColor: "#fff",
     },
     textExit: {
         fontSize: 20,

@@ -6,39 +6,51 @@ function ServosCallHistoryDetail({ navigation }) {
     const date = navigation.getParam('date');
     const schedule = navigation.getParam('schedule');
     const dateSchedule = date + " - " + schedule.substring(0, 5) + " " + schedule.substring(22);
+    const [arrayServos, setArrayServos] = useState([]);
 
-    var arrayServos = [
+    const [textSearchServo, setTextSearchServo] = useState("");
+    const [arrayServosFiltered, setArrayServosFiltered] = useState([]);
+
+    var varArrayServos = [
         {
-            id: "1",
+            _id: "1",
             name: "Rafael Rosman Rodrigues Montrezol",
             faltas: 1,
         },
         {
-            id: "2",
-            name: "Nathalia Emily de Oliveira Pinto",
-            faltas: 3,
-        },
-        {
-            id: "3",
-            name: "Maria Joana da Silva Rodrigues Colarinho",
-            faltas: 2.5,
-        },
-        {
-            id: "4",
-            name: "Rafael Rosman Rodrigues Montrezol",
-            faltas: 1,
-        },
-        {
-            id: "5",
+            _id: "2",
             name: "João Carlos de Jesus Silva Dias",
             faltas: 3,
         },
         {
-            id: "6",
+            _id: "3",
+            name: "Maria Joana da Silva Rodrigues Colarinho",
+            faltas: 2.5,
+        },
+        {
+            _id: "4",
+            name: "Rafael Rosman Rodrigues Montrezol",
+            faltas: 1,
+        },
+        {
+            _id: "5",
+            name: "João Carlos de Jesus Silva Dias",
+            faltas: 3,
+        },
+        {
+            _id: "6",
             name: "Maria Joana da Silva Rodrigues Colarinho",
             faltas: 2.5,
         },
     ];
+    useEffect(() => {
+        setArrayServos(
+            varArrayServos.sort(function (a, b) {
+                return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
+            })
+        );
+        setArrayServosFiltered([]);
+    }, []);
 
     function renderItem(item) {
         var colorFaltas;
@@ -74,6 +86,18 @@ function ServosCallHistoryDetail({ navigation }) {
         );
     }
 
+    function filterServos(searchText) {
+        setTextSearchServo(searchText);
+
+        let arrayFiltered  = arrayServos.filter(
+            function (item) {
+                return item.name.includes(searchText);
+            }
+        )
+
+        setArrayServosFiltered(arrayFiltered);
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.containerTop}>
@@ -88,13 +112,17 @@ function ServosCallHistoryDetail({ navigation }) {
                     placeholderTextColor="#999"
                     autoCapitalize="words"
                     autoCorrect={false}
+                    value={textSearchServo}
+                    onChangeText={filterServos}
                 />
                 </View>
             </View>
 
             <FlatList
                 contentContainerStyle={styles.list}
-                data={arrayServos}
+                data={
+                    arrayServosFiltered && arrayServosFiltered.length > 0 ? arrayServosFiltered : arrayServos
+                }
                 keyExtractor={item => item.id}
                 renderItem={({ item }) => renderItem(item)}
             />

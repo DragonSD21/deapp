@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, FlatList, Text, TouchableOpacity, TextInput, Modal, Picker } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'
 
@@ -10,46 +10,51 @@ function ServosChange({ navigation }) {
     const [nameServo, setNameServo] = useState("");
     const [faltasServo, setFaltasServo] = useState("");
     const [typeServo, setTypeServo] = useState("");
+
+    const [textSearchServo, setTextSearchServo] = useState("");
+    const [arrayServosFiltered, setArrayServosFiltered] = useState([]);
     
     var varArrayServos = [
         {
             _id: "1",
             name: "Rafael Rosman Rodrigues Montrezol",
-            faltas: "1",
-            type: "Servo responsável geral",
+            faltas: 1,
         },
         {
             _id: "2",
             name: "João Carlos de Jesus Silva Dias",
-            faltas: "3",
-            type: "Servo responsável pela chamada",
+            faltas: 3,
         },
         {
             _id: "3",
             name: "Maria Joana da Silva Rodrigues Colarinho",
-            faltas: "2.5",
-            type: "Servo",
+            faltas: 2.5,
         },
         {
             _id: "4",
             name: "Rafael Rosman Rodrigues Montrezol",
-            faltas: "1",
-            type: "Servo",
+            faltas: 1,
         },
         {
             _id: "5",
             name: "João Carlos de Jesus Silva Dias",
-            faltas: "3",
-            type: "Servo",
+            faltas: 3,
         },
         {
             _id: "6",
             name: "Maria Joana da Silva Rodrigues Colarinho",
-            faltas: "2.5",
-            type: "Servo",
+            faltas: 2.5,
         },
     ];
-    const [arrayServos, setArrayServos] = useState(varArrayServos);
+    const [arrayServos, setArrayServos] = useState([]);
+    useEffect(() => {
+        setArrayServos(
+            varArrayServos.sort(function (a, b) {
+                return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
+            })
+        );
+        setArrayServosFiltered([]);
+    }, []);
 
     function updateServo() {
         var indexServo = arrayServos.findIndex(obj => obj._id === idServo);
@@ -97,6 +102,19 @@ function ServosChange({ navigation }) {
             </TouchableOpacity>
         );
     }
+
+    function filterServos(searchText) {
+        setTextSearchServo(searchText);
+
+        let arrayFiltered  = arrayServos.filter(
+            function (item) {
+                return item.name.includes(searchText);
+            }
+        )
+
+        setArrayServosFiltered(arrayFiltered);
+    }
+
 
     return (
         <View style={styles.container}>
@@ -185,12 +203,16 @@ function ServosChange({ navigation }) {
                         placeholderTextColor="#999"
                         autoCapitalize="words"
                         autoCorrect={false}
+                        value={textSearchServo}
+                        onChangeText={filterServos}
                     />
                 </View>
 
                 <FlatList
                     contentContainerStyle={styles.list}
-                    data={arrayServos}
+                    data={
+                        arrayServosFiltered && arrayServosFiltered.length > 0 ? arrayServosFiltered : arrayServos
+                    }
                     keyExtractor={item => item._id}
                     renderItem={renderItem}
                 />
