@@ -58,12 +58,12 @@ function ServosChange({ navigation }) {
 
     function updateServo() {
         var indexServo = arrayServos.findIndex(obj => obj._id === idServo);
-        varArrayServos[indexServo].name = nameServo;
-        if(faltasServo == "") varArrayServos[indexServo].faltas = "0";
-        else varArrayServos[indexServo].faltas = faltasServo;
-        varArrayServos[indexServo].type = typeServo;
+        arrayServos[indexServo].name = nameServo;
+        if(faltasServo == "") arrayServos[indexServo].faltas = "0";
+        else arrayServos[indexServo].faltas = faltasServo;
+        arrayServos[indexServo].type = typeServo;
 
-        setArrayServos(varArrayServos);
+        setArrayServos(arrayServos);
     }
 
     function renderItem({ item }) {
@@ -145,11 +145,11 @@ function ServosChange({ navigation }) {
                         <Text style={{ fontSize: 16 }}>Faltas: </Text>
                         <TextInput
                             style={styles.textInputFaltasServo}
-                            defaultValue={faltasServo}
+                            defaultValue={String(faltasServo)}
                             autoCapitalize="words"
                             autoCorrect={false}
                             keyboardType="numeric"
-                            value={faltasServo}
+                            value={String(faltasServo)}
                             onChangeText={setFaltasServo}
                         />
                     </View>

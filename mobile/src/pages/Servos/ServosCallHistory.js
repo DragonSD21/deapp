@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, ScrollView, Text, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, View, ScrollView, Text, TouchableOpacity, TextInput, Modal } from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion'
 import { MaterialIcons } from '@expo/vector-icons'
 
 function ServosCallHistory({ navigation }) {
+    const [modalVisible, setModalVisible] = useState(false);
+    const [opacityBackground, setOpacityBackground] = useState(1);
     const [activeSections, setActiveSections] = useState([]);
     const [arrayDays, setArrayDays] = useState([]);
 
@@ -124,45 +126,94 @@ function ServosCallHistory({ navigation }) {
         setArrayDaysFiltered(arrayFiltered);
     }
 
+    function resetCall() {
+        setArrayDays([]);
+    }
+
     return (
         <View style={styles.container}>
 
-            <View style={styles.containerSearchDay}>
-                <View style={styles.container2SearchDay}>
-                <TextInput
-                    style={styles.searchDay}
-                    placeholder="Pesquisar dia..."
-                    placeholderTextColor="#999"
-                    autoCapitalize="words"
-                    autoCorrect={false}
-                    value={textSearchDay}
-                    onChangeText={filterDays}
-                />
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => { 
+                    setOpacityBackground(1);
+                    setModalVisible(!modalVisible) 
+                }}
+            >
+
+                <View style={styles.containerModal}>
+                    <Text style={styles.textModalHeader}>
+                        Deseja confirmar a exclusão do histórico de chamadas? ESSA AÇÃO NÃO PODERÁ SER DESFEITA
+                    </Text>
+
+                    <View style={styles.containerButtonsDoneClear}>
+                        <TouchableOpacity
+                            style={styles.buttonsDoneClear}
+                            onPress={() => { 
+                                setOpacityBackground(1);
+                                setModalVisible(!modalVisible) 
+                            }}
+                        >
+                            <MaterialIcons name="clear" size={50} color="#FF0000" />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.buttonsDoneClear}
+                            onPress={() => {
+                                resetCall();
+                                setOpacityBackground(1);
+                                setModalVisible(!modalVisible)
+                            }}
+                        >
+                            <MaterialIcons name="done" size={50} color="#247E16" />
+                        </TouchableOpacity>
+                    </View>
+
                 </View>
-            </View>
 
-            <ScrollView style={styles.scrollView}>
-                <Accordion
-                    sections={
-                        arrayDaysFiltered && arrayDaysFiltered.length > 0 ? arrayDaysFiltered : arrayDays
-                    }
-                    activeSections={activeSections}
-                    renderHeader={renderHeader}
-                    renderContent={renderContent}
-                    onChange={updateSections}
-                    expandMultiple={true}
-                    touchableComponent={TouchableOpacity}
-                />
-            </ScrollView>
+            </Modal>
 
-            <View style={styles.containerBottom}>
-                <TouchableOpacity
-                    onPress={() => {}}
-                    style={styles.buttonCallReset}
-                >
-                    <Text style={styles.textButtonCallReset}>Resetar Chamadas</Text>
-                </TouchableOpacity>
-            </View>
+            <View style={{ flex: 1, opacity: opacityBackground }}>
+
+                <View style={styles.containerSearchDay}>
+                    <TextInput
+                        style={styles.searchDay}
+                        placeholder="Pesquisar dia..."
+                        placeholderTextColor="#999"
+                        autoCapitalize="words"
+                        autoCorrect={false}
+                        value={textSearchDay}
+                        onChangeText={filterDays}
+                    />
+                </View>
+
+                <ScrollView style={styles.scrollView}>
+                    <Accordion
+                        sections={
+                            arrayDaysFiltered && arrayDaysFiltered.length > 0 ? arrayDaysFiltered : arrayDays
+                        }
+                        activeSections={activeSections}
+                        renderHeader={renderHeader}
+                        renderContent={renderContent}
+                        onChange={updateSections}
+                        expandMultiple={true}
+                        touchableComponent={TouchableOpacity}
+                    />
+                </ScrollView>
+
+                <View style={styles.containerBottom}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            setOpacityBackground(0.5);
+                            setModalVisible(true);
+                        }}
+                        style={styles.buttonCallReset}
+                    >
+                        <Text style={styles.textButtonCallReset}>Resetar Chamadas</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>    
 
         </View>
     );
@@ -174,22 +225,51 @@ const styles = StyleSheet.create({
         flex: 1
     },
 
+    //Modal Cadastrar
+    containerModal: {
+        backgroundColor: "#E7E7E7",
+        height: 200,
+        marginVertical: 200,
+        marginHorizontal: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderColor: "#4278D0",
+        borderWidth: 1,
+    },
+    textModalHeader: {
+        padding: 10,
+        fontWeight: "bold",
+        fontSize: 18,
+        textAlign: 'center',
+    },
+    containerButtonsDoneClear: {
+        marginTop: 25,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: 280,
+    },
+    buttonsDoneClear: {
+        height: 50,
+        width: 60,
+        borderWidth: 2,
+        borderColor: "#979191",
+        borderRadius: 5,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+
     //Pesquisar dia
     containerSearchDay: {
-        marginTop: 20,
-        paddingHorizontal: 20,
-        marginBottom: 10,
-    },
-    container2SearchDay: {
-        backgroundColor: "#fff",
-        borderRadius: 10,
+        paddingHorizontal: 15,
+        paddingBottom: 10,
+        marginTop: 10,
     },
     searchDay: {
         backgroundColor: "#fff",
         height: 40,
         borderRadius: 25,
         fontSize: 16,
-        marginLeft: 20,
+        paddingHorizontal: 20,
     },
 
     //Lista dias

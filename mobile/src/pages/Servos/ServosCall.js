@@ -129,6 +129,10 @@ function ServosCall() {
         setArrayServosFiltered(arrayFiltered);
     }
 
+    function confirmCall() {
+
+    }
+
     return (
         <View style={styles.container}>
 
@@ -139,7 +143,6 @@ function ServosCall() {
                 </View>
 
                 <View style={styles.containerSearchServo}>
-                    <View style={styles.container2SearchServo}>
                     <TextInput
                         style={styles.searchServo}
                         placeholder="Pesquisar servo..."
@@ -149,7 +152,6 @@ function ServosCall() {
                         value={textSearchServo}
                         onChangeText={filterServos}
                     />
-                    </View>
                 </View>
 
                 <FlatList
@@ -165,7 +167,7 @@ function ServosCall() {
                 <View style={styles.containerBottom}>
                     <TouchableOpacity 
                         onPress={() => {
-                            navigation.navigate('ServosMain')
+                            navigation.navigate('ServosMain');
                         }}
                         style={styles.buttonBottom}
                     >
@@ -173,7 +175,8 @@ function ServosCall() {
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => {
-                            navigation.navigate('ServosMain')
+                            confirmCall();
+                            navigation.navigate('ServosMain');
                         }}
                         style={styles.buttonBottom}
                     >
@@ -210,19 +213,16 @@ const styles = StyleSheet.create({
 
     //Pesquisar servos
     containerSearchServo: {
-        paddingHorizontal: 20,
-        marginBottom: 10,
-    },
-    container2SearchServo: {
-        backgroundColor: "#fff",
-        borderRadius: 25,
+        paddingHorizontal: 15,
+        paddingBottom: 10,
+        marginTop: -5,
     },
     searchServo: {
         backgroundColor: "#fff",
         height: 40,
         borderRadius: 25,
         fontSize: 16,
-        marginLeft: 20,
+        paddingHorizontal: 20,
     },
 
     //Lista de servos
