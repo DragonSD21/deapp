@@ -37,7 +37,7 @@ function Home({ navigation }) {
                             style={styles.buttonsDoneClear}
                             onPress={() => { 
                                 setOpacityBackground(1);
-                                setModalVisible(!modalVisible) 
+                                setModalVisible(!modalVisible);
                             }}
                         >
                             <MaterialIcons name="clear" size={50} color="#FF0000" />
@@ -46,8 +46,8 @@ function Home({ navigation }) {
                             style={styles.buttonsDoneClear}
                             onPress={() => { 
                                 setOpacityBackground(1);
-                                setModalVisible(!modalVisible)
-                                navigation.navigate('ServosMain')
+                                setModalVisible(!modalVisible);
+                                navigation.navigate('Main');
                             }}
                         >
                             <MaterialIcons name="done" size={50} color="#247E16" />

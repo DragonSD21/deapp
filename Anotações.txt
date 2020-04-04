@@ -12,9 +12,10 @@ Entidades:
 
 Funcionalidades:
 	Login de servos
+	Alteração de senha no primeiro acesso
 	Logout de servos
 	Cadastrar novos servos
-	Alterar servos
+	Alterar servos 
 	Deletar servos
 	Listar servos
 	Cadastrar chamada do dia

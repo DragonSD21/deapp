@@ -84,6 +84,7 @@ export default StyleSheet.create({
         padding: 20,
         justifyContent: 'space-between',
         alignItems: 'center',
+        marginTop: 20,
     },
     buttonCallReset: {
         backgroundColor: "#3e56e8",

@@ -4,7 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import styles from './styles';
 
-function ServosMain({ navigation }) {
+function Main({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
     const [opacityBackground, setOpacityBackground] = useState(1);
     const [arrayServos, setArrayServos] = useState([]);
@@ -123,8 +123,8 @@ function ServosMain({ navigation }) {
                             }}
                         >
                             <Picker.Item label="Servo" value="Servo" />
-                            <Picker.Item label="Servo responsável pela chamada" value="ResponsávelC" />
-                            <Picker.Item label="Servo responsável geral" value="ResponsávelGeral" />
+                            <Picker.Item label="Servo responsável pela chamada" value="Servo responsável pela chamada" />
+                            <Picker.Item label="Servo responsável geral" value="Servo responsável geral" />
                         </Picker>
                     </View>
 
@@ -158,7 +158,7 @@ function ServosMain({ navigation }) {
                 <View style={styles.containerButtonsTop}>
                     <TouchableOpacity 
                         onPress={() => {
-                            navigation.navigate('ServosCall')
+                            navigation.navigate('Call')
                         }}
                         style={styles.buttonChamada}
                     >
@@ -167,7 +167,7 @@ function ServosMain({ navigation }) {
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => {
-                        navigation.navigate('ServosCallHistory')
+                        navigation.navigate('CallHistory')
                     }} style={styles.buttonHistorico}>
                         <Text style={styles.textButtonsTop}>Histórico</Text>
                     </TouchableOpacity>
@@ -207,7 +207,7 @@ function ServosMain({ navigation }) {
 
                     <TouchableOpacity 
                         onPress={() => {
-                            navigation.navigate('ServosChange')
+                            navigation.navigate('ProfileChange')
                         }}
                         style={[styles.buttonBottom, {marginRight: 30}]}
                     >
@@ -216,7 +216,7 @@ function ServosMain({ navigation }) {
 
                     <TouchableOpacity
                         onPress={() => {
-                            navigation.navigate('ServosDelete')
+                            navigation.navigate('ProfileDelete')
                         }}
                         style={styles.buttonBottom}
                     >
@@ -228,4 +228,4 @@ function ServosMain({ navigation }) {
     );
 }
 
-export default ServosMain;
+export default Main;

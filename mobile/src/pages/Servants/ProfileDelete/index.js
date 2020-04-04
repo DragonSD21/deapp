@@ -4,7 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import styles from './styles';
 
-function ServosDelete({ navigation }) {
+function ProfileDelete({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
     const [opacityBackground, setOpacityBackground] = useState(1);
     const [arrayServos, setArrayServos] = useState([]);
@@ -187,4 +187,4 @@ function ServosDelete({ navigation }) {
     );
 }
 
-export default ServosDelete;
+export default ProfileDelete;

@@ -3,7 +3,7 @@ import { View, FlatList, Text, TouchableOpacity, TextInput } from 'react-native'
 
 import styles from './styles';
 
-function ServosCallHistoryDetail({ navigation }) {
+function CallHistoryDetail({ navigation }) {
 
     const date = navigation.getParam('date');
     const schedule = navigation.getParam('schedule');
@@ -133,4 +133,4 @@ function ServosCallHistoryDetail({ navigation }) {
     );
 }
 
-export default ServosCallHistoryDetail;
+export default CallHistoryDetail;

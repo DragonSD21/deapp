@@ -12,7 +12,7 @@ YellowBox.ignoreWarnings([
   'VirtualizedLists should never be nested'
 ]);
 
-function ServosCall() {
+function Call({ navigation }) {
     const [selected, setSelected] = useState(new Map());
     const [arrayServos, setArrayServos] = useState([]);
 
@@ -193,7 +193,7 @@ function ServosCall() {
                 <View style={styles.containerBottom}>
                     <TouchableOpacity 
                         onPress={() => {
-                            navigation.navigate('ServosMain');
+                            navigation.navigate('Main');
                         }}
                         style={styles.buttonBottom}
                     >
@@ -218,4 +218,4 @@ function ServosCall() {
     );
 }
 
-export default ServosCall;
+export default Call;

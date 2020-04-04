@@ -5,7 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import styles from './styles';
 
-function ServosCallHistory({ navigation }) {
+function CallHistory({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
     const [opacityBackground, setOpacityBackground] = useState(1);
     const [activeSections, setActiveSections] = useState([]);
@@ -80,7 +80,7 @@ function ServosCallHistory({ navigation }) {
             <View style={styles.contentAccordion}>
                 <TouchableOpacity
                     onPress={() => {
-                        navigation.navigate('ServosCallHistoryDetail', { 
+                        navigation.navigate('CallHistoryDetail', { 
                             date: section.day,
                             schedule: section.schedule[0]
                         });
@@ -90,7 +90,7 @@ function ServosCallHistory({ navigation }) {
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => {
-                        navigation.navigate('ServosCallHistoryDetail', { 
+                        navigation.navigate('CallHistoryDetail', { 
                             date: section.day,
                             schedule: section.schedule[1]
                         });
@@ -100,7 +100,7 @@ function ServosCallHistory({ navigation }) {
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => {
-                        navigation.navigate('ServosCallHistoryDetail', { 
+                        navigation.navigate('CallHistoryDetail', { 
                             date: section.day,
                             schedule: section.schedule[2]
                         });
@@ -147,7 +147,7 @@ function ServosCallHistory({ navigation }) {
 
                 <View style={styles.containerModal}>
                     <Text style={styles.textModalHeader}>
-                        Deseja confirmar a exclusão do histórico de chamadas? ESSA AÇÃO NÃO PODERÁ SER DESFEITA
+                        Deseja confirmar a exclusão do histórico de chamadas? ESSA AÇÃO NÃO PODERÁ SER DESFEITA!
                     </Text>
 
                     <View style={styles.containerButtonsDoneClear}>
@@ -202,23 +202,24 @@ function ServosCallHistory({ navigation }) {
                         expandMultiple={true}
                         touchableComponent={TouchableOpacity}
                     />
+
+                    <View style={styles.containerBottom}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                setOpacityBackground(0.5);
+                                setModalVisible(true);
+                            }}
+                            style={styles.buttonCallReset}
+                        >
+                            <Text style={styles.textButtonCallReset}>Resetar Chamadas</Text>
+                        </TouchableOpacity>
+                    </View>
                 </ScrollView>
 
-                <View style={styles.containerBottom}>
-                    <TouchableOpacity
-                        onPress={() => {
-                            setOpacityBackground(0.5);
-                            setModalVisible(true);
-                        }}
-                        style={styles.buttonCallReset}
-                    >
-                        <Text style={styles.textButtonCallReset}>Resetar Chamadas</Text>
-                    </TouchableOpacity>
-                </View>
             </View>    
 
         </View>
     );
 }
 
-export default ServosCallHistory;
+export default CallHistory;

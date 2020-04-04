@@ -4,7 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 
 import styles from './styles';
 
-function ServosChange({ navigation }) {
+function ProfileChange({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
     const [opacityBackground, setOpacityBackground] = useState(1);
     
@@ -224,4 +224,4 @@ function ServosChange({ navigation }) {
     );
 }
 
-export default ServosChange;
+export default ProfileChange;
