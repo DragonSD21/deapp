@@ -7,84 +7,84 @@ import styles from './styles';
 function ProfileDelete({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
     const [opacityBackground, setOpacityBackground] = useState(1);
-    const [arrayServos, setArrayServos] = useState([]);
+    const [arrayServants, setArrayServants] = useState([]);
     
-    const [idServo, setIdServo] = useState("");
-    const [nameServo, setNameServo] = useState("");
-    const [faltasServo, setFaltasServo] = useState("");
-    const [typeServo, setTypeServo] = useState("");
+    const [idServant, setIdServant] = useState("");
+    const [nameServant, setNameServant] = useState("");
+    const [absencesServant, setAbsencesServant] = useState("");
+    const [typeServant, setTypeServant] = useState("");
 
-    const [textSearchServo, setTextSearchServo] = useState("");
-    const [arrayServosFiltered, setArrayServosFiltered] = useState([]);
+    const [textSearchServant, setTextSearchServant] = useState("");
+    const [arrayServantsFiltered, setArrayServantsFiltered] = useState([]);
     
-    var varArrayServos = [
+    var varArrayServants = [
         {
             _id: "1",
             name: "Rafael Rosman Rodrigues Montrezol",
-            faltas: 1,
+            absences: 1,
         },
         {
             _id: "2",
             name: "João Carlos de Jesus Silva Dias",
-            faltas: 3,
+            absences: 3,
         },
         {
             _id: "3",
             name: "Maria Joana da Silva Rodrigues Colarinho",
-            faltas: 2.5,
+            absences: 2.5,
         },
         {
             _id: "4",
             name: "Rafael Rosman Rodrigues Montrezol",
-            faltas: 1,
+            absences: 1,
         },
         {
             _id: "5",
             name: "João Carlos de Jesus Silva Dias",
-            faltas: 3,
+            absences: 3,
         },
         {
             _id: "6",
             name: "Maria Joana da Silva Rodrigues Colarinho",
-            faltas: 2.5,
+            absences: 2.5,
         },
     ];
     
     useEffect(() => {
-        setArrayServos(
-            varArrayServos.sort(function (a, b) {
+        setArrayServants(
+            varArrayServants.sort(function (a, b) {
                 return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
             })
         );
-        setArrayServosFiltered([]);
+        setArrayServantsFiltered([]);
     }, []);
 
-    function deleteServo() {
-        var indexServo = arrayServos.findIndex(obj => obj._id === idServo);
-        arrayServos.splice(indexServo, 1);
-        setArrayServos(arrayServos);
+    function deleteServant() {
+        var indexServant = arrayServants.findIndex(obj => obj._id === idServant);
+        arrayServants.splice(indexServant, 1);
+        setArrayServants(arrayServants);
     }
 
     function renderItem({ item }) {
-        var colorFaltas;
+        var colorAbsences;
 
-        if(item.faltas < 1.5) {
-            colorFaltas = "#70aa5e";
+        if(item.absences < 1.5) {
+            colorAbsences = "#70aa5e";
         }
-        else if(item.faltas < 3) {
-            colorFaltas = "#f6e745";
+        else if(item.absences < 3) {
+            colorAbsences = "#f6e745";
         }
         else {
-            colorFaltas = "#c10020";
+            colorAbsences = "#c10020";
         }
         
         return (
             <TouchableOpacity
                 onPress={() => {
-                    setNameServo(item.name);
-                    setFaltasServo(item.faltas);
-                    setIdServo(item._id);
-                    setTypeServo(item.type);
+                    setNameServant(item.name);
+                    setAbsencesServant(item.absences);
+                    setIdServant(item._id);
+                    setTypeServant(item.type);
                     
                     setOpacityBackground(0.5);
                     setModalVisible(true);
@@ -94,23 +94,23 @@ function ProfileDelete({ navigation }) {
                 <View style={styles.containerName}>
                     <Text style={styles.textName}>{item.name}</Text>
                 </View>
-                <View style={[styles.containerFaltas, {backgroundColor: colorFaltas}]}>
-                    <Text style={styles.textFaltas}>{item.faltas}</Text>
+                <View style={[styles.containerAbsences, {backgroundColor: colorAbsences}]}>
+                    <Text style={styles.textAbsences}>{item.absences}</Text>
                 </View>
             </TouchableOpacity>
         );
     }
 
-    function filterServos(searchText) {
-        setTextSearchServo(searchText);
+    function filterServants(searchText) {
+        setTextSearchServant(searchText);
 
-        let arrayFiltered  = arrayServos.filter(
+        let arrayFiltered  = arrayServants.filter(
             function (item) {
                 return item.name.includes(searchText);
             }
         )
 
-        setArrayServosFiltered(arrayFiltered);
+        setArrayServantsFiltered(arrayFiltered);
     }
 
     return (
@@ -130,7 +130,7 @@ function ProfileDelete({ navigation }) {
                     <Text style={styles.textModalHeader}>
                         Deseja confirmar a exclusão do(a) servo(a) abaixo? ESSA AÇÃO NÃO PODERÁ SER DESFEITA
                     </Text>
-                    <Text style={styles.textModalNameServo}>{nameServo}</Text>
+                    <Text style={styles.textModalNameServant}>{nameServant}</Text>
 
                     <View style={styles.containerButtonsDoneClear}>
                         <TouchableOpacity
@@ -145,7 +145,7 @@ function ProfileDelete({ navigation }) {
                         <TouchableOpacity
                             style={styles.buttonsDoneClear}
                             onPress={() => {
-                                deleteServo();
+                                deleteServant();
                                 setOpacityBackground(1);
                                 setModalVisible(!modalVisible)
                             }}
@@ -160,22 +160,22 @@ function ProfileDelete({ navigation }) {
 
             <View style={{ flex: 1, opacity: opacityBackground }}>
 
-                <View style={styles.containerSearchServo}>
+                <View style={styles.containerSearchServant}>
                     <TextInput
-                        style={styles.searchServo}
+                        style={styles.searchServant}
                         placeholder="Pesquisar servo..."
                         placeholderTextColor="#999"
                         autoCapitalize="words"
                         autoCorrect={false}
-                        value={textSearchServo}
-                        onChangeText={filterServos}
+                        value={textSearchServant}
+                        onChangeText={filterServants}
                     />
                 </View>
 
                 <FlatList
                     contentContainerStyle={styles.list}
                     data={
-                        arrayServosFiltered && arrayServosFiltered.length > 0 ? arrayServosFiltered : arrayServos
+                        arrayServantsFiltered && arrayServantsFiltered.length > 0 ? arrayServantsFiltered : arrayServants
                     }
                     keyExtractor={item => item._id}
                     renderItem={renderItem}

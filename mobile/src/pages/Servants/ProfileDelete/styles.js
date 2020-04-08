@@ -23,7 +23,7 @@ export default styles = StyleSheet.create({
         fontSize: 18,
         textAlign: 'center',
     },
-    textModalNameServo: {
+    textModalNameServant: {
         marginTop: 10,
         fontWeight: "bold",
         fontSize: 24,
@@ -46,12 +46,12 @@ export default styles = StyleSheet.create({
     },
 
     //Pesquisar servos
-    containerSearchServo: {
+    containerSearchServant: {
         paddingHorizontal: 15,
         paddingBottom: 10,
         marginTop: 10,
     },
-    searchServo: {
+    searchServant: {
         backgroundColor: "#fff",
         height: 40,
         borderRadius: 25,
@@ -59,8 +59,8 @@ export default styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
 
-    //Lista de servos
-    list: {
+     //Lista de servos
+     list: {
         paddingHorizontal: 20,
     },
     containerItem: {
@@ -72,27 +72,28 @@ export default styles = StyleSheet.create({
         marginBottom: 10,
         justifyContent: 'space-between',
         alignItems: 'center',
+        borderRadius: 8,
     },
     containerName: {
         flex: 1,
     },
     textName: {
+        width: 200,
         fontSize: 16,
         fontWeight: "bold",
         color: "#333",
         textAlign: 'center',
     },
-    containerFaltas: {
+    containerAbsences: {
         height: 50,
         width: 80,
         borderRadius: 10,
         borderWidth: 2,
-        borderColor: "#cbcbcb",
+        borderColor: "#000",
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 5,
     },
-    textFaltas: {
+    textAbsences: {
         fontSize: 16,
         fontWeight: "bold",
     },

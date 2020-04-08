@@ -19,20 +19,17 @@ export default StyleSheet.create({
     },
 
     //Pesquisar servos
-    containerSearchServo: {
+    containerSearchServant: {
         paddingHorizontal: 20,
-        marginBottom: 10,
+        paddingBottom: 10,
+        marginTop: -5,
     },
-    container2SearchServo: {
-        backgroundColor: "#fff",
-        borderRadius: 25,
-    },
-    searchServo: {
+    searchServant: {
         backgroundColor: "#fff",
         height: 40,
         borderRadius: 25,
         fontSize: 16,
-        marginLeft: 20,
+        paddingHorizontal: 20,
     },
 
     //Lista de servos
@@ -47,42 +44,48 @@ export default StyleSheet.create({
         marginBottom: 10,
         justifyContent: 'center',
         alignItems: 'center',
+        borderRadius: 8,
     },
-    containerNameJustificativa: {
-        height: 100,
-        width: 200,
+
+    containerHorizontal: {
+        flexDirection: 'row',
+        width: 310,
         marginRight: 10,
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
     textName: {
+        width: 220,
+        marginHorizontal: 5,
         fontSize: 16,
         fontWeight: "bold",
         color: "#333",
         textAlign: 'center',
     },
-    containerFaltas: {
-        height: 80,
-        width: 80,
+    containerAbsences: {
+        height: 50,
+        width: 70,
         borderRadius: 10,
         borderWidth: 2,
-        borderColor: "#cbcbcb",
+        borderColor: "#000",
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 5,
     },
-    textFaltas: {
+    textAbsences: {
         fontSize: 16,
         fontWeight: "bold",
     },
-    containerJustificativa: {
-        flex: 1,
+
+    containerJustification: {
         height: 50,
+        width: 300,
         borderWidth: 1,
         borderRadius: 5,
         borderColor: "#cbcbcb",
         justifyContent: 'center',
         marginTop: 5,
     },
-    textJustificativa: {
+    textJustification: {
         fontSize: 16,
     },
 

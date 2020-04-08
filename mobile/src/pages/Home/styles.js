@@ -6,10 +6,10 @@ export default StyleSheet.create({
         paddingTop: 50,
         // justifyContent: 'center', //Alinhar na vertical
         alignItems: 'center', //Alinhar na horizontal
-        backgroundColor: '#141932',
+        backgroundColor: '#000',
     },
 
-    //Login
+    //Modal login
     containerModal: {
         backgroundColor: "#E7E7E7",
         height: 270,
@@ -17,8 +17,7 @@ export default StyleSheet.create({
         marginBottom: 200,
         marginHorizontal: 20,
         alignItems: 'center',
-        borderColor: "#4278D0",
-        borderWidth: 1,
+        borderRadius: 5,
     },
     textTitleModal: {
         fontSize: 32,
@@ -26,7 +25,7 @@ export default StyleSheet.create({
         marginTop: 10,
     },
     textLoginPassword: {
-        backgroundColor: "#fff",
+        backgroundColor: "#FFF",
         marginTop: 10,
         width: 300,
         height: 50,
@@ -53,49 +52,33 @@ export default StyleSheet.create({
         color: '#FFF',
         fontWeight: 'bold'
     },
+
     icon: {
         marginTop: 20,
         width: 120,
         height: 120,
         borderRadius: 60,
     },
-    buttonServos: {
-        marginTop: 50,
-        width: 200,
-        height: 60,
-        backgroundColor: '#3e56e8',
-        borderRadius: 100,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 3,
-        borderColor: "#fff",
-    },
-    buttonEncontristas: {
+
+    buttonMain: {
         marginTop: 20,
         width: 200,
         height: 60,
         backgroundColor: '#3e56e8',
-        borderRadius: 100,
+        borderRadius: 8,
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 3,
-        borderColor: "#fff",
+        borderColor: "#FFF",
     },
     textButton: {
         fontSize: 25,
         color: '#FFF',
         fontWeight: 'bold'
     },
+
     buttonExit: {
-        marginTop: 50,
-        width: 120,
-        height: 50,
-        backgroundColor: '#3e56e8',
-        borderRadius: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 1,
-        borderColor: "#fff",
+        marginTop: 65,
     },
     textExit: {
         fontSize: 20,

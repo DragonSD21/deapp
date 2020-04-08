@@ -8,87 +8,86 @@ function ProfileChange({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
     const [opacityBackground, setOpacityBackground] = useState(1);
     
-    const [idServo, setIdServo] = useState("");
-    const [nameServo, setNameServo] = useState("");
-    const [faltasServo, setFaltasServo] = useState("");
-    const [typeServo, setTypeServo] = useState("");
+    const [idServant, setIdServant] = useState("");
+    const [nameServant, setNameServant] = useState("");
+    const [absencesServant, setAbsencesServant] = useState("");
+    const [typeServant, setTypeServant] = useState("");
 
-    const [textSearchServo, setTextSearchServo] = useState("");
-    const [arrayServosFiltered, setArrayServosFiltered] = useState([]);
+    const [textSearchServant, setTextSearchServant] = useState("");
+    const [arrayServantsFiltered, setArrayServantsFiltered] = useState([]);
     
-    var varArrayServos = [
+    var varArrayServants = [
         {
             _id: "1",
             name: "Rafael Rosman Rodrigues Montrezol",
-            faltas: 1,
+            absences: 1,
         },
         {
             _id: "2",
             name: "João Carlos de Jesus Silva Dias",
-            faltas: 3,
+            absences: 3,
         },
         {
             _id: "3",
             name: "Maria Joana da Silva Rodrigues Colarinho",
-            faltas: 2.5,
+            absences: 2.5,
         },
         {
             _id: "4",
             name: "Rafael Rosman Rodrigues Montrezol",
-            faltas: 1,
+            absences: 1,
         },
         {
             _id: "5",
             name: "João Carlos de Jesus Silva Dias",
-            faltas: 3,
+            absences: 3,
         },
         {
             _id: "6",
             name: "Maria Joana da Silva Rodrigues Colarinho",
-            faltas: 2.5,
+            absences: 2.5,
         },
     ];
-    const [arrayServos, setArrayServos] = useState([]);
+    const [arrayServants, setArrayServants] = useState([]);
     useEffect(() => {
-        setArrayServos(
-            varArrayServos.sort(function (a, b) {
+        setArrayServants(
+            varArrayServants.sort(function (a, b) {
                 return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
             })
         );
-        setArrayServosFiltered([]);
+        setArrayServantsFiltered([]);
     }, []);
 
-    function updateServo() {
-        var indexServo = arrayServos.findIndex(obj => obj._id === idServo);
-        arrayServos[indexServo].name = nameServo;
-        if(faltasServo == "") arrayServos[indexServo].faltas = "0";
-        else arrayServos[indexServo].faltas = faltasServo;
-        arrayServos[indexServo].type = typeServo;
+    function updateServant() {indIndex(obj => obj._id === idServant);
+        arrayServants[indexServant].name = nameServant;
+        if(absencesServant == "") arrayServants[indexServant].absences = "0";
+        else arrayServants[indexServant].absences = absencesServant;
+        arrayServants[indexServant].type = typeServant;
 
-        setArrayServos(arrayServos);
+        setArrayServants(arrayServants);
     }
 
     function renderItem({ item }) {
-        var colorFaltas;
-        var faltas = parseFloat(item.faltas);
+        var colorAbsences;
+        var absences = parseFloat(item.absences);
 
-        if(faltas < 1.5) {
-            colorFaltas = "#70aa5e";
+        if(absences < 1.5) {
+            colorAbsences = "#70aa5e";
         }
-        else if(faltas < 3) {
-            colorFaltas = "#f6e745";
+        else if(absences < 3) {
+            colorAbsences = "#f6e745";
         }
         else {
-            colorFaltas = "#c10020";
+            colorAbsences = "#c10020";
         }
         
         return (
             <TouchableOpacity
                 onPress={() => {
-                    setNameServo(item.name);
-                    setFaltasServo(item.faltas);
-                    setIdServo(item._id);
-                    setTypeServo(item.type);
+                    setNameServant(item.name);
+                    setAbsencesServant(item.absences);
+                    setIdServant(item._id);
+                    setTypeServant(item.type);
                     
                     setOpacityBackground(0.5);
                     setModalVisible(true);
@@ -98,23 +97,23 @@ function ProfileChange({ navigation }) {
                 <View style={styles.containerName}>
                     <Text style={styles.textName}>{item.name}</Text>
                 </View>
-                <View style={[styles.containerFaltas, {backgroundColor: colorFaltas}]}>
-                    <Text style={styles.textFaltas}>{item.faltas}</Text>
+                <View style={[styles.containerAbsences, {backgroundColor: colorAbsences}]}>
+                    <Text style={styles.textAbsences}>{item.absences}</Text>
                 </View>
             </TouchableOpacity>
         );
     }
 
-    function filterServos(searchText) {
-        setTextSearchServo(searchText);
+    function filterServants(searchText) {
+        setTextSearchServant(searchText);
 
-        let arrayFiltered  = arrayServos.filter(
+        let arrayFiltered  = arrayServants.filter(
             function (item) {
                 return item.name.includes(searchText);
             }
         )
 
-        setArrayServosFiltered(arrayFiltered);
+        setArrayServantsFiltered(arrayFiltered);
     }
 
 
@@ -135,33 +134,33 @@ function ProfileChange({ navigation }) {
                     <Text style={styles.textModalHeader}>Alterar servo</Text>
 
                     <TextInput
-                        style={styles.textInputNameServo}
-                        defaultValue={nameServo}
+                        style={styles.textInputNameServant}
+                        defaultValue={nameServant}
                         autoCapitalize="words"
                         autoCorrect={false}
-                        value={nameServo}
-                        onChangeText={setNameServo}
+                        value={nameServant}
+                        onChangeText={setNameServant}
                     />
 
-                    <View style={styles.containerTextInputFaltasServo}>
+                    <View style={styles.containerTextInputAbsencesServant}>
                         <Text style={{ fontSize: 16 }}>Faltas: </Text>
                         <TextInput
-                            style={styles.textInputFaltasServo}
-                            defaultValue={String(faltasServo)}
+                            style={styles.textInputAbsencesServant}
+                            defaultValue={String(absencesServant)}
                             autoCapitalize="words"
                             autoCorrect={false}
                             keyboardType="numeric"
-                            value={String(faltasServo)}
-                            onChangeText={setFaltasServo}
+                            value={String(absencesServant)}
+                            onChangeText={setAbsencesServant}
                         />
                     </View>
 
-                    <View style={styles.containerPickerTypeServo}>
+                    <View style={styles.containerPickerTypeServant}>
                         <Picker
-                            selectedValue={typeServo}
-                            style={styles.pickerTypeServo}
+                            selectedValue={typeServant}
+                            style={styles.pickerTypeServant}
                             onValueChange={(itemValue, itemIndex) => {
-                                setTypeServo(itemValue);
+                                setTypeServant(itemValue);
                             }}
                         >
                             <Picker.Item label="Servo" value="Servo" />
@@ -183,7 +182,7 @@ function ProfileChange({ navigation }) {
                         <TouchableOpacity
                             style={styles.buttonsDoneClear}
                             onPress={() => {
-                                updateServo();
+                                updateServant();
                                 setOpacityBackground(1);
                                 setModalVisible(!modalVisible)
                             }}
@@ -198,22 +197,22 @@ function ProfileChange({ navigation }) {
             
             <View style={{ flex: 1, opacity: opacityBackground }}>
 
-                <View style={styles.containerSearchServo}>
+                <View style={styles.containerSearchServant}>
                     <TextInput
-                        style={styles.searchServo}
+                        style={styles.searchServant}
                         placeholder="Pesquisar servo..."
                         placeholderTextColor="#999"
                         autoCapitalize="words"
                         autoCorrect={false}
-                        value={textSearchServo}
-                        onChangeText={filterServos}
+                        value={textSearchServant}
+                        onChangeText={filterServants}
                     />
                 </View>
 
                 <FlatList
                     contentContainerStyle={styles.list}
                     data={
-                        arrayServosFiltered && arrayServosFiltered.length > 0 ? arrayServosFiltered : arrayServos
+                        arrayServantsFiltered && arrayServantsFiltered.length > 0 ? arrayServantsFiltered : arrayServants
                     }
                     keyExtractor={item => item._id}
                     renderItem={renderItem}

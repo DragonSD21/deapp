@@ -60,18 +60,18 @@ function Home({ navigation }) {
             <View style={{ alignItems: 'center', opacity: opacityBackground }}>
                 <Text style={styles.textTitle}>DÉApp</Text>
                 <Image style={styles.icon} source={Logo}></Image>
-                <TouchableOpacity style={styles.buttonServos} onPress={() => {
+                <TouchableOpacity style={[styles.buttonMain, { marginTop: 40 }]} onPress={() => {
                     setOpacityBackground(0.5);
                     setModalVisible(true);
                     // navigation.navigate('ServosMain')
                 }}>
                     <Text style={styles.textButton}>Servos</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.buttonEncontristas} onPress={() => {}}>
+                <TouchableOpacity style={styles.buttonMain} onPress={() => {}}>
                     <Text style={styles.textButton}>Encontristas</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.buttonExit} onPress={() => {}}>
-                    <Text style={styles.textExit}>Sair</Text>
+                    <Text style={styles.textExit}>SAIR</Text>
                 </TouchableOpacity>
             </View>
         </View>

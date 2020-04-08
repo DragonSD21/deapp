@@ -93,6 +93,8 @@ export default StyleSheet.create({
         borderRadius: 20,
         justifyContent: 'center',
         alignItems: 'center',
+        borderWidth: 3,
+        borderColor: '#FFF',
     },
     textButtonCallReset: {
         fontSize: 20,

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, FlatList, Text, TouchableOpacity, TextInput, Platform, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
+// import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { MaterialIcons } from '@expo/vector-icons';
 import { parseISO, format } from 'date-fns';
 import { YellowBox } from 'react-native';
@@ -14,58 +14,58 @@ YellowBox.ignoreWarnings([
 
 function Call({ navigation }) {
     const [selected, setSelected] = useState(new Map());
-    const [arrayServos, setArrayServos] = useState([]);
+    const [arrayServants, setArrayServants] = useState([]);
 
-    const [textSearchServo, setTextSearchServo] = useState("");
-    const [arrayServosFiltered, setArrayServosFiltered] = useState([]);
+    const [textSearchServant, setTextSearchServant] = useState("");
+    const [arrayServantsFiltered, setArrayServantsFiltered] = useState([]);
 
-    var varArrayServos = [
+    var varArrayServants = [
         {
             id: "1",
             name: "ARafael Rosman Rodrigues Montrezol",
-            faltas: 1,
-            justificativa: "",
+            absences: 1,
+            justification: "",
         },
         {
             id: "2",
             name: "Nathalia Emily de Oliveira Pinto",
-            faltas: 3,
-            justificativa: "",
+            absences: 3,
+            justification: "",
         },
         {
             id: "3",
             name: "Maria Joana da Silva Rodrigues Colarinho",
-            faltas: 2.5,
-            justificativa: "",
+            absences: 2.5,
+            justification: "",
         },
         {
             id: "4",
             name: "Rafael Rosman Rodrigues Montrezol",
-            faltas: 1,
-            justificativa: "",
+            absences: 1,
+            justification: "",
         },
         {
             id: "5",
             name: "João Carlos de Jesus Silva Dias",
-            faltas: 3,
-            justificativa: "",
+            absences: 3,
+            justification: "",
         },
         {
             id: "6",
             name: "Maria Joana da Silva Rodrigues Colarinho",
-            faltas: 2.5,
-            justificativa: "",
+            absences: 2.5,
+            justification: "",
         },
     ];
 
     useEffect(() => {
         setSelected(new Map());
-        setArrayServos(
-            varArrayServos.sort(function (a, b) {
+        setArrayServants(
+            varArrayServants.sort(function (a, b) {
                 return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
             })
         );
-        setArrayServosFiltered([]);
+        setArrayServantsFiltered([]);
     }, []);
 
     const onSelect = useCallback(
@@ -78,17 +78,17 @@ function Call({ navigation }) {
     );
     
     function renderItem(item, selected) {
-        var colorFaltas;
-        var indexServo = arrayServos.indexOf(item);
+        var colorAbsences;
+        var indexServant = arrayServants.indexOf(item);
 
-        if(item.faltas < 1.5) {
-            colorFaltas = "#70aa5e";
+        if(item.absences < 1.5) {
+            colorAbsences = "#70aa5e";
         }
-        else if(item.faltas < 3) {
-            colorFaltas = "#f6e745";
+        else if(item.absences < 3) {
+            colorAbsences = "#f6e745";
         }
         else {
-            colorFaltas = "#c10020";
+            colorAbsences = "#c10020";
         }
 
         return (
@@ -100,32 +100,30 @@ function Call({ navigation }) {
                     { backgroundColor: selected.get(item.id) ? '#B2B6BD' : '#fff' }
                 ]}
             >
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <View style={styles.containerNameJustificativa}>
-                        <Text style={styles.textName}>{item.name}</Text>
-                        <View style={styles.containerJustificativa}>
-                            <TextInput 
-                                style={styles.textJustificativa}
-                                placeholder="Justificativa..."
-                                placeholderTextColor="#999"
-                                autoCapitalize="none"
-                                autoCorrect={true}
-                                defaultValue={""}
-                                value={arrayServos[indexServo].justificativa}
-                                onChangeText={text => {
-                                    let aux = arrayServos;
-                                    aux[indexServo].justificativa = text;
-                                    // alert([indexServo, aux[indexServo].justificativa]);
-                                    setArrayServos(aux);
-                                    onSelect(item.id, 0); //<<<<<<<<<<<<<<< ARRUMAR ISSO AQUI
-                                    // alert([arrayServos[indexServo].justificativa]);
-                                }}
-                            />
-                        </View>
+                <View style={styles.containerHorizontal}>
+                    <Text style={styles.textName}>{item.name}</Text>
+                    <View style={[styles.containerAbsences, {backgroundColor: colorAbsences}]}>
+                        <Text style={styles.textAbsences}>{item.absences}</Text>
                     </View>
-                    <View style={[styles.containerFaltas, {backgroundColor: colorFaltas}]}>
-                        <Text style={styles.textFaltas}>{item.faltas}</Text>
-                    </View>
+                </View>
+                <View style={styles.containerJustification}>
+                    <TextInput 
+                        style={styles.textJustification}
+                        placeholder="Justificativa..."
+                        placeholderTextColor="#999"
+                        autoCapitalize="none"
+                        autoCorrect={true}
+                        defaultValue={""}
+                        value={arrayServants[indexServant].justification}
+                        onChangeText={text => {
+                            let aux = arrayServants;
+                            aux[indexServant].justification = text;
+                            // alert([indexServant, aux[indexServant].justification]);
+                            setArrayServants(aux);
+                            onSelect(item.id, 0); //<<<<<<<<<<<<<<< ARRUMAR ISSO AQUI
+                            // alert([arrayServants[indexServant].justification]);
+                        }}
+                    />
                 </View>
             </TouchableOpacity>
 
@@ -135,27 +133,27 @@ function Call({ navigation }) {
     const date = new Date();
     const formattedDate = format(date, 'dd/MM/yyyy');
 
-    function filterServos(searchText) {
-        setTextSearchServo(searchText);
+    function filterServants(searchText) {
+        setTextSearchServant(searchText);
 
-        let arrayFiltered  = arrayServos.filter(
+        let arrayFiltered  = arrayServants.filter(
             function (item) {
                 return item.name.includes(searchText);
             }
         )
 
-        setArrayServosFiltered(arrayFiltered);
+        setArrayServantsFiltered(arrayFiltered);
     }
 
     function confirmCall() {
-        // for(var servo in arrayServos) {
-        //     if(selected.get(servo.id)) {
-        //         if(servo.justificativa == "") servo.faltas++;
-        //         else servo.faltas++;
+        // for(var servant in arrayServants) {
+        //     if(selected.get(servant.id)) {
+        //         if(servant.justification == "") servant.absences++;
+        //         else servant.absences++;
         //     }
         // }
-        // for(var servo in arrayServos) {
-        //     alert(servo.faltas);
+        // for(var servant in arrayServants) {
+        //     alert(servant.absences);
         // }
     }
 
@@ -168,22 +166,22 @@ function Call({ navigation }) {
                     <Text style={styles.date}>{formattedDate}</Text>
                 </View>
 
-                <View style={styles.containerSearchServo}>
+                <View style={styles.containerSearchServant}>
                     <TextInput
-                        style={styles.searchServo}
+                        style={styles.searchServant}
                         placeholder="Pesquisar servo..."
                         placeholderTextColor="#999"
                         autoCapitalize="words"
                         autoCorrect={false}
-                        value={textSearchServo}
-                        onChangeText={filterServos}
+                        value={textSearchServant}
+                        onChangeText={filterServants}
                     />
                 </View>
 
                 <FlatList
                     contentContainerStyle={styles.list}
                     data={
-                        arrayServosFiltered && arrayServosFiltered.length > 0 ? arrayServosFiltered : arrayServos
+                        arrayServantsFiltered && arrayServantsFiltered.length > 0 ? arrayServantsFiltered : arrayServants
                     }
                     keyExtractor={item => item.id}
                     renderItem={({ item }) => renderItem(item, selected)}
@@ -202,7 +200,7 @@ function Call({ navigation }) {
                     <TouchableOpacity
                         onPress={() => {
                             confirmCall();
-                            // navigation.navigate('ServosMain');
+                            // navigation.navigate('ServantsMain');
                         }}
                         style={styles.buttonBottom}
                     >
@@ -211,8 +209,6 @@ function Call({ navigation }) {
                 </View>
 
             </KeyboardAwareScrollView>
-            
-            <KeyboardSpacer/>
             
         </View>
     );

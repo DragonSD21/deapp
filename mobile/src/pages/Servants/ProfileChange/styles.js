@@ -22,7 +22,7 @@ export default StyleSheet.create({
         fontWeight: "bold",
         fontSize: 30,
     },
-    textInputNameServo: {
+    textInputNameServant: {
         backgroundColor: "#fff",
         marginTop: 10,
         width: 300,
@@ -30,7 +30,7 @@ export default StyleSheet.create({
         fontSize: 16,
         paddingHorizontal: 8,
     },
-    containerTextInputFaltasServo: {
+    containerTextInputAbsencesServant: {
         backgroundColor: "#fff",
         flexDirection: "row",
         marginTop: 10,
@@ -39,17 +39,17 @@ export default StyleSheet.create({
         paddingHorizontal: 8,
         alignItems: "center",
     },
-    textInputFaltasServo: {
+    textInputAbsencesServant: {
         backgroundColor: "#fff",
         width: 200,
         fontSize: 16,
         marginTop: 3,
     },
-    containerPickerTypeServo: {
+    containerPickerTypeServant: {
         backgroundColor: "#fff",
         marginTop: 10,
     },
-    pickerTypeServo: {
+    pickerTypeServant: {
         height: 50,
         width: 300,
     },
@@ -70,12 +70,12 @@ export default StyleSheet.create({
     },
 
     //Pesquisar servos
-    containerSearchServo: {
+    containerSearchServant: {
         paddingHorizontal: 15,
         paddingBottom: 10,
         marginTop: 10,
     },
-    searchServo: {
+    searchServant: {
         backgroundColor: "#fff",
         height: 40,
         borderRadius: 25,
@@ -96,27 +96,28 @@ export default StyleSheet.create({
         marginBottom: 10,
         justifyContent: 'space-between',
         alignItems: 'center',
+        borderRadius: 8,
     },
     containerName: {
         flex: 1,
     },
     textName: {
+        width: 200,
         fontSize: 16,
         fontWeight: "bold",
         color: "#333",
         textAlign: 'center',
     },
-    containerFaltas: {
+    containerAbsences: {
         height: 50,
         width: 80,
         borderRadius: 10,
         borderWidth: 2,
-        borderColor: "#cbcbcb",
+        borderColor: "#000",
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 5,
     },
-    textFaltas: {
+    textAbsences: {
         fontSize: 16,
         fontWeight: "bold",
     },

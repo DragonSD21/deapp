@@ -11,6 +11,7 @@ export default StyleSheet.create({
         padding: 20,
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: -10,
     },
     date: {
         fontSize: 32,
@@ -19,13 +20,13 @@ export default StyleSheet.create({
         textAlign: 'center',
     },
 
-    //Pesquisar servos
-    containerSearchServo: {
-        paddingHorizontal: 15,
+    //Pesquisar servo
+    containerSearchServant: {
+        paddingHorizontal: 20,
         paddingBottom: 10,
         marginTop: -5,
     },
-    searchServo: {
+    searchServant: {
         backgroundColor: "#fff",
         height: 40,
         borderRadius: 25,
@@ -33,7 +34,7 @@ export default StyleSheet.create({
         paddingHorizontal: 20,
     },
 
-    //Lista de servos
+    //Lista de servo
     list: {
         paddingHorizontal: 20,
     },
@@ -45,42 +46,48 @@ export default StyleSheet.create({
         marginBottom: 10,
         justifyContent: 'center',
         alignItems: 'center',
+        borderRadius: 8,
     },
-    containerNameJustificativa: {
-        height: 100,
-        width: 200,
+
+    containerHorizontal: {
+        flexDirection: 'row',
+        width: 310,
         marginRight: 10,
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
     textName: {
+        width: 220,
+        marginHorizontal: 5,
         fontSize: 16,
         fontWeight: "bold",
         color: "#333",
         textAlign: 'center',
     },
-    containerFaltas: {
-        height: 80,
-        width: 80,
+    containerAbsences: {
+        height: 50,
+        width: 80, //70
         borderRadius: 10,
         borderWidth: 2,
-        borderColor: "#cbcbcb",
+        borderColor: "#000",
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 5,
     },
-    textFaltas: {
+    textAbsences: {
         fontSize: 16,
         fontWeight: "bold",
     },
-    containerJustificativa: {
-        flex: 1,
+
+    containerJustification: {
         height: 50,
+        width: 300,
         borderWidth: 1,
         borderRadius: 5,
         borderColor: "#cbcbcb",
         justifyContent: 'center',
         marginTop: 5,
     },
-    textJustificativa: {
+    textJustification: {
         fontSize: 16,
     },
 
@@ -96,10 +103,12 @@ export default StyleSheet.create({
         backgroundColor: "#3e56e8",
         width: 100,
         height: 50,
-        borderRadius: 5,
+        borderRadius: 8,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
+        borderWidth: 2,
+        borderColor: '#FFF',
     },
     textButtonsBottom: {
         fontSize: 16,

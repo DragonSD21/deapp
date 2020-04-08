@@ -66,7 +66,7 @@ const Routes = createAppContainer(
                 fontWeight: 'bold',
             },
             headerStyle: {
-                backgroundColor: '#070911',
+                backgroundColor: '#000',
             },
         },
     },

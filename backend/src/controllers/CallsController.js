@@ -41,6 +41,7 @@ module.exports = {
     async delete(request, response) {
         await connection('calls').select('*').delete();
 
+        // Zerar faltas de todos os servos no banco de dados
         await connection('servants').update('absences', 0);
 
         return response.status(204).send();

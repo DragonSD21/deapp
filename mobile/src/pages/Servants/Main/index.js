@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, FlatList, Text, TouchableOpacity, TextInput, Modal, Picker } from 'react-native';
+import { View, FlatList, Text, TouchableOpacity, TextInput, Modal, Picker } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import styles from './styles';
@@ -7,65 +7,65 @@ import styles from './styles';
 function Main({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
     const [opacityBackground, setOpacityBackground] = useState(1);
-    const [arrayServos, setArrayServos] = useState([]);
-    const [typeServo, setTypeServo] = useState("Servo");
+    const [arrayServants, setArrayServants] = useState([]);
+    const [typeServant, setTypeServant] = useState("Servo");
     
-    const [textSearchServo, setTextSearchServo] = useState("");
-    const [arrayServosFiltered, setArrayServosFiltered] = useState([]);
+    const [textSearchServants, setTextSearchServants] = useState("");
+    const [arrayServantsFiltered, setArrayServantsFiltered] = useState([]);
     
-    var varArrayServos = [
+    var varArrayServants = [
         {
             _id: "1",
             name: "Rafael Rosman Rodrigues Montrezol",
-            faltas: 1,
+            absences: 1,
         },
         {
             _id: "2",
             name: "João Carlos de Jesus Silva Dias",
-            faltas: 3,
+            absences: 3,
         },
         {
             _id: "3",
             name: "Maria Joana da Silva Rodrigues Colarinho",
-            faltas: 2.5,
+            absences: 2.5,
         },
         {
             _id: "4",
             name: "Rafael Rosman Rodrigues Montrezol",
-            faltas: 1,
+            absences: 1,
         },
         {
             _id: "5",
             name: "João Carlos de Jesus Silva Dias",
-            faltas: 3,
+            absences: 3,
         },
         {
             _id: "6",
             name: "Maria Joana da Silva Rodrigues Colarinho",
-            faltas: 2.5,
+            absences: 2.5,
         },
     ];
 
     useEffect(() => {
-        setArrayServos(
-            varArrayServos.sort(function (a, b) {
+        setArrayServants(
+            varArrayServants.sort(function (a, b) {
                 return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
             })
         );
-        setArrayServosFiltered([]);
+        setArrayServantsFiltered([]);
     }, []);
 
     function renderItem({ item }) {
-        var colorFaltas;
+        var colorAbsences;
 
-        if(item.faltas < 1.5) {
-            colorFaltas = "#70aa5e";
+        if(item.absences < 1.5) {
+            colorAbsences = "#70aa5e";
         }
-        else if(item.faltas < 3) {
-            colorFaltas = "#f6e745";
+        else if(item.absences < 3) {
+            colorAbsences = "#f6e745";
         }
         else {
-            colorFaltas = "#c10020";
+            colorAbsences = "#c10020";
         }
         
         return (
@@ -73,23 +73,23 @@ function Main({ navigation }) {
                 <View style={styles.containerName}>
                     <Text style={styles.textName}>{item.name}</Text>
                 </View>
-                <View style={[styles.containerFaltas, {backgroundColor: colorFaltas}]}>
-                    <Text style={styles.textFaltas}>{item.faltas}</Text>
+                <View style={[styles.containerAbsences, {backgroundColor: colorAbsences}]}>
+                    <Text style={styles.textAbsences}>{item.absences}</Text>
                 </View>
             </View>
         );
     }
 
-    function filterServos(searchText) {
-        setTextSearchServo(searchText);
+    function filterServants(searchText) {
+        setTextSearchServants(searchText);
 
-        let arrayFiltered  = arrayServos.filter(
+        let arrayFiltered  = arrayServants.filter(
             function (item) {
                 return item.name.includes(searchText);
             }
         )
 
-        setArrayServosFiltered(arrayFiltered);
+        setArrayServantsFiltered(arrayFiltered);
     }
 
     return (
@@ -107,19 +107,19 @@ function Main({ navigation }) {
                     <Text style={styles.textModalHeader}>Novo servo</Text>
 
                     <TextInput
-                        style={styles.textInputNewServo}
+                        style={styles.textInputNewServants}
                         placeholder="Digite o nome do novo servo"
                         placeholderTextColor="#999"
                         autoCapitalize="words"
                         autoCorrect={false}
                     />
 
-                    <View style={styles.containerPickerTypeServo}>
+                    <View style={styles.containerPickerTypeServants}>
                         <Picker
-                            selectedValue={typeServo}
-                            style={styles.pickerTypeServo}
+                            selectedValue={typeServant}
+                            style={styles.pickerTypeServant}
                             onValueChange={(itemValue, itemIndex) => {
-                                setTypeServo(itemValue);
+                                setTypeServants(itemValue);
                             }}
                         >
                             <Picker.Item label="Servo" value="Servo" />
@@ -160,35 +160,38 @@ function Main({ navigation }) {
                         onPress={() => {
                             navigation.navigate('Call')
                         }}
-                        style={styles.buttonChamada}
+                        style={styles.buttonsTop}
                     >
                         <MaterialIcons name="add-circle-outline" size={30} color="#FFF" />
-                        <Text style={[styles.textButtonsTop, {marginLeft: 10}]}>Chamada</Text>
+                        <Text style={[styles.textButtonsTop, {marginLeft: 5}]}>Chamada</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => {
-                        navigation.navigate('CallHistory')
-                    }} style={styles.buttonHistorico}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigation.navigate('CallHistory')
+                        }}
+                        style={styles.buttonsTop}
+                    >
                         <Text style={styles.textButtonsTop}>Histórico</Text>
                     </TouchableOpacity>
                 </View>
 
-                <View style={styles.containerSearchServo}>
+                <View style={styles.containerSearchServants}>
                     <TextInput
-                        style={styles.searchServo}
+                        style={styles.searchServants}
                         placeholder="Pesquisar servo..."
                         placeholderTextColor="#999"
                         autoCapitalize="words"
                         autoCorrect={false}
-                        value={textSearchServo}
-                        onChangeText={filterServos}
+                        value={textSearchServants}
+                        onChangeText={filterServants}
                     />
                 </View>
 
                 <FlatList
                     contentContainerStyle={styles.list}
                     data={
-                        arrayServosFiltered && arrayServosFiltered.length > 0 ? arrayServosFiltered : arrayServos
+                        arrayServantsFiltered && arrayServantsFiltered.length > 0 ? arrayServantsFiltered : arrayServants
                     }
                     keyExtractor={item => item._id}
                     renderItem={renderItem}
@@ -200,7 +203,7 @@ function Main({ navigation }) {
                             setOpacityBackground(0.5);
                             setModalVisible(true);
                         }}
-                        style={[styles.buttonBottom, {marginRight: 30}]}
+                        style={[styles.buttonsBottom, {marginRight: 30}]}
                     >
                         <Text style={styles.textButtonsBottom}>Cadastrar</Text>
                     </TouchableOpacity>
@@ -209,7 +212,7 @@ function Main({ navigation }) {
                         onPress={() => {
                             navigation.navigate('ProfileChange')
                         }}
-                        style={[styles.buttonBottom, {marginRight: 30}]}
+                        style={[styles.buttonsBottom, {marginRight: 30}]}
                     >
                         <Text style={styles.textButtonsBottom}>Alterar</Text>
                     </TouchableOpacity>
@@ -218,7 +221,7 @@ function Main({ navigation }) {
                         onPress={() => {
                             navigation.navigate('ProfileDelete')
                         }}
-                        style={styles.buttonBottom}
+                        style={styles.buttonsBottom}
                     >
                         <Text style={styles.textButtonsBottom}>Excluir</Text>
                     </TouchableOpacity>

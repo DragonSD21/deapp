@@ -22,7 +22,7 @@ export default StyleSheet.create({
         fontWeight: "bold",
         fontSize: 30,
     },
-    textInputNewServo: {
+    textInputNewServants: {
         backgroundColor: "#fff",
         marginTop: 10,
         width: 300,
@@ -30,11 +30,11 @@ export default StyleSheet.create({
         fontSize: 16,
         paddingHorizontal: 8,
     },
-    containerPickerTypeServo: {
+    containerPickerTypeServants: {
         backgroundColor: "#fff",
         marginTop: 10,
     },
-    pickerTypeServo: {
+    pickerTypeServant: {
         height: 50,
         width: 300,
     },
@@ -61,24 +61,16 @@ export default StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
-    buttonChamada: {
+    buttonsTop: {
         backgroundColor: "#3e56e8",
         width: 150,
         height: 50,
-        borderRadius: 10,
+        borderRadius: 8,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    buttonHistorico: {
-        backgroundColor: "#3e56e8",
-        width: 150,
-        height: 50,
-        borderRadius: 10,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginLeft: 20,
+        borderWidth: 2,
+        borderColor: '#FFF',
     },
     textButtonsTop: {
         fontSize: 20,
@@ -86,13 +78,13 @@ export default StyleSheet.create({
         color: "#FFF",
     },
 
-    //Pesquisar servos
-    containerSearchServo: {
-        paddingHorizontal: 15,
+    //Pesquisar Servo
+    containerSearchServants: {
+        paddingHorizontal: 20,
         paddingBottom: 10,
         marginTop: -5,
     },
-    searchServo: {
+    searchServants: {
         backgroundColor: "#fff",
         height: 40,
         borderRadius: 25,
@@ -113,6 +105,7 @@ export default StyleSheet.create({
         marginBottom: 10,
         justifyContent: 'space-between',
         alignItems: 'center',
+        borderRadius: 8,
     },
     containerName: {
         flex: 1,
@@ -123,17 +116,18 @@ export default StyleSheet.create({
         color: "#333",
         textAlign: 'center',
     },
-    containerFaltas: {
+
+    containerAbsences: {
         height: 50,
         width: 80,
         borderRadius: 10,
         borderWidth: 2,
-        borderColor: "#cbcbcb",
+        borderColor: "#000",
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 5,
     },
-    textFaltas: {
+    textAbsences: {
         fontSize: 16,
         fontWeight: "bold",
     },
@@ -146,14 +140,16 @@ export default StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
-    buttonBottom: {
+    buttonsBottom: {
         backgroundColor: "#3e56e8",
         width: 80,
         height: 50,
-        borderRadius: 10,
+        borderRadius: 8,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
+        borderWidth: 2,
+        borderColor: '#FFF',
     },
     textButtonsBottom: {
         fontSize: 12,

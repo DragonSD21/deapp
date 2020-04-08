@@ -4,6 +4,7 @@ module.exports = {
 
     async index(request, response) {
         const servants = await connection('servants').select('*');
+        // const servants = await connection('servants').select('id', 'user', 'name', 'type', 'absences');
     
         return response.json(servants);
     },
