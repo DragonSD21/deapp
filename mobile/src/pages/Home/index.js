@@ -47,7 +47,8 @@ function Home({ navigation }) {
                             onPress={() => { 
                                 setOpacityBackground(1);
                                 setModalVisible(!modalVisible);
-                                navigation.navigate('Main');
+                                // navigation.navigate('Main');
+                                navigation.navigate('FirstAccess');
                             }}
                         >
                             <MaterialIcons name="done" size={50} color="#247E16" />

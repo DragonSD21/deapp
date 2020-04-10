@@ -2,6 +2,7 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
 import Home from './pages/Home';
+import FirstAccess from './pages/Servants/FirstAccess';
 import Main from './pages/Servants/Main';
 import ProfileChange from './pages/Servants/ProfileChange';
 import ProfileDelete from './pages/Servants/ProfileDelete';
@@ -17,6 +18,12 @@ const Routes = createAppContainer(
                 headerShown: false,
             },
         }, 
+        FirstAccess: {
+            screen: FirstAccess,
+            navigationOptions: {
+                title: 'Primeiro acesso'
+            },
+        },
         Main: {
             screen: Main,
             navigationOptions: {
@@ -66,7 +73,7 @@ const Routes = createAppContainer(
                 fontWeight: 'bold',
             },
             headerStyle: {
-                backgroundColor: '#000',
+                backgroundColor: '#141932',
             },
         },
     },

@@ -114,6 +114,11 @@ function Main({ navigation }) {
                         autoCorrect={false}
                     />
 
+                    {/*
+                    Login do servo (colocar automaticamente o primeiro e ultimo nome SEM CARACTER ESPECIAL, mas deixar editavel)
+                    Senha PROVISÓRIO do servo
+                    */}
+
                     <View style={styles.containerPickerTypeServants}>
                         <Picker
                             selectedValue={typeServant}
