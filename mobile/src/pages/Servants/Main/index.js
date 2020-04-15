@@ -1,17 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { View, FlatList, Text, TouchableOpacity, TextInput, Modal, Picker } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import styles from './styles';
 
 function Main({ navigation }) {
+    
     const [modalVisible, setModalVisible] = useState(false);
     const [opacityBackground, setOpacityBackground] = useState(1);
+
     const [arrayServants, setArrayServants] = useState([]);
-    const [typeServant, setTypeServant] = useState("Servo");
-    
+
     const [textSearchServants, setTextSearchServants] = useState("");
     const [arrayServantsFiltered, setArrayServantsFiltered] = useState([]);
+    
+    const [nameNewServant, setNameNewServant] = useState("");
+    const [loginNewServant, setLoginNewServant] = useState("");
+    const [passwordNewServant, setPasswordNewServant] = useState("12345");
+    const [typeServant, setTypeServant] = useState("Servo");
     
     var varArrayServants = [
         {
@@ -54,6 +60,10 @@ function Main({ navigation }) {
         );
         setArrayServantsFiltered([]);
     }, []);
+
+    // navigation.setOptions({
+    //     title: 'Principal',
+    // });
 
     function renderItem({ item }) {
         var colorAbsences;
@@ -106,31 +116,53 @@ function Main({ navigation }) {
                 <View style={styles.containerModal}>
                     <Text style={styles.textModalHeader}>Novo servo</Text>
 
-                    <TextInput
-                        style={styles.textInputNewServants}
-                        placeholder="Digite o nome do novo servo"
-                        placeholderTextColor="#999"
-                        autoCapitalize="words"
-                        autoCorrect={false}
-                    />
-
-                    {/*
-                    Login do servo (colocar automaticamente o primeiro e ultimo nome SEM CARACTER ESPECIAL, mas deixar editavel)
-                    Senha PROVISÓRIO do servo
-                    */}
-
-                    <View style={styles.containerPickerTypeServants}>
-                        <Picker
-                            selectedValue={typeServant}
-                            style={styles.pickerTypeServant}
-                            onValueChange={(itemValue, itemIndex) => {
-                                setTypeServants(itemValue);
+                    <View style={styles.containerForm}>
+                        <Text style={styles.textPropTitle}>Nome</Text>
+                        <TextInput
+                            style={styles.textInputPropValue}
+                            placeholder="Digite o nome do novo servo"
+                            placeholderTextColor="#999"
+                            autoCapitalize="words"
+                            autoCorrect={false}
+                            value={nameNewServant}
+                            onChangeText={() => {
+                                setNameNewServant(nameNewServant);
+                                var aux = nameNewServant.split(" ");
+                                
                             }}
-                        >
-                            <Picker.Item label="Servo" value="Servo" />
-                            <Picker.Item label="Servo responsável pela chamada" value="Servo responsável pela chamada" />
-                            <Picker.Item label="Servo responsável geral" value="Servo responsável geral" />
-                        </Picker>
+                        />
+
+                        <Text style={styles.textPropTitle}>Login (por padrão o primeiro e ultimo nome)</Text>
+                        <TextInput
+                            style={styles.textInputPropValue}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            value={loginNewServant}
+                            onChangeText={setLoginNewServant}
+                        />
+                        
+                        <Text style={styles.textPropTitle}>Senha (provisória)</Text>
+                        <TextInput
+                            style={styles.textInputPropValue}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            value={passwordNewServant}
+                            onChangeText={setPasswordNewServant}
+                        />
+
+                        <Text style={styles.textPropTitle}>Tipo do novo servo</Text>
+                        <View style={styles.containerPickerTypeServants}>
+                            <Picker
+                                selectedValue={typeServant}
+                                onValueChange={(itemValue, itemIndex) => {
+                                    setTypeServant(itemValue);
+                                }}
+                            >
+                                <Picker.Item label="Servo" value="Servo" />
+                                <Picker.Item label="Servo responsável pela chamada" value="Servo responsável pela chamada" />
+                                <Picker.Item label="Servo responsável geral" value="Servo responsável geral" />
+                            </Picker>
+                        </View>
                     </View>
 
                     <View style={styles.containerButtonsDoneClear}>

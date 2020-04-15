@@ -9,6 +9,8 @@ import styles from './styles';
 function Home({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
     const [opacityBackground, setOpacityBackground] = useState(1);
+    const [icon1, setIcon1] = useState("visibility"); // visibility || visibility-off
+    const [secureTextEntry1, setSecureTextEntry1] = useState(true);
 
     return (
         <View style={styles.container}>
@@ -23,14 +25,43 @@ function Home({ navigation }) {
             >
                 <View style={styles.containerModal}>
                     <Text style={styles.textTitleModal}>Servos</Text>
-                    <TextInput
-                        style={styles.textLoginPassword}
-                        placeholder="Digite seu login"
-                    />
-                    <TextInput
-                        style={styles.textLoginPassword}
-                        placeholder="Digite sua senha"
-                    />
+
+                    <View style={styles.containerForm}>
+                        <Text style={styles.textUserPassword}>Login</Text>
+                        <TextInput
+                            style={styles.textInputLogin}
+                            placeholder="Digite seu login"
+                            placeholderTextColor="#999"
+                            autoCapitalize={"none"}
+                            autoCorrect={false}
+                        />
+                        
+                        <Text style={styles.textUserPassword}>Senha</Text>
+                        <View style={styles.containerPassword}>
+                            <TextInput
+                                style={styles.textInputPassword}
+                                secureTextEntry={secureTextEntry1}
+                                placeholder="Digite sua senha"
+                                placeholderTextColor="#999"
+                                autoCapitalize={"none"}
+                                autoCorrect={false}
+                            />
+                            <TouchableOpacity
+                                onPress={() => {
+                                    if(icon1 === "visibility") {
+                                        setIcon1("visibility-off");
+                                        setSecureTextEntry1(false);
+                                    }
+                                    else {
+                                        setIcon1("visibility");
+                                        setSecureTextEntry1(true);
+                                    }
+                                }}
+                            >
+                                <MaterialIcons name={icon1} size={24} color="#6D6A69" />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
 
                     <View style={styles.containerButtonsDoneClear}>
                         <TouchableOpacity

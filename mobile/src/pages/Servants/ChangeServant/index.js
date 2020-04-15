@@ -4,7 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 
 import styles from './styles';
 
-function ProfileChange({ navigation }) {
+function ChangeServant({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
     const [opacityBackground, setOpacityBackground] = useState(1);
     
@@ -133,19 +133,20 @@ function ProfileChange({ navigation }) {
                 <View style={styles.containerModal}>
                     <Text style={styles.textModalHeader}>Alterar servo</Text>
 
-                    <TextInput
-                        style={styles.textInputNameServant}
-                        defaultValue={nameServant}
-                        autoCapitalize="words"
-                        autoCorrect={false}
-                        value={nameServant}
-                        onChangeText={setNameServant}
-                    />
-
-                    <View style={styles.containerTextInputAbsencesServant}>
-                        <Text style={{ fontSize: 16 }}>Faltas: </Text>
+                    <View style={styles.containerForm}>
+                        <Text style={styles.textPropTitle}>Nome</Text>
                         <TextInput
-                            style={styles.textInputAbsencesServant}
+                            style={styles.textInputPropValue}
+                            defaultValue={nameServant}
+                            autoCapitalize="words"
+                            autoCorrect={false}
+                            value={nameServant}
+                            onChangeText={setNameServant}
+                        />
+
+                        <Text style={styles.textPropTitle}>Faltas</Text>
+                        <TextInput
+                            style={styles.textInputPropValue}
                             defaultValue={String(absencesServant)}
                             autoCapitalize="words"
                             autoCorrect={false}
@@ -153,20 +154,20 @@ function ProfileChange({ navigation }) {
                             value={String(absencesServant)}
                             onChangeText={setAbsencesServant}
                         />
-                    </View>
 
-                    <View style={styles.containerPickerTypeServant}>
-                        <Picker
-                            selectedValue={typeServant}
-                            style={styles.pickerTypeServant}
-                            onValueChange={(itemValue, itemIndex) => {
-                                setTypeServant(itemValue);
-                            }}
-                        >
-                            <Picker.Item label="Servo" value="Servo" />
-                            <Picker.Item label="Servo responsável pela chamada" value="Servo responsável pela chamada" />
-                            <Picker.Item label="Servo responsável geral" value="Servo responsável geral" />
-                        </Picker>
+                        <Text style={styles.textPropTitle}>Tipo do servo</Text>
+                        <View style={styles.containerPickerTypeServants}>
+                            <Picker
+                                selectedValue={typeServant}
+                                onValueChange={(itemValue, itemIndex) => {
+                                    setTypeServant(itemValue);
+                                }}
+                            >
+                                <Picker.Item label="Servo" value="Servo" />
+                                <Picker.Item label="Servo responsável pela chamada" value="Servo responsável pela chamada" />
+                                <Picker.Item label="Servo responsável geral" value="Servo responsável geral" />
+                            </Picker>
+                        </View>
                     </View>
 
                     <View style={styles.containerButtonsDoneClear}>
@@ -223,4 +224,4 @@ function ProfileChange({ navigation }) {
     );
 }
 
-export default ProfileChange;
+export default ChangeServant;

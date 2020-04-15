@@ -8,14 +8,12 @@ export default StyleSheet.create({
 
     //Modal Cadastrar
     containerModal: {
-        backgroundColor: "#E7E7E7",
-        height: 270,
-        marginTop: 120,
+        backgroundColor: "#FFF",
+        height: 470,
+        marginTop: 30,
         marginBottom: 200,
         marginHorizontal: 10,
         alignItems: 'center',
-        borderColor: "#4278D0",
-        borderWidth: 1,
     },
     textModalHeader: {
         marginVertical: 10,
@@ -30,14 +28,28 @@ export default StyleSheet.create({
         fontSize: 16,
         paddingHorizontal: 8,
     },
+
+    containerForm: {
+        width: 280,
+    },
+
+    textPropTitle: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        marginTop: 20,
+        marginBottom: 5,
+    },
+    textInputPropValue: {
+        borderBottomWidth: 1,
+        fontSize: 18,
+    },
+
     containerPickerTypeServants: {
         backgroundColor: "#fff",
-        marginTop: 10,
+        borderWidth: 1,
+        borderRadius: 8,
     },
-    pickerTypeServant: {
-        height: 50,
-        width: 300,
-    },
+    
     containerButtonsDoneClear: {
         marginTop: 25,
         flexDirection: "row",

@@ -8,14 +8,12 @@ export default StyleSheet.create({
 
     //Modal Cadastrar
     containerModal: {
-        backgroundColor: "#E7E7E7",
+        backgroundColor: "#FFF",
         height: 200,
         marginVertical: 200,
         marginHorizontal: 10,
         alignItems: 'center',
         justifyContent: 'center',
-        borderColor: "#4278D0",
-        borderWidth: 1,
     },
     textModalHeader: {
         padding: 10,
@@ -46,7 +44,7 @@ export default StyleSheet.create({
         marginTop: 10,
     },
     searchDay: {
-        backgroundColor: "#fff",
+        backgroundColor: "#FFF",
         height: 40,
         borderRadius: 25,
         fontSize: 16,
@@ -58,7 +56,7 @@ export default StyleSheet.create({
         // marginBottom: 10,
     },
     headerAccordion: {
-        backgroundColor: '#141932',
+        backgroundColor: '#000',
         padding: 10,
         flexDirection: 'row',
     },
@@ -69,7 +67,7 @@ export default StyleSheet.create({
         textAlign: 'left',
     },
     contentAccordion: {
-        backgroundColor: '#141932',
+        backgroundColor: '#000',
         marginLeft: 30,
     },
     textContentAccordion: {

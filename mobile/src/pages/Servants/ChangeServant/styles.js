@@ -8,50 +8,38 @@ export default StyleSheet.create({
 
     //Modal Cadastrar
     containerModal: {
-        backgroundColor: "#E7E7E7",
-        height: 320,
+        backgroundColor: "#FFF",
+        height: 400,
         marginTop: 80,
         marginBottom: 200,
         marginHorizontal: 10,
         alignItems: 'center',
-        borderColor: "#4278D0",
-        borderWidth: 1,
     },
     textModalHeader: {
         marginVertical: 10,
         fontWeight: "bold",
         fontSize: 30,
     },
-    textInputNameServant: {
-        backgroundColor: "#fff",
-        marginTop: 10,
-        width: 300,
-        height: 40,
-        fontSize: 16,
-        paddingHorizontal: 8,
+
+    containerForm: {
+        width: 280,
     },
-    containerTextInputAbsencesServant: {
-        backgroundColor: "#fff",
-        flexDirection: "row",
-        marginTop: 10,
-        width: 300,
-        height: 40,
-        paddingHorizontal: 8,
-        alignItems: "center",
+
+    textPropTitle: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        marginTop: 20,
+        marginBottom: 5,
     },
-    textInputAbsencesServant: {
-        backgroundColor: "#fff",
-        width: 200,
-        fontSize: 16,
-        marginTop: 3,
+    textInputPropValue: {
+        borderBottomWidth: 1,
+        fontSize: 18,
     },
-    containerPickerTypeServant: {
+
+    containerPickerTypeServants: {
         backgroundColor: "#fff",
-        marginTop: 10,
-    },
-    pickerTypeServant: {
-        height: 50,
-        width: 300,
+        borderWidth: 1,
+        borderRadius: 8,
     },
     containerButtonsDoneClear: {
         marginTop: 25,
@@ -59,6 +47,7 @@ export default StyleSheet.create({
         justifyContent: "space-between",
         width: 280,
     },
+
     buttonsDoneClear: {
         height: 50,
         width: 60,

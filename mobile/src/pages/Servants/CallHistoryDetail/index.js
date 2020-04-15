@@ -15,32 +15,32 @@ function CallHistoryDetail({ navigation }) {
 
     var varArrayServants = [
         {
-            _id: "1",
+            id: "1",
             name: "Rafael Rosman Rodrigues Montrezol",
             absences: 1,
         },
         {
-            _id: "2",
+            id: "2",
             name: "João Carlos de Jesus Silva Dias",
             absences: 3,
         },
         {
-            _id: "3",
+            id: "3",
             name: "Maria Joana da Silva Rodrigues Colarinho",
             absences: 2.5,
         },
         {
-            _id: "4",
+            id: "4",
             name: "Rafael Rosman Rodrigues Montrezol",
             absences: 1,
         },
         {
-            _id: "5",
+            id: "5",
             name: "João Carlos de Jesus Silva Dias",
             absences: 3,
         },
         {
-            _id: "6",
+            id: "6",
             name: "Maria Joana da Silva Rodrigues Colarinho",
             absences: 2.5,
         },

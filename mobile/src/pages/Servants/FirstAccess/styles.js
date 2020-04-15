@@ -6,16 +6,23 @@ export default StyleSheet.create({
         flex: 1,
     },
 
+    containerWarning: {
+        marginTop: 10,
+        backgroundColor: '#000',
+        paddingHorizontal: 20,
+    },
     textWarning: {
+        marginTop: 5,
         fontSize: 18,
-        padding: 20,
-        textAlign: 'justify',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        color: '#FFF'
     },
 
     containerForm: {
-        padding: 5,
+        paddingHorizontal: 5,
         marginBottom: 30,
-        width: 330,
+        width: 320,
     },
 
     textTitle: {
@@ -23,7 +30,6 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         marginTop: 20,
     },
-
     textInputUser: {
         marginTop: 5,
         borderBottomWidth: 1,
@@ -40,18 +46,6 @@ export default StyleSheet.create({
     textInputPassword: {
         fontSize: 18,
         width: 280,
-    },
-
-    textUser: {
-        fontSize: 14,
-        fontWeight: 'bold',
-        marginTop: 20,
-    },
-    textInputUser: {
-        marginTop: 5,
-        borderBottomWidth: 1,
-        fontSize: 18,
-        paddingVertical: 2,
     },
 
     button: {

@@ -1,83 +1,81 @@
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import Home from './pages/Home';
 import FirstAccess from './pages/Servants/FirstAccess';
 import Main from './pages/Servants/Main';
-import ProfileChange from './pages/Servants/ProfileChange';
-import ProfileDelete from './pages/Servants/ProfileDelete';
+import ChangeServant from './pages/Servants/ChangeServant';
+import DeleteServant from './pages/Servants/DeleteServant';
 import Call from './pages/Servants/Call';
 import CallHistory from './pages/Servants/CallHistory';
 import CallHistoryDetail from './pages/Servants/CallHistoryDetail';
 
-const Routes = createAppContainer(
-    createStackNavigator({
-        Home: {
-            screen: Home,
-            navigationOptions: {
-                headerShown: false,
-            },
-        }, 
-        FirstAccess: {
-            screen: FirstAccess,
-            navigationOptions: {
-                title: 'Primeiro acesso'
-            },
-        },
-        Main: {
-            screen: Main,
-            navigationOptions: {
-                title: 'Servos'
-            },
-        },
-        Call: {
-            screen: Call,
-            navigationOptions: {
-                title: 'Chamada dos Servos'
-            },
-        },
-        CallHistory: {
-            screen: CallHistory,
-            navigationOptions: {
-                title: 'Histórico de chamadas'
-            },
-        },
-        CallHistoryDetail: {
-            screen: CallHistoryDetail,
-            navigationOptions: {
-                title: 'Histórico de chamada detalhada',
-                headerTitleStyle: {
-                    fontSize: 18,
-                    fontWeight: 'bold',
-                },
-            },
-        },
-        ProfileChange: {
-            screen: ProfileChange,
-            navigationOptions: {
-                title: 'Alterar servo'
-            },
-        },
-        ProfileDelete: {
-            screen: ProfileDelete,
-            navigationOptions: {
-                title: 'Excluir servo'
-            },
-        },
-    }, {
-        defaultNavigationOptions: {
-            headerTintColor: '#FFF',
-            headerBackTitleVisible: false,
-            headerTitleAlign: 'center',
-            headerTitleStyle: {
-                fontWeight: 'bold',
-            },
-            headerStyle: {
-                backgroundColor: '#141932',
-            },
-        },
-    },
-    )
-);
+const AppStack = createStackNavigator();
 
-export default Routes;
+export default function App() {
+    return (
+        <NavigationContainer>
+            <AppStack.Navigator
+                screenOptions={{
+                    headerTintColor: '#FFF',
+                    headerBackTitleVisible: false,
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                        fontWeight: 'bold',
+                    },
+                    headerStyle: {
+                        backgroundColor: '#141932',
+                    },
+                }}
+            >
+                <AppStack.Screen
+                    name="Home"
+                    component={Home}
+                    options={{ headerShown: false }}
+                />
+                <AppStack.Screen
+                    name="FirstAccess"
+                    component={FirstAccess}
+                    options={{ title: 'Primeiro acesso' }}
+                />
+                <AppStack.Screen
+                    name="Main"
+                    component={Main}
+                    options={{ title: 'Servos' }}
+                />
+                <AppStack.Screen
+                    name="ChangeServant"
+                    component={ChangeServant}
+                    options={{ title: 'Alterar servo' }}
+                />
+                <AppStack.Screen
+                    name="DeleteServant"
+                    component={DeleteServant}
+                    options={{ title: 'Excluir servo' }}
+                />
+                <AppStack.Screen
+                    name="Call"
+                    component={Call}
+                    options={{ title: 'Chamada dos Servos' }}
+                />
+                <AppStack.Screen
+                    name="CallHistory"
+                    component={CallHistory}
+                    options={{ title: 'Histórico de chamadas' }}
+                />
+                <AppStack.Screen
+                    name="CallHistoryDetail"
+                    component={CallHistoryDetail}
+                    options={{
+                        title: 'Histórico de chamada detalhada',
+                        headerTitleStyle: {
+                            fontSize: 18,
+                            fontWeight: 'bold',
+                        }
+                    }}
+                />
+            </AppStack.Navigator>
+        </NavigationContainer>
+    );
+}

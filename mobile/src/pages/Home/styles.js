@@ -11,26 +11,45 @@ export default StyleSheet.create({
 
     //Modal login
     containerModal: {
-        backgroundColor: "#E7E7E7",
-        height: 270,
-        marginTop: 150,
+        backgroundColor: "#FFF",
+        height: 300,
+        marginTop: 110,
         marginBottom: 200,
         marginHorizontal: 20,
         alignItems: 'center',
-        borderRadius: 5,
+        borderRadius: 8,
     },
+
     textTitleModal: {
         fontSize: 32,
         fontWeight: "bold",
         marginTop: 10,
     },
-    textLoginPassword: {
-        backgroundColor: "#FFF",
-        marginTop: 10,
-        width: 300,
-        height: 50,
-        padding: 5,
+
+    containerForm: {
+        width: 280,
     },
+
+    textUserPassword: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        marginTop: 20,
+        marginBottom: 5,
+    },
+    textInputLogin: {
+        borderBottomWidth: 1,
+        fontSize: 18,
+    },
+    containerPassword: {
+        flexDirection: 'row',
+        borderBottomWidth: 1,
+        justifyContent: 'space-between',
+        paddingVertical: 2,
+    },
+    textInputPassword: {
+        fontSize: 18,
+    },
+
     containerButtonsDoneClear: {
         marginTop: 25,
         flexDirection: "row",

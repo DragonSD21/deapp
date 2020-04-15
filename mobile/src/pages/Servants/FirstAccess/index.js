@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -16,9 +16,14 @@ function FirstAccess({ navigation }) {
 
             <View style={{ alignItems: 'center' }}>
 
-                <Text style={styles.textWarning}>
-                    ATENÇÃO: Este é seu primeiro acesso ao aplicativo com sua senha provisória. Favor defina sua senha definitiva para usa-lá em seus próximos acessos:
-                </Text>
+                <View style={styles.containerWarning}>
+                    <Text style={styles.textWarning}>
+                        {"> > > ATENÇÃO < < <"}
+                    </Text>
+                    <Text style={styles.textWarning}>
+                        Este é seu primeiro acesso ao aplicativo com sua senha provisória. Favor defina sua senha definitiva para usa-lá em seus próximos acessos:
+                    </Text>
+                </View>
 
                 <View style={styles.containerForm}>
 
