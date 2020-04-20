@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { View, Text, TextInput, TouchableOpacity, Alert, KeyboardAvoidingView, Platform } from 'react-native';
+// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import styles from './styles';
@@ -12,7 +12,11 @@ function FirstAccess({ navigation }) {
     const [secureTextEntry2, setSecureTextEntry2] = useState(true);
 
     return (
-        <KeyboardAwareScrollView style={styles.container}>
+
+        <KeyboardAvoidingView
+            behavior={Platform.Os == "ios" ? "padding" : "height"}
+            style={styles.container}
+        >
 
             <View style={{ alignItems: 'center' }}>
 
@@ -101,7 +105,7 @@ function FirstAccess({ navigation }) {
 
             </View>
 
-        </KeyboardAwareScrollView>
+            </KeyboardAvoidingView>
     );
 
 }

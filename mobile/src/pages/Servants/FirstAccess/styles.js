@@ -4,10 +4,12 @@ export default StyleSheet.create({
     container: {
         backgroundColor: "#FFF",
         flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 
     containerWarning: {
-        marginTop: 10,
+        marginTop: -50,
         backgroundColor: '#000',
         paddingHorizontal: 20,
     },
@@ -51,7 +53,7 @@ export default StyleSheet.create({
     button: {
         backgroundColor: "#3e56e8",
         marginTop: 50,
-        width: 100,
+        width: 320,
         height: 50,
         borderRadius: 8,
         flexDirection: 'row',

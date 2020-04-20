@@ -6,6 +6,36 @@ export default StyleSheet.create({
         flex: 1
     },
 
+    containerIconMenu: {
+        padding: 5,
+    },
+
+    containerMenu: {
+        backgroundColor: '#FFF',
+        width: 250,
+        height: '100%',
+        alignSelf: "flex-end",
+        // borderWidth: 1,
+        
+        position: 'absolute',
+    },
+    textHeaderMenu: {
+        paddingVertical: 10,
+        paddingLeft: 10,
+        fontSize: 18,
+        fontWeight: 'bold',
+        borderBottomWidth: 1,
+    },
+    buttonsMenu: {
+        padding: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    textButtonsMenu: {
+        fontSize: 22,
+        marginLeft: 10,
+    },
+
     //Modal Cadastrar
     containerModal: {
         backgroundColor: "#FFF",
@@ -94,7 +124,7 @@ export default StyleSheet.create({
     containerSearchServants: {
         paddingHorizontal: 20,
         paddingBottom: 10,
-        marginTop: -5,
+        marginTop: 10,
     },
     searchServants: {
         backgroundColor: "#fff",

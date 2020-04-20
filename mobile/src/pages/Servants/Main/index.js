@@ -1,6 +1,19 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { View, FlatList, Text, TouchableOpacity, TextInput, Modal, Picker } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import React, { useState, useEffect } from 'react';
+import { 
+    View, 
+    FlatList,
+    Text,
+    TouchableOpacity,
+    TextInput,
+    Modal,
+    Picker,
+    Animated,
+    TouchableWithoutFeedback, 
+    Dimensions
+} from 'react-native';
+import { PanGestureHandler, State } from 'react-native-gesture-handler';
+
+import { MaterialIcons, Feather } from '@expo/vector-icons';
 
 import styles from './styles';
 
@@ -8,6 +21,7 @@ function Main({ navigation }) {
     
     const [modalVisible, setModalVisible] = useState(false);
     const [opacityBackground, setOpacityBackground] = useState(1);
+    const [modalVisible2, setModalVisible2] = useState(false);
 
     const [arrayServants, setArrayServants] = useState([]);
 
@@ -18,6 +32,13 @@ function Main({ navigation }) {
     const [loginNewServant, setLoginNewServant] = useState("");
     const [passwordNewServant, setPasswordNewServant] = useState("12345");
     const [typeServant, setTypeServant] = useState("Servo");
+
+    const [textInputEditable, setTextInputEditable] = useState(true);
+
+    const translateX = new Animated.Value(0);
+    const widthScreen = Dimensions.get('window').width*0.7;
+    let offset = widthScreen;
+    let opened = true;
     
     var varArrayServants = [
         {
@@ -52,18 +73,31 @@ function Main({ navigation }) {
         },
     ];
 
-    useEffect(() => {
-        setArrayServants(
-            varArrayServants.sort(function (a, b) {
-                return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
-            })
-        );
-        setArrayServantsFiltered([]);
-    }, []);
+    translateX.setOffset(widthScreen);
+    translateX.setValue(0);
 
-    // navigation.setOptions({
-    //     title: 'Principal',
-    // });
+    navigation.setOptions({
+        headerRight: () => (
+            <TouchableOpacity
+                style={styles.containerIconMenu}
+                onPress={() => {
+                    opened = !opened;
+                    menuAnimated();
+                }}
+            >
+                <Feather name="menu" size={40} color="#FFF" />
+            </TouchableOpacity>
+        )
+    });
+
+    const animatedEvent = Animated.event([
+        {
+            nativeEvent: {
+                translationX: translateX,
+            }
+        }
+    ], { useNativeDriver: true });
+
 
     function renderItem({ item }) {
         var colorAbsences;
@@ -101,169 +135,204 @@ function Main({ navigation }) {
 
         setArrayServantsFiltered(arrayFiltered);
     }
+    
+    function menuAnimated() {
+
+        if(!opened) {
+            translateX.setValue(offset);
+            translateX.setOffset(0);
+            offset = 0;
+        }
+
+        Animated.timing(translateX, {
+            toValue: opened ? widthScreen : 0,
+            duration: 300,
+            useNativeDriver: true,
+        }).start(() => {
+            offset = opened ? widthScreen : 0;
+            translateX.setOffset(offset);
+            translateX.setValue(0);
+        });
+
+    }
+
+    function onHandlerStateChange(event) {
+        if(event.nativeEvent.oldState === State.ACTIVE) {
+            opened = false;
+            const { translationX } = event.nativeEvent;
+
+            offset += translationX;
+
+            if(translationX >= 40) {
+                opened = true;
+            } else {
+                translateX.setValue(offset);
+                translateX.setOffset(0);
+                offset = 0;
+            }
+
+            Animated.timing(translateX, {
+                toValue: opened ? widthScreen : 0,
+                duration: 300,
+                useNativeDriver: true,
+            }).start(() => {
+                offset = opened ? widthScreen : 0;
+                translateX.setOffset(offset);
+                translateX.setValue(0);
+            });
+        }
+    }
+
+    useEffect(() => {
+        setArrayServants(
+            varArrayServants.sort(function (a, b) {
+                return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
+            })
+        );
+
+        setArrayServantsFiltered([]);
+        setTextInputEditable(true);
+    }, []);
 
     return (
         <View style={styles.container}>
-            <Modal
-                animationType="fade"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => { 
-                    setOpacityBackground(1);
-                    setModalVisible(!modalVisible) 
+
+            <TouchableWithoutFeedback
+                onPress={() => {
+                    opened = true;
+                    menuAnimated();
                 }}
             >
-                <View style={styles.containerModal}>
-                    <Text style={styles.textModalHeader}>Novo servo</Text>
+                <Animated.View
+                    style={{
+                        flex: 1,
+                        opacity: translateX.interpolate({
+                            inputRange: [0, 100],
+                            outputRange: [0.5, 1],
+                            extrapolate: 'clamp'
+                        }) }}
+                >
 
-                    <View style={styles.containerForm}>
-                        <Text style={styles.textPropTitle}>Nome</Text>
+                    <View style={styles.containerSearchServants}>
                         <TextInput
-                            style={styles.textInputPropValue}
-                            placeholder="Digite o nome do novo servo"
+                            style={styles.searchServants}
+                            placeholder="Pesquisar servo..."
                             placeholderTextColor="#999"
                             autoCapitalize="words"
                             autoCorrect={false}
-                            value={nameNewServant}
-                            onChangeText={() => {
-                                setNameNewServant(nameNewServant);
-                                var aux = nameNewServant.split(" ");
-                                
-                            }}
+                            value={textSearchServants}
+                            onChangeText={filterServants}
+                            editable={textInputEditable}
                         />
-
-                        <Text style={styles.textPropTitle}>Login (por padrão o primeiro e ultimo nome)</Text>
-                        <TextInput
-                            style={styles.textInputPropValue}
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                            value={loginNewServant}
-                            onChangeText={setLoginNewServant}
-                        />
-                        
-                        <Text style={styles.textPropTitle}>Senha (provisória)</Text>
-                        <TextInput
-                            style={styles.textInputPropValue}
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                            value={passwordNewServant}
-                            onChangeText={setPasswordNewServant}
-                        />
-
-                        <Text style={styles.textPropTitle}>Tipo do novo servo</Text>
-                        <View style={styles.containerPickerTypeServants}>
-                            <Picker
-                                selectedValue={typeServant}
-                                onValueChange={(itemValue, itemIndex) => {
-                                    setTypeServant(itemValue);
-                                }}
-                            >
-                                <Picker.Item label="Servo" value="Servo" />
-                                <Picker.Item label="Servo responsável pela chamada" value="Servo responsável pela chamada" />
-                                <Picker.Item label="Servo responsável geral" value="Servo responsável geral" />
-                            </Picker>
-                        </View>
                     </View>
 
-                    <View style={styles.containerButtonsDoneClear}>
-                        <TouchableOpacity
-                            style={styles.buttonsDoneClear}
-                            onPress={() => { 
-                                setOpacityBackground(1);
-                                setModalVisible(!modalVisible) 
-                            }}
-                        >
-                            <MaterialIcons name="clear" size={50} color="#FF0000" />
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.buttonsDoneClear}
-                            onPress={() => { 
-                                setOpacityBackground(1);
-                                setModalVisible(!modalVisible)
-                            }}
-                        >
-                            <MaterialIcons name="done" size={50} color="#247E16" />
-                        </TouchableOpacity>
-                    </View>
-
-                </View>
-
-            </Modal>
-
-            <View style={{ flex: 1, opacity: opacityBackground }}>
-
-                <View style={styles.containerButtonsTop}>
-                    <TouchableOpacity 
-                        onPress={() => {
-                            navigation.navigate('Call')
-                        }}
-                        style={styles.buttonsTop}
-                    >
-                        <MaterialIcons name="add-circle-outline" size={30} color="#FFF" />
-                        <Text style={[styles.textButtonsTop, {marginLeft: 5}]}>Chamada</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        onPress={() => {
-                            navigation.navigate('CallHistory')
-                        }}
-                        style={styles.buttonsTop}
-                    >
-                        <Text style={styles.textButtonsTop}>Histórico</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={styles.containerSearchServants}>
-                    <TextInput
-                        style={styles.searchServants}
-                        placeholder="Pesquisar servo..."
-                        placeholderTextColor="#999"
-                        autoCapitalize="words"
-                        autoCorrect={false}
-                        value={textSearchServants}
-                        onChangeText={filterServants}
+                    <FlatList
+                        contentContainerStyle={styles.list}
+                        data={
+                            arrayServantsFiltered && arrayServantsFiltered.length > 0 ? arrayServantsFiltered : arrayServants
+                        }
+                        keyExtractor={item => item._id}
+                        renderItem={renderItem}
                     />
-                </View>
+                
+                </Animated.View>
+            </TouchableWithoutFeedback>
+            
+            <PanGestureHandler
+                onGestureEvent={animatedEvent}
+                onHandlerStateChange={onHandlerStateChange}
+            >
+                <Animated.View
+                    style={[styles.containerMenu, 
+                        {
+                            transform: [{
+                                translateX: translateX.interpolate({
+                                    inputRange: [0, widthScreen],
+                                    outputRange: [0, widthScreen],
+                                    extrapolate: 'clamp'
+                                })
+                            }],
+                        }
+                    ]}
+                >
 
-                <FlatList
-                    contentContainerStyle={styles.list}
-                    data={
-                        arrayServantsFiltered && arrayServantsFiltered.length > 0 ? arrayServantsFiltered : arrayServants
-                    }
-                    keyExtractor={item => item._id}
-                    renderItem={renderItem}
-                />
-
-                <View style={styles.containerButtonsBottom}>
-                    <TouchableOpacity
-                        onPress={() => {
-                            setOpacityBackground(0.5);
-                            setModalVisible(true);
-                        }}
-                        style={[styles.buttonsBottom, {marginRight: 30}]}
-                    >
-                        <Text style={styles.textButtonsBottom}>Cadastrar</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity 
-                        onPress={() => {
-                            navigation.navigate('ProfileChange')
-                        }}
-                        style={[styles.buttonsBottom, {marginRight: 30}]}
-                    >
-                        <Text style={styles.textButtonsBottom}>Alterar</Text>
-                    </TouchableOpacity>
+                    <Text style={styles.textHeaderMenu}>Rafael Montrezol</Text>
 
                     <TouchableOpacity
+                        style={styles.buttonsMenu}
                         onPress={() => {
-                            navigation.navigate('ProfileDelete')
+                            // setOpacityBackground(1);
+                            // setModalVisible2(false);
+                            // navigation.navigate('');
                         }}
-                        style={styles.buttonsBottom}
                     >
-                        <Text style={styles.textButtonsBottom}>Excluir</Text>
+                        <Feather name="user" size={30} />
+                        <Text style={styles.textButtonsMenu}>Perfil</Text>
                     </TouchableOpacity>
-                </View>
-            </View>
+
+                    <TouchableOpacity
+                        style={styles.buttonsMenu}
+                        onPress={() => {
+                            setOpacityBackground(1);
+                            setModalVisible2(false);
+                            navigation.navigate('CallHistory');
+                        }}
+                    >
+                        <Feather name="file-text" size={30} />
+                        <Text style={styles.textButtonsMenu}>Histórico de chamadas</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.buttonsMenu}
+                        onPress={() => {
+                            setOpacityBackground(1);
+                            setModalVisible2(false);
+                            navigation.navigate('Call');
+                        }}
+                    >
+                        <Feather name="file-plus" size={30} />
+                        <Text style={styles.textButtonsMenu}>Nova chamada</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.buttonsMenu}
+                        onPress={() => {
+                            // setOpacityBackground(1);
+                            // setModalVisible2(false);
+                            // navigation.navigate('')
+                        }}
+                    >
+                        <Feather name="user-plus" size={30} />
+                        <Text style={styles.textButtonsMenu}>Novo servo</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.buttonsMenu}
+                        onPress={() => {
+                            setOpacityBackground(1);
+                            setModalVisible2(false);
+                            navigation.navigate('ChangeServant');
+                        }}
+                    >
+                        <Feather name="user-check" size={30} />
+                        <Text style={styles.textButtonsMenu}>Alterar servo</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.buttonsMenu}
+                        onPress={() => {
+                            setOpacityBackground(1);
+                            setModalVisible2(false);
+                            navigation.navigate('DeleteServant');
+                        }}
+                    >
+                        <Feather name="user-x" size={30} />
+                        <Text style={styles.textButtonsMenu}>Excluir servo</Text>
+                    </TouchableOpacity>
+
+                </Animated.View>
+            </PanGestureHandler>
+
         </View>
     );
 }

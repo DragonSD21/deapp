@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Home from './pages/Home';
 import FirstAccess from './pages/Servants/FirstAccess';
 import Main from './pages/Servants/Main';
+import AddServant from './pages/Servants/AddServant';
 import ChangeServant from './pages/Servants/ChangeServant';
 import DeleteServant from './pages/Servants/DeleteServant';
 import Call from './pages/Servants/Call';
@@ -43,6 +44,11 @@ export default function App() {
                     name="Main"
                     component={Main}
                     options={{ title: 'Servos' }}
+                />
+                <AppStack.Screen
+                    name="AddServant"
+                    component={AddServant}
+                    options={{ title: 'Adicionar servo' }}
                 />
                 <AppStack.Screen
                     name="ChangeServant"
