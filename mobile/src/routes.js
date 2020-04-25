@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Home from './pages/Home';
 import FirstAccess from './pages/Servants/FirstAccess';
 import Main from './pages/Servants/Main';
+import Profile from './pages/Servants/Profile';
 import AddServant from './pages/Servants/AddServant';
 import ChangeServant from './pages/Servants/ChangeServant';
 import DeleteServant from './pages/Servants/DeleteServant';
@@ -30,7 +31,7 @@ export default function App() {
                     },
                 }}
             >
-                <AppStack.Screen
+                {/* <AppStack.Screen
                     name="Home"
                     component={Home}
                     options={{ headerShown: false }}
@@ -46,9 +47,14 @@ export default function App() {
                     options={{ title: 'Servos' }}
                 />
                 <AppStack.Screen
+                    name="Profile"
+                    component={Profile}
+                    options={{ title: 'Perfil' }}
+                /> */}
+                <AppStack.Screen
                     name="AddServant"
                     component={AddServant}
-                    options={{ title: 'Adicionar servo' }}
+                    options={{ title: 'Novo servo' }}
                 />
                 <AppStack.Screen
                     name="ChangeServant"

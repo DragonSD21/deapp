@@ -23,11 +23,6 @@ function Main({ navigation }) {
 
     const [textSearchServants, setTextSearchServants] = useState("");
     const [arrayServantsFiltered, setArrayServantsFiltered] = useState([]);
-    
-    const [nameNewServant, setNameNewServant] = useState("");
-    const [loginNewServant, setLoginNewServant] = useState("");
-    const [passwordNewServant, setPasswordNewServant] = useState("12345");
-    const [typeServant, setTypeServant] = useState("Servo");
 
     const inputSearchServantRef = useRef(null);
 
@@ -91,7 +86,6 @@ function Main({ navigation }) {
             }
         }
     ], { useNativeDriver: true });
-
 
     function renderItem({ item }) {
         var colorAbsences;
@@ -266,9 +260,9 @@ function Main({ navigation }) {
                     <TouchableOpacity
                         style={styles.buttonsMenu}
                         onPress={() => {
-                            // opened = false;
-                            // navigation.navigate('');
-                            // menuAnimated();
+                            opened = false;
+                            navigation.navigate('Profile');
+                            menuAnimated();
                         }}
                     >
                         <Feather name="user" size={30} />
@@ -302,9 +296,9 @@ function Main({ navigation }) {
                     <TouchableOpacity
                         style={styles.buttonsMenu}
                         onPress={() => {
-                            // opened = false;
-                            // navigation.navigate('');
-                            // menuAnimated();
+                            opened = false;
+                            navigation.navigate('AddServant');
+                            menuAnimated();
                         }}
                     >
                         <Feather name="user-plus" size={30} />
