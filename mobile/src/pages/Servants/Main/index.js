@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
     View, 
     FlatList,
@@ -18,10 +18,6 @@ import { MaterialIcons, Feather } from '@expo/vector-icons';
 import styles from './styles';
 
 function Main({ navigation }) {
-    
-    const [modalVisible, setModalVisible] = useState(false);
-    const [opacityBackground, setOpacityBackground] = useState(1);
-    const [modalVisible2, setModalVisible2] = useState(false);
 
     const [arrayServants, setArrayServants] = useState([]);
 
@@ -33,12 +29,12 @@ function Main({ navigation }) {
     const [passwordNewServant, setPasswordNewServant] = useState("12345");
     const [typeServant, setTypeServant] = useState("Servo");
 
-    const [textInputEditable, setTextInputEditable] = useState(true);
+    const inputSearchServantRef = useRef(null);
 
-    const translateX = new Animated.Value(0);
+    const translateX = useRef(new Animated.Value(0)).current;
     const widthScreen = Dimensions.get('window').width*0.7;
     let offset = widthScreen;
-    let opened = true;
+    let opened = false;
     
     var varArrayServants = [
         {
@@ -73,15 +69,13 @@ function Main({ navigation }) {
         },
     ];
 
-    translateX.setOffset(widthScreen);
-    translateX.setValue(0);
-
     navigation.setOptions({
         headerRight: () => (
             <TouchableOpacity
                 style={styles.containerIconMenu}
                 onPress={() => {
                     opened = !opened;
+                    inputSearchServantRef.current.blur();
                     menuAnimated();
                 }}
             >
@@ -132,24 +126,25 @@ function Main({ navigation }) {
                 return item.name.includes(searchText);
             }
         )
-
+        
+        if(arrayFiltered == []) alert('aqui');
         setArrayServantsFiltered(arrayFiltered);
     }
-    
+
     function menuAnimated() {
 
-        if(!opened) {
+        if(opened) {
             translateX.setValue(offset);
             translateX.setOffset(0);
             offset = 0;
         }
 
         Animated.timing(translateX, {
-            toValue: opened ? widthScreen : 0,
+            toValue: opened ? 0 : widthScreen,
             duration: 300,
             useNativeDriver: true,
         }).start(() => {
-            offset = opened ? widthScreen : 0;
+            offset = opened ? 0 : widthScreen;
             translateX.setOffset(offset);
             translateX.setValue(0);
         });
@@ -158,13 +153,15 @@ function Main({ navigation }) {
 
     function onHandlerStateChange(event) {
         if(event.nativeEvent.oldState === State.ACTIVE) {
-            opened = false;
+            opened = true;
+            // setOpened(false);
             const { translationX } = event.nativeEvent;
 
             offset += translationX;
 
             if(translationX >= 40) {
-                opened = true;
+                opened = false;
+                // setOpened(true);
             } else {
                 translateX.setValue(offset);
                 translateX.setOffset(0);
@@ -172,14 +169,15 @@ function Main({ navigation }) {
             }
 
             Animated.timing(translateX, {
-                toValue: opened ? widthScreen : 0,
+                toValue: opened ? 0 : widthScreen,
                 duration: 300,
                 useNativeDriver: true,
             }).start(() => {
-                offset = opened ? widthScreen : 0;
+                offset = opened ? 0 : widthScreen;
                 translateX.setOffset(offset);
                 translateX.setValue(0);
             });
+
         }
     }
 
@@ -191,7 +189,10 @@ function Main({ navigation }) {
         );
 
         setArrayServantsFiltered([]);
-        setTextInputEditable(true);
+
+        translateX.setOffset(0);
+        translateX.setValue(widthScreen);
+
     }, []);
 
     return (
@@ -199,7 +200,7 @@ function Main({ navigation }) {
 
             <TouchableWithoutFeedback
                 onPress={() => {
-                    opened = true;
+                    opened = false;
                     menuAnimated();
                 }}
             >
@@ -222,14 +223,18 @@ function Main({ navigation }) {
                             autoCorrect={false}
                             value={textSearchServants}
                             onChangeText={filterServants}
-                            editable={textInputEditable}
+                            ref={inputSearchServantRef}
+                            onFocus={() => {
+                                opened = false;
+                                menuAnimated();
+                            }}
                         />
                     </View>
 
                     <FlatList
                         contentContainerStyle={styles.list}
                         data={
-                            arrayServantsFiltered && arrayServantsFiltered.length > 0 ? arrayServantsFiltered : arrayServants
+                            textSearchServants !== "" ? arrayServantsFiltered : arrayServants
                         }
                         keyExtractor={item => item._id}
                         renderItem={renderItem}
@@ -261,9 +266,9 @@ function Main({ navigation }) {
                     <TouchableOpacity
                         style={styles.buttonsMenu}
                         onPress={() => {
-                            // setOpacityBackground(1);
-                            // setModalVisible2(false);
+                            // opened = false;
                             // navigation.navigate('');
+                            // menuAnimated();
                         }}
                     >
                         <Feather name="user" size={30} />
@@ -273,9 +278,9 @@ function Main({ navigation }) {
                     <TouchableOpacity
                         style={styles.buttonsMenu}
                         onPress={() => {
-                            setOpacityBackground(1);
-                            setModalVisible2(false);
+                            opened = false;
                             navigation.navigate('CallHistory');
+                            menuAnimated();
                         }}
                     >
                         <Feather name="file-text" size={30} />
@@ -285,9 +290,9 @@ function Main({ navigation }) {
                     <TouchableOpacity
                         style={styles.buttonsMenu}
                         onPress={() => {
-                            setOpacityBackground(1);
-                            setModalVisible2(false);
+                            opened = false;
                             navigation.navigate('Call');
+                            menuAnimated();
                         }}
                     >
                         <Feather name="file-plus" size={30} />
@@ -297,9 +302,9 @@ function Main({ navigation }) {
                     <TouchableOpacity
                         style={styles.buttonsMenu}
                         onPress={() => {
-                            // setOpacityBackground(1);
-                            // setModalVisible2(false);
-                            // navigation.navigate('')
+                            // opened = false;
+                            // navigation.navigate('');
+                            // menuAnimated();
                         }}
                     >
                         <Feather name="user-plus" size={30} />
@@ -309,9 +314,9 @@ function Main({ navigation }) {
                     <TouchableOpacity
                         style={styles.buttonsMenu}
                         onPress={() => {
-                            setOpacityBackground(1);
-                            setModalVisible2(false);
+                            opened = false;
                             navigation.navigate('ChangeServant');
+                            menuAnimated();
                         }}
                     >
                         <Feather name="user-check" size={30} />
@@ -321,9 +326,9 @@ function Main({ navigation }) {
                     <TouchableOpacity
                         style={styles.buttonsMenu}
                         onPress={() => {
-                            setOpacityBackground(1);
-                            setModalVisible2(false);
+                            opened = false;
                             navigation.navigate('DeleteServant');
+                            menuAnimated();
                         }}
                     >
                         <Feather name="user-x" size={30} />
