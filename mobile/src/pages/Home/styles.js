@@ -50,20 +50,21 @@ export default StyleSheet.create({
         fontSize: 18,
     },
 
-    containerButtonsDoneClear: {
-        marginTop: 25,
+    containerButtonsModal: {
+        marginTop: 40,
+        paddingHorizontal: 25,
         flexDirection: "row",
         justifyContent: "space-between",
-        width: 280,
+        width: '100%',
     },
-    buttonsDoneClear: {
-        height: 50,
-        width: 60,
-        borderWidth: 2,
-        borderColor: "#979191",
-        borderRadius: 5,
-        alignItems: "center",
-        justifyContent: "center"
+    buttonsModal: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    textButtonsModal: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#3866B7',
     },
 
     textTitle: {
