@@ -40,7 +40,7 @@ function FirstAccess({ navigation }) {
             style={styles.container}
         >
 
-            <View style={{ alignItems: 'center' }}>
+            <View style={{ alignItems: 'center', justifyContent: 'flex-end' }}>
 
                 <View style={styles.containerWarning}>
                     <Text style={styles.textWarning}>

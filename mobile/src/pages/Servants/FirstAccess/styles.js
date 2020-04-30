@@ -4,12 +4,11 @@ export default StyleSheet.create({
     container: {
         backgroundColor: "#FFF",
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
     },
 
     containerWarning: {
-        marginTop: -50,
+        marginTop: 20,
         backgroundColor: '#000',
         paddingHorizontal: 20,
     },

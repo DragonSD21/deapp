@@ -4,8 +4,7 @@ export default StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: 50,
-        // justifyContent: 'center', //Alinhar na vertical
-        alignItems: 'center', //Alinhar na horizontal
+        alignItems: 'center',
         backgroundColor: '#000',
     },
 
