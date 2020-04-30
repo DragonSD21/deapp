@@ -77,18 +77,11 @@ export default StyleSheet.create({
         fontSize: 16,
         fontWeight: "bold",
     },
-
-    containerJustification: {
-        height: 50,
-        width: 300,
-        borderWidth: 1,
-        borderRadius: 5,
-        borderColor: "#cbcbcb",
-        justifyContent: 'center',
-        marginTop: 5,
-    },
     textJustification: {
-        fontSize: 16,
+        marginTop: 5,
+        fontSize: 18,
+        width: '100%',
+        borderBottomWidth: 1,
     },
 
     //Parte inferior

@@ -3,10 +3,10 @@ import { View, FlatList, Text, TouchableOpacity, TextInput } from 'react-native'
 
 import styles from './styles';
 
-function CallHistoryDetail({ navigation }) {
+function CallHistoryDetail({ route, navigation }) {
 
-    const date = navigation.getParam('date');
-    const schedule = navigation.getParam('schedule');
+    const { date } = route.params;
+    const { schedule } = route.params;
     const dateSchedule = date + " - " + schedule.substring(0, 5) + " " + schedule.substring(22);
     const [arrayServants, setArrayServants] = useState([]);
 
@@ -87,7 +87,7 @@ function CallHistoryDetail({ navigation }) {
     }
 
     function filterServants(searchText) {
-        setTextSearchServo(searchText);
+        setTextSearchServant(searchText);
 
         let arrayFiltered  = arrayServants.filter(
             function (item) {
@@ -119,7 +119,7 @@ function CallHistoryDetail({ navigation }) {
             <FlatList
                 contentContainerStyle={styles.list}
                 data={
-                    arrayServantsFiltered && arrayServantsFiltered.length > 0 ? arrayServantsFiltered : arrayServants
+                    textSearchServant !== "" ? arrayServantsFiltered : arrayServants
                 }
                 keyExtractor={item => item.id}
                 renderItem={({ item }) => renderItem(item)}

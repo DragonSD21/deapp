@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, TextInput, Text, Picker, Alert } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
 
 import styles from './styles';
 

@@ -106,25 +106,23 @@ function Call({ navigation }) {
                         <Text style={styles.textAbsences}>{item.absences}</Text>
                     </View>
                 </View>
-                <View style={styles.containerJustification}>
-                    <TextInput 
-                        style={styles.textJustification}
-                        placeholder="Justificativa..."
-                        placeholderTextColor="#999"
-                        autoCapitalize="none"
-                        autoCorrect={true}
-                        defaultValue={""}
-                        value={arrayServants[indexServant].justification}
-                        onChangeText={text => {
-                            let aux = arrayServants;
-                            aux[indexServant].justification = text;
-                            // alert([indexServant, aux[indexServant].justification]);
-                            setArrayServants(aux);
-                            onSelect(item.id, 0); //<<<<<<<<<<<<<<< ARRUMAR ISSO AQUI
-                            // alert([arrayServants[indexServant].justification]);
-                        }}
-                    />
-                </View>
+                <TextInput 
+                    style={styles.textJustification}
+                    placeholder="Justificativa..."
+                    placeholderTextColor="#999"
+                    autoCapitalize="none"
+                    autoCorrect={true}
+                    defaultValue={""}
+                    value={arrayServants[indexServant].justification}
+                    onChangeText={text => {
+                        let aux = arrayServants;
+                        aux[indexServant].justification = text;
+                        // alert([indexServant, aux[indexServant].justification]);
+                        setArrayServants(aux);
+                        onSelect(item.id, 0); //<<<<<<<<<<<<<<< ARRUMAR ISSO AQUI
+                        // alert([arrayServants[indexServant].justification]);
+                    }}
+                />
             </TouchableOpacity>
 
         );

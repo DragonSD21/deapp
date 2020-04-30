@@ -9,7 +9,7 @@ export default StyleSheet.create({
     //Modal Cadastrar
     containerModal: {
         backgroundColor: "#FFF",
-        height: 400,
+        height: 380,
         marginTop: 80,
         marginBottom: 200,
         marginHorizontal: 10,
@@ -41,21 +41,21 @@ export default StyleSheet.create({
         borderWidth: 1,
         borderRadius: 8,
     },
-    containerButtonsDoneClear: {
+    containerButtonsModal: {
         marginTop: 25,
+        paddingHorizontal: 25,
         flexDirection: "row",
         justifyContent: "space-between",
-        width: 280,
+        width: '100%',
     },
-
-    buttonsDoneClear: {
-        height: 50,
-        width: 60,
-        borderWidth: 2,
-        borderColor: "#979191",
-        borderRadius: 5,
-        alignItems: "center",
-        justifyContent: "center"
+    buttonsModal: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    textButtonsModal: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#3866B7',
     },
 
     //Pesquisar servos

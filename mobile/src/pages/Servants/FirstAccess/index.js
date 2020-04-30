@@ -6,10 +6,32 @@ import { MaterialIcons } from '@expo/vector-icons';
 import styles from './styles';
 
 function FirstAccess({ navigation }) {
+
+    const [password1, setPassword1] = useState("");
     const [icon1, setIcon1] = useState("visibility"); // visibility || visibility-off
     const [secureTextEntry1, setSecureTextEntry1] = useState(true);
+
+    const [password2, setPassword2] = useState("");
     const [icon2, setIcon2] = useState('visibility'); // visibility || visibility-off
     const [secureTextEntry2, setSecureTextEntry2] = useState(true);
+
+    function updateBD() {
+        
+    }
+
+    function confirmChangePassword() {
+
+        if(password1 === password2) {
+            updateBD();
+            Alert.alert('Senha alterada com sucesso!', 'Bem vindo ao DÉApp! =D');
+            navigation.pop();
+            navigation.navigate('Main');
+        }
+        else {
+            // Ver o que fazer neste caso
+            alert('Senhas diferentes. Digite novamente.');
+        }
+    }
 
     return (
 
@@ -47,6 +69,8 @@ function FirstAccess({ navigation }) {
                             placeholderTextColor="#999"
                             autoCapitalize={"none"}
                             autoCorrect={false}
+                            value={password1}
+                            onChangeText={setPassword1}
                         />
                         <TouchableOpacity
                             onPress={() => {
@@ -73,6 +97,8 @@ function FirstAccess({ navigation }) {
                             placeholderTextColor="#999"
                             autoCapitalize={"none"}
                             autoCorrect={false}
+                            value={password2}
+                            onChangeText={setPassword2}
                         />
                         <TouchableOpacity
                             onPress={() => {
@@ -94,11 +120,7 @@ function FirstAccess({ navigation }) {
 
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => {
-                        Alert.alert('Senha alterada com sucesso!', 'Bem vindo ao DÉApp! =D');
-                        navigation.pop();
-                        navigation.navigate('Main');
-                    }}
+                    onPress={confirmChangePassword}
                 >
                     <Text style={styles.textButton}>Confirmar</Text>
                 </TouchableOpacity>

@@ -9,8 +9,22 @@ import styles from './styles';
 function Home({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
     const [opacityBackground, setOpacityBackground] = useState(1);
+
+    const [user, setUser] = useState("");
+    const [password, setPassword] = useState("");
+
     const [icon1, setIcon1] = useState("visibility"); // visibility || visibility-off
     const [secureTextEntry1, setSecureTextEntry1] = useState(true);
+
+    function confirmUserPasswordBD() {
+        // Verificar no BD se é existe o login e se a senha é a mesma. Se sim, return true
+        return true;
+    }
+
+    function verifyFirstAccessBD() {
+        // Verificar no BD se é o primeiro acesso. Se sim, return true
+        return true;
+    }
 
     return (
         <View style={styles.container}>
@@ -34,6 +48,8 @@ function Home({ navigation }) {
                             placeholderTextColor="#999"
                             autoCapitalize={"none"}
                             autoCorrect={false}
+                            value={user}
+                            onChangeText={setUser}
                         />
                         
                         <Text style={styles.textUserPassword}>Senha</Text>
@@ -45,6 +61,8 @@ function Home({ navigation }) {
                                 placeholderTextColor="#999"
                                 autoCapitalize={"none"}
                                 autoCorrect={false}
+                                value={password}
+                                onChangeText={setPassword}
                             />
                             <TouchableOpacity
                                 onPress={() => {
@@ -76,10 +94,22 @@ function Home({ navigation }) {
                         <TouchableOpacity
                             style={styles.buttonsDoneClear}
                             onPress={() => { 
-                                setOpacityBackground(1);
-                                setModalVisible(!modalVisible);
-                                // navigation.navigate('Main');
-                                navigation.navigate('FirstAccess');
+
+                                if(confirmUserPasswordBD()) {
+                                    setOpacityBackground(1);
+                                    setModalVisible(!modalVisible);
+                                    
+                                    if(verifyFirstAccessBD()) {
+                                        navigation.navigate('FirstAccess');
+                                    }
+                                    else {
+                                        navigation.navigate('Main');
+                                    }
+                                } else {
+                                    // Ver o que fazer neste caso
+                                    alert('Login ou senha incorretos. Digite novamente.');
+                                }
+
                             }}
                         >
                             <MaterialIcons name="done" size={50} color="#247E16" />
@@ -95,7 +125,6 @@ function Home({ navigation }) {
                 <TouchableOpacity style={[styles.buttonMain, { marginTop: 40 }]} onPress={() => {
                     setOpacityBackground(0.5);
                     setModalVisible(true);
-                    // navigation.navigate('ServosMain')
                 }}>
                     <Text style={styles.textButton}>Servos</Text>
                 </TouchableOpacity>

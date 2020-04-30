@@ -150,25 +150,25 @@ function CallHistory({ navigation }) {
                         Deseja confirmar a exclusão do histórico de chamadas? ESSA AÇÃO NÃO PODERÁ SER DESFEITA!
                     </Text>
 
-                    <View style={styles.containerButtonsDoneClear}>
+                    <View style={styles.containerButtonsModal}>
                         <TouchableOpacity
-                            style={styles.buttonsDoneClear}
+                            style={styles.buttonsModal}
                             onPress={() => { 
                                 setOpacityBackground(1);
                                 setModalVisible(!modalVisible) 
                             }}
                         >
-                            <MaterialIcons name="clear" size={50} color="#FF0000" />
+                            <Text style={styles.textButtonsModal}>Cancelar</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={styles.buttonsDoneClear}
+                            style={styles.buttonsModal}
                             onPress={() => {
                                 resetCall();
                                 setOpacityBackground(1);
                                 setModalVisible(!modalVisible)
                             }}
                         >
-                            <MaterialIcons name="done" size={50} color="#247E16" />
+                            <Text style={styles.textButtonsModal}>Confirmar</Text>
                         </TouchableOpacity>
                     </View>
 

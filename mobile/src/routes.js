@@ -31,7 +31,7 @@ export default function App() {
                     },
                 }}
             >
-                {/* <AppStack.Screen
+                <AppStack.Screen
                     name="Home"
                     component={Home}
                     options={{ headerShown: false }}
@@ -50,7 +50,7 @@ export default function App() {
                     name="Profile"
                     component={Profile}
                     options={{ title: 'Perfil' }}
-                /> */}
+                />
                 <AppStack.Screen
                     name="AddServant"
                     component={AddServant}

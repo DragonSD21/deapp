@@ -17,7 +17,7 @@ import { MaterialIcons, Feather } from '@expo/vector-icons';
 
 import styles from './styles';
 
-function Main({ navigation }) {
+function Main({ route, navigation }) {
 
     const [arrayServants, setArrayServants] = useState([]);
 
@@ -59,6 +59,21 @@ function Main({ navigation }) {
         },
         {
             _id: "6",
+            name: "Maria Joana da Silva Rodrigues Colarinho",
+            absences: 2.5,
+        },
+        {
+            _id: "7",
+            name: "Rafael Rosman Rodrigues Montrezol",
+            absences: 1,
+        },
+        {
+            _id: "8",
+            name: "João Carlos de Jesus Silva Dias",
+            absences: 3,
+        },
+        {
+            _id: "9",
             name: "Maria Joana da Silva Rodrigues Colarinho",
             absences: 2.5,
         },
@@ -192,12 +207,15 @@ function Main({ navigation }) {
     return (
         <View style={styles.container}>
 
-            <TouchableWithoutFeedback
+            {/* <TouchableWithoutFeedback
+                style={{ flex: 1 }}
                 onPress={() => {
-                    opened = false;
-                    menuAnimated();
+                    if(!opened) {
+                        opened = false;
+                        menuAnimated();
+                    }
                 }}
-            >
+            > */}
                 <Animated.View
                     style={{
                         flex: 1,
@@ -235,7 +253,7 @@ function Main({ navigation }) {
                     />
                 
                 </Animated.View>
-            </TouchableWithoutFeedback>
+            {/* </TouchableWithoutFeedback> */}
             
             <PanGestureHandler
                 onGestureEvent={animatedEvent}
