@@ -4,7 +4,7 @@ module.exports = {
 
     async index(request, response) {
         const servants = await connection('servants').select('*');
-        // const servants = await connection('servants').select('id', 'user', 'name', 'type', 'absences');
+        // const servants = await connection('servants').select('user', 'name', 'absences');
     
         return response.json(servants);
     },
@@ -13,6 +13,15 @@ module.exports = {
         const { user, password, name, type, ministry } = request.body;
         const passwordTemporary = true;
         const absences = 0;
+
+        const servant = await connection('servants')
+            .where('user', user)
+            .select('user')
+            .first();
+
+        if(servant) {
+            return response.status(400).json({ error: 'User already exists' });
+        }
 
         await connection('servants').insert({
             user,
@@ -33,32 +42,34 @@ module.exports = {
             ministry,
             absences,
         });
+
+        // return response.status(204).send();
+
     },
 
     async change(request, response) {
 
-        const { id } = request.params;
-        const { user, password, passwordTemporary, name, type, absences } = request.body;
+        const { user } = request.params;
+        const { name, type, ministry, absences } = request.body;
 
         await connection('servants')
-            .where('id', id)
+            .where('user', user)
             .update({
-                user,
-                password,
-                passwordTemporary,
                 name,
                 type,
-                absences,
+                ministry,
+                absences
             });
 
         return response.json({
             user,
-            password,
-            passwordTemporary,
             name,
             type,
-            absences,
+            ministry,
+            absences
         });
+
+        // return response.status(204).send();
     },
 
     async delete(request, response) {
