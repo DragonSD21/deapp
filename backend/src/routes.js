@@ -53,18 +53,4 @@ Call
             Adicionar chamada a tabela de chamadas
             Atualizar faltas de todos os servos
         }
-
-ChangeServant
-    Trocar dados do servo em questão - ServantsController
-        (user, name, falta, type, ministry) => {
-            Alterar dados do servo em questão pelos que foram passados
-            Se deu tudo certo, return true
-        }
-
-DeleteServant
-    Excluir servo em questão - ServantsController
-        (user) => {
-            Excluir servo em questão
-            Se deu tudo certo, return true
-        }
 */}
