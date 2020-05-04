@@ -22,3 +22,8 @@ Funcionalidades:
 	Deletar todas as chamadas
 	Listar todas as chamadas
 	Listar chamada de um dia em específico
+
+
+
+No backend:
+Fazer uma função que retorna a ultima chamada feita no dia (dados necessários: todos os servos, o que foi dado de falta pra cada um, qual foi a justificativa)

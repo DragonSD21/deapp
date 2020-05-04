@@ -31,7 +31,7 @@ export default function App() {
                     },
                 }}
             >
-                <AppStack.Screen
+                {/* <AppStack.Screen
                     name="Home"
                     component={Home}
                     options={{ headerShown: false }}
@@ -65,7 +65,7 @@ export default function App() {
                     name="DeleteServant"
                     component={DeleteServant}
                     options={{ title: 'Excluir servo' }}
-                />
+                /> */}
                 <AppStack.Screen
                     name="Call"
                     component={Call}

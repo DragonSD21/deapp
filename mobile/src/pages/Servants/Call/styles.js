@@ -78,9 +78,10 @@ export default StyleSheet.create({
         fontWeight: "bold",
     },
     textJustification: {
-        marginTop: 5,
+        marginTop: 15,
+        marginBottom: 5,
         fontSize: 18,
-        width: '100%',
+        width: '95%',
         borderBottomWidth: 1,
     },
 

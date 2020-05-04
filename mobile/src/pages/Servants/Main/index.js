@@ -191,6 +191,8 @@ function Main({ route, navigation }) {
     }
 
     useEffect(() => {
+        // Pegar o usuário atual e colocar no cabeçalho do menu lateral
+
         setArrayServants(
             varArrayServants.sort(function (a, b) {
                 return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);

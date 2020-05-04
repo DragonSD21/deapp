@@ -7,6 +7,7 @@ exports.up = function(knex) {
         table.boolean('passwordTemporary').notNullable();
         table.string('name').notNullable();
         table.string('type').notNullable();
+        table.string('ministry').notNullable();
         table.decimal('absences').notNullable();
     });
 };

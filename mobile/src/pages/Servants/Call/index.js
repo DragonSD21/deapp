@@ -12,6 +12,16 @@ YellowBox.ignoreWarnings([
   'VirtualizedLists should never be nested'
 ]);
 
+{/*
+Ao entrar nesta tela pela primeira vez, é criada uma nova chamada onde todos recebem falta inteira
+A cada nova chamada realizado em um meso dia, os valores são revistos para cada servo de acordo com a última chamda já feita no mesmo dia:
+|Anterior\Novo      | Presente          | Falta Justificada   | Falta inteira
+|Presente           | Não fazer nada    | Adicionar 0.5 falta | Adicionar 1 falta
+|Falta justificada  | Retirar 0.5 falta | Não fazer nada      | Adicionar 0.5 falta
+|Falta inteira      | Retirar 1 falta   | Retirar 0.5 falta   | Não fazer nada
+    
+*/}
+
 function Call({ navigation }) {
     const [selected, setSelected] = useState(new Map());
     const [arrayServants, setArrayServants] = useState([]);
