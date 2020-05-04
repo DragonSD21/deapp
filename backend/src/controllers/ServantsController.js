@@ -36,12 +36,7 @@ module.exports = {
     },
 
     async change(request, response) {
-        {/*
-            Colocar um Query Param para identificar qual será o tipo de alteração (typeChange):
-                passwordTemporary: alteração de senha devido ao primeiro acesso
-                password: alteração de senha pelo usuário
-                total: alteração de dados pelo servo superior
-        */}
+
         const { id } = request.params;
         const { user, password, passwordTemporary, name, type, absences } = request.body;
 

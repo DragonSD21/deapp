@@ -18,6 +18,9 @@ routes.delete('/calls', CallsController.delete);
 
 // routes.get('/absences', AbsencesController.index); //Query Params
 
+routes.get('/profile/:user', ProfileController.getProfile);
+routes.put('/profile/:user', ProfileController.changePassword);
+
 routes.post('/sessions', SessionController.create);
 
 module.exports = routes;
