@@ -40,6 +40,12 @@ module.exports = {
         
         const { user } = request.params;
 
+        const data = await connection('servants')
+            .where('user', user)
+            .select('user', 'name', 'type', 'ministry', 'absences')
+            .first();
+
+        return response.json(data);
 
     }
     
