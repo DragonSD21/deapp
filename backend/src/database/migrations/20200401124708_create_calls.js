@@ -5,12 +5,11 @@ exports.up = function(knex) {
 
         table.date('day').notNullable();
         table.time('time').notNullable();
-        table.boolean('absence').notNullable();
+        table.string('user').notNullable();
+        table.boolean('absences').notNullable();
         table.string('justification');
 
-        table.string('servant_id').notNullable();
-
-        table.foreign('servant_id').references('id').inTable('servants');
+        table.foreign('user').references('user').inTable('servants');
     });
 };
 

@@ -9,33 +9,33 @@ module.exports = {
     },
 
     async create(request, response) {
-        const { day, time, absence, justification, servant_id } = request.body;
+        const { day, time, servants } = request.body;
 
-        await connection('calls').insert({
-            day,
-            time,
-            absence,
-            justification,
-            servant_id,
+        await servants.forEach(async function (servant) {
+
+            const { user, absences, justification } = servant;
+            
+            await connection('calls').insert({
+                day,
+                time,
+                user,
+                absences, 
+                justification
+            });
+
+            // Atualizar falta no banco de dados do servo
+            await connection('servants')
+                .where('user', user)
+                .update('absences', absences);
+
         });
-
-        // Atualizar falta no banco de dados do servo
-        if(absence) {
-            if(justification === "") {
-                await connection('servants').where('id', servant_id).increment('absences', 1);
-            }
-            else {
-                await connection('servants').where('id', servant_id).increment('absences', 0.5);
-            }
-        }
 
         return response.json({
             day,
             time,
-            absence,
-            justification,
-            servant_id,
+            servants
         });
+
     },
 
     async delete(request, response) {
