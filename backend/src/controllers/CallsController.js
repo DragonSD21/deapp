@@ -35,18 +35,56 @@ module.exports = {
     },
 
     async getSpecific(request, response) {
+
         const { day, time } = request.query;
 
         const call = await connection('calls')
             .where({
-                'day': day,
-                'time': time
+                'calls.day': day,
+                'calls.time': time,
                 })
-            .select('user', 'absences', 'justification');
-
-        
+            .innerJoin('servants', 'calls.user', 'servants.user')
+            .select('calls.user', 'servants.name', 'calls.absences', 'calls.justification');
 
         return response.json(call);
+
+    },
+
+    async getLast(request, response) {
+
+        const { day } = request.query;
+
+        const calls = await connection('calls')
+            .select('day')
+            .where('id', (connection('calls').max('id')))
+            .first();
+
+        var callReturn = [];
+        if(calls.day === day) {
+            callReturn = await connection('calls')
+                .where({
+                    'calls.day': day,
+                    'calls.time': (connection('calls').max('time')),
+                    })
+                .innerJoin('servants', 'calls.user', 'servants.user')
+                .select('calls.user', 'servants.name', 'calls.absences', 'calls.justification');
+        }
+        else {
+            const servants = await connection('servants')
+                .select('user', 'name', 'absences')
+
+            servants.forEach((element) => {
+                callReturn.push({
+                    user: element.user,
+                    name: element.name,
+                    absences: element.absences + 1,
+                    justification: "",
+                })
+            });
+        }
+
+        return response.json(callReturn);
+
     },
 
     async create(request, response) {
