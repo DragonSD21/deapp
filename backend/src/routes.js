@@ -12,11 +12,10 @@ routes.post('/servants', ServantsController.create);
 routes.put('/servants/:user', ServantsController.change);
 routes.delete('/servants/:user', ServantsController.delete);
 
-routes.get('/calls', CallsController.index);
+routes.get('/calls', CallsController.getAll);
+routes.get('/specificcall', CallsController.getSpecific); //Query Params
 routes.post('/calls', CallsController.create);
 routes.delete('/calls', CallsController.delete);
-
-// routes.get('/absences', AbsencesController.index); //Query Params
 
 routes.get('/profile/:user', ProfileController.getProfile);
 routes.put('/profile/:user', ProfileController.changePassword);
@@ -31,12 +30,6 @@ CallHistory
     Lista de todas as chamadas já feitas - CallsController
         () => return (lista de dias e horários das chamadas já realizas)
 
-    Resetar chamadas - CallsController
-        () => {
-            Apagar todos os registros de chamdas
-            Colocar a falta de todos os servos para 0
-        }
-
 CallHistoryDetail
     Listar como foi a chamada de um dia e horário específico - CallsController
         (dia, horário) => return (nome, faltas, justificativa de todos os servos neste dia e horário)
@@ -46,11 +39,5 @@ Call
         (dia) => {
             return (nome, faltas, justificativa de todos os servos neste dia e horário)
             Se não houver chamada anterior no mesmo dia, retornar uma chamada "falsa" como se todos os servos tivessem levado falta inteira
-        }
-
-    Registrar chamada feita neste dia e horário - CallsController
-        (dia, horário, array de objetos(servos) com usuario, nome, faltas, justificativa) => {
-            Adicionar chamada a tabela de chamadas
-            Atualizar faltas de todos os servos
         }
 */}

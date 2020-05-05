@@ -2,10 +2,51 @@ const connection = require('../database/connection');
 
 module.exports = {
 
-    async index(request, response) {
-        const calls = await connection('calls').select('day', 'time');
+    async getAll(request, response) {
 
-        return response.json(calls);
+        const calls = await connection('calls')
+            .select('day', 'time')
+            .groupBy('day', 'time');
+
+        var callsFormat = [];
+        var i = -1;
+        var currentDay = "";
+        calls.forEach((element) => {
+
+            if(currentDay === element.day) {
+                callsFormat[i].time.push(element.time);
+            }
+            else {
+                var splitDay = element.day.split('-');
+                callsFormat.push({
+                    day: splitDay[2] + '/' + splitDay[1] + '/' + splitDay[0],
+                    time: [
+                        element.time
+                    ]
+                });
+                currentDay = element.day;
+                i++;
+            }
+
+        });
+
+        return response.json(callsFormat);
+        
+    },
+
+    async getSpecific(request, response) {
+        const { day, time } = request.query;
+
+        const call = await connection('calls')
+            .where({
+                'day': day,
+                'time': time
+                })
+            .select('user', 'absences', 'justification');
+
+        
+
+        return response.json(call);
     },
 
     async create(request, response) {
