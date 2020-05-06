@@ -3,8 +3,8 @@ const connection = require('../database/connection');
 module.exports = {
 
     async index(request, response) {
-        const servants = await connection('servants').select('*');
-        // const servants = await connection('servants').select('user', 'name', 'absences');
+        // const servants = await connection('servants').select('*');
+        const servants = await connection('servants').select('user', 'name', 'absences');
     
         return response.json(servants);
     },
@@ -33,17 +33,17 @@ module.exports = {
             absences,
         });
 
-        return response.json({
-            user,
-            password,
-            passwordTemporary,
-            name,
-            type,
-            ministry,
-            absences,
-        });
+        // return response.json({
+        //     user,
+        //     password,
+        //     passwordTemporary,
+        //     name,
+        //     type,
+        //     ministry,
+        //     absences,
+        // });
 
-        // return response.status(204).send();
+        return response.status(204).send();
 
     },
 
@@ -61,15 +61,15 @@ module.exports = {
                 absences
             });
 
-        return response.json({
-            user,
-            name,
-            type,
-            ministry,
-            absences
-        });
+        // return response.json({
+        //     user,
+        //     name,
+        //     type,
+        //     ministry,
+        //     absences
+        // });
 
-        // return response.status(204).send();
+        return response.status(204).send();
     },
 
     async delete(request, response) {

@@ -45,6 +45,10 @@ module.exports = {
             .select('user', 'name', 'type', 'ministry', 'absences')
             .first();
 
+        if(!data) {
+            return response.status(400).json({ error: 'Profile not found' });
+        }
+
         return response.json(data);
 
     }
