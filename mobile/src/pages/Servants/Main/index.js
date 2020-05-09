@@ -12,8 +12,9 @@ import {
     Dimensions
 } from 'react-native';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
-
 import { MaterialIcons, Feather } from '@expo/vector-icons';
+
+import api from '../../../services/api';
 
 import styles from './styles';
 
@@ -194,12 +195,15 @@ function Main({ route, navigation }) {
     }
 
     useEffect(() => {
-        
-        setArrayServants(
-            varArrayServants.sort(function (a, b) {
-                return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
-            })
-        );
+
+        const response = api.get("servants");
+        api.get("servants").then(response => {
+            setArrayServants(
+                response.data.sort(function (a, b) {
+                    return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
+                })
+            );
+        })
 
         setArrayServantsFiltered([]);
 
@@ -254,6 +258,7 @@ function Main({ route, navigation }) {
                             textSearchServants !== "" ? arrayServantsFiltered : arrayServants
                         }
                         keyExtractor={item => item._id}
+                        // keyExtractor={item => item.user}
                         renderItem={renderItem}
                     />
                 
