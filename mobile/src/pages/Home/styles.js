@@ -35,17 +35,21 @@ export default StyleSheet.create({
         marginTop: 20,
         marginBottom: 5,
     },
+    // containerUser: {
+    //     borderBottomWidth: 1,
+    // },
     textInputLogin: {
-        borderBottomWidth: 1,
+        // borderBottomWidth: 1,
         fontSize: 18,
     },
     containerPassword: {
         flexDirection: 'row',
-        borderBottomWidth: 1,
+        // borderBottomWidth: 1,
         justifyContent: 'space-between',
         paddingVertical: 2,
     },
     textInputPassword: {
+        width: '90%',
         fontSize: 18,
     },
 

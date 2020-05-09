@@ -18,6 +18,9 @@ import { MaterialIcons, Feather } from '@expo/vector-icons';
 import styles from './styles';
 
 function Main({ route, navigation }) {
+    
+    // const { user } = route.params;
+    const user = 'rafaelmontrezol';
 
     const [arrayServants, setArrayServants] = useState([]);
 
@@ -191,8 +194,7 @@ function Main({ route, navigation }) {
     }
 
     useEffect(() => {
-        // Pegar o usuário atual e colocar no cabeçalho do menu lateral
-
+        
         setArrayServants(
             varArrayServants.sort(function (a, b) {
                 return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
@@ -225,7 +227,8 @@ function Main({ route, navigation }) {
                             inputRange: [0, 100],
                             outputRange: [0.5, 1],
                             extrapolate: 'clamp'
-                        }) }}
+                        })
+                    }}
                 >
 
                     <View style={styles.containerSearchServants}>
@@ -275,13 +278,15 @@ function Main({ route, navigation }) {
                     ]}
                 >
 
-                    <Text style={styles.textHeaderMenu}>Rafael Montrezol</Text>
+                    <Text style={styles.textHeaderMenu}>{user}</Text>
 
                     <TouchableOpacity
                         style={styles.buttonsMenu}
                         onPress={() => {
                             opened = false;
-                            navigation.navigate('Profile');
+                            navigation.navigate('Profile', {
+                                user: user,
+                            });
                             menuAnimated();
                         }}
                     >

@@ -2,9 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Modal, Alert } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
+import api from '../../../services/api';
+
 import styles from './styles';
 
-function Profile({ navigation }) {
+function Profile({ route, navigation }) {
+
+    const { user } = route.params;
+    const [name, setName] = useState('');
+    const [type, setType] = useState('');
+    const [ministry, setMinistry] = useState('');
+    const [absences, setAbsences] = useState('');
 
     const [modalVisible, setModalVisible] = useState(false);
     const [opacityBackground, setOpacityBackground] = useState(1);
@@ -50,6 +58,18 @@ function Profile({ navigation }) {
         }
         
     }
+
+    useEffect(() => {
+        
+        api.get(`profile/${user}`)
+            .then(response => {
+                setName(response.data.name);
+                setType(response.data.type);
+                setMinistry(response.data.ministry);
+                setAbsences(response.data.absences);
+            });
+        
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -176,19 +196,19 @@ function Profile({ navigation }) {
 
             <View style={{ opacity: opacityBackground }}>
                 <Text style={styles.textPropTitle}>Nome</Text>
-                <Text style={styles.textPropValue}>Rafael Rosman Rodrigues Montrezol</Text>
+                <Text style={styles.textPropValue}>{name}</Text>
 
                 <Text style={styles.textPropTitle}>Usuário</Text>
-                <Text style={styles.textPropValue}>rafaelmontrezol</Text>
+                <Text style={styles.textPropValue}>{user}</Text>
 
                 <Text style={styles.textPropTitle}>Faltas</Text>
-                <Text style={styles.textPropValue}>2</Text>
+                <Text style={styles.textPropValue}>{absences}</Text>
 
                 <Text style={styles.textPropTitle}>Tipo de servo</Text>
-                <Text style={styles.textPropValue}>Servo geral</Text>
+                <Text style={styles.textPropValue}>{type}</Text>
 
                 <Text style={styles.textPropTitle}>Ministério</Text>
-                <Text style={styles.textPropValue}>Espitirualidade</Text>
+                <Text style={styles.textPropValue}>{ministry}</Text>
 
                 <TouchableOpacity
                     style={styles.buttonChangePassword}

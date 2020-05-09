@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import { View, TouchableOpacity, Text, Image, Modal, TextInput } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { View, TouchableOpacity, Text, Image, Modal, TextInput, Alert, Animated } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'
+
+import api from '../../services/api';
 
 import Logo from '../../../assets/LogoDEA.png';
 
@@ -16,15 +18,113 @@ function Home({ navigation }) {
     const [icon1, setIcon1] = useState("visibility"); // visibility || visibility-off
     const [secureTextEntry1, setSecureTextEntry1] = useState(true);
 
-    function confirmUserPasswordBD() {
-        // Verificar no BD se é existe o login e se a senha é a mesma. Se sim, return true
-        return true;
+    const borderBottomWidthUser = useRef(new Animated.Value(1)).current;
+    const borderBottomWidthPassword = useRef(new Animated.Value(1)).current;
+
+    const [colorTextUser, setColorTextUser] = useState('#000');
+    const [colorTextPassowrd, setColorTextPassowrd] = useState('#000');
+
+    function animationUser(event) {
+
+        if(event) {
+            Animated.timing(borderBottomWidthUser, {
+                toValue: 2,
+                duration: 300,
+            }).start(() => {
+                borderBottomWidthUser.setValue(2);
+            });
+        }
+        else {
+            Animated.timing(borderBottomWidthUser, {
+                toValue: 1,
+                duration: 300,
+            }).start(() => {
+                borderBottomWidthUser.setValue(1);
+            });
+        }
+
     }
 
-    function verifyFirstAccessBD() {
-        // Verificar no BD se é o primeiro acesso. Se sim, return true
-        return true;
+    function animationPassword(event) {
+
+        if(event) {
+            Animated.timing(borderBottomWidthPassword, {
+                toValue: 2,
+                duration: 300,
+            }).start(() => {
+                borderBottomWidthPassword.setValue(2);
+            });
+        }
+        else {
+            Animated.timing(borderBottomWidthPassword, {
+                toValue: 1,
+                duration: 300,
+            }).start(() => {
+                borderBottomWidthPassword.setValue(1);
+            });
+        }
+
     }
+
+    async function confirmData() {
+
+        const data = {
+            user,
+            password,
+        }
+
+        try {
+            const response = await api.post('sessions', data);
+
+            setOpacityBackground(1);
+            setModalVisible(false);
+
+            if(response.data) {
+                navigation.navigate('FirstAccess', data);
+            }
+            else {
+                navigation.navigate('Main', {
+                    user: user,
+                });
+            }
+
+        } catch (err) {
+            const errorType = err.response.data;
+
+            if(errorType.errorCode === -1) { //User
+                Alert.alert("Usuário não encontrado", "Tente novamente");
+
+                setColorTextUser('#FF0000');
+                setColorTextPassowrd('#FF0000');
+            }
+
+            if(errorType.errorCode === -2) { //Password
+                Alert.alert("Senha incorreta", "Tente novamente");
+
+                setColorTextUser('#000');
+                setColorTextPassowrd('#FF0000');
+            }
+
+        }
+
+    }
+
+    useEffect(() => {
+        setUser("");
+        setPassword("");
+
+        setIcon1("visibility");
+        setSecureTextEntry1(true);
+        
+        setOpacityBackground(1);
+        setModalVisible(false);
+
+        setColorTextUser('#000');
+        setColorTextPassowrd('#000');
+
+        borderBottomWidthUser.setValue(1);
+        borderBottomWidthPassword.setValue(1);
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -34,35 +134,73 @@ function Home({ navigation }) {
                 visible={modalVisible}
                 onRequestClose={() => { 
                     setOpacityBackground(1);
-                    setModalVisible(!modalVisible) 
+                    setModalVisible(!modalVisible)
                 }}
             >
                 <View style={styles.containerModal}>
                     <Text style={styles.textTitleModal}>Servos</Text>
 
                     <View style={styles.containerForm}>
-                        <Text style={styles.textUserPassword}>Login</Text>
-                        <TextInput
-                            style={styles.textInputLogin}
-                            placeholder="Digite seu login"
-                            placeholderTextColor="#999"
-                            autoCapitalize={"none"}
-                            autoCorrect={false}
-                            value={user}
-                            onChangeText={setUser}
-                        />
+                        <Text style={[
+                            styles.textUserPassword,
+                            {
+                                color: colorTextUser
+                            }
+                        ]}>
+                            Login
+                        </Text>
+                        <Animated.View style={{
+                            borderBottomWidth: borderBottomWidthUser.interpolate({
+                                inputRange: [1, 2],
+                                outputRange: [1, 2],
+                                extrapolate: 'clamp'
+                            }),
+                            borderBottomColor: colorTextUser
+                        }}>
+                            <TextInput
+                                style={styles.textInputLogin}
+                                placeholder="Digite seu login"
+                                placeholderTextColor='#999'
+                                autoCapitalize={"none"}
+                                autoCorrect={false}
+                                value={user}
+                                onChangeText={setUser}
+                                onFocus={() => animationUser(1)}
+                                onBlur={() => animationUser(0)}
+                            />
+                        </Animated.View>
                         
-                        <Text style={styles.textUserPassword}>Senha</Text>
-                        <View style={styles.containerPassword}>
+                        <Text style={[
+                            styles.textUserPassword,
+                            {
+                                color: colorTextPassowrd
+                            }
+                        ]}>
+                            Senha
+                        </Text>
+                        <Animated.View style={[
+                            styles.containerPassword,
+                            {
+                                borderBottomWidth: borderBottomWidthPassword.interpolate({
+                                    inputRange: [1, 2],
+                                    outputRange: [1, 2],
+                                    extrapolate: 'clamp'
+                                }),
+                                borderBottomColor: colorTextPassowrd
+                            }
+                            ]}
+                        >
                             <TextInput
                                 style={styles.textInputPassword}
                                 secureTextEntry={secureTextEntry1}
                                 placeholder="Digite sua senha"
-                                placeholderTextColor="#999"
+                                placeholderTextColor='#999'
                                 autoCapitalize={"none"}
                                 autoCorrect={false}
                                 value={password}
                                 onChangeText={setPassword}
+                                onFocus={() => animationPassword(1)}
+                                onBlur={() => animationPassword(0)}
                             />
                             <TouchableOpacity
                                 onPress={() => {
@@ -78,7 +216,7 @@ function Home({ navigation }) {
                             >
                                 <MaterialIcons name={icon1} size={24} color="#6D6A69" />
                             </TouchableOpacity>
-                        </View>
+                        </Animated.View>
                     </View>
 
                     <View style={styles.containerButtonsModal}>
@@ -93,24 +231,7 @@ function Home({ navigation }) {
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.buttonsModal}
-                            onPress={() => { 
-
-                                if(confirmUserPasswordBD()) {
-                                    setOpacityBackground(1);
-                                    setModalVisible(!modalVisible);
-                                    
-                                    if(verifyFirstAccessBD()) {
-                                        navigation.navigate('FirstAccess');
-                                    }
-                                    else {
-                                        navigation.navigate('Main');
-                                    }
-                                } else {
-                                    // Ver o que fazer neste caso
-                                    alert('Login ou senha incorretos. Digite novamente.');
-                                }
-
-                            }}
+                            onPress={confirmData}
                         >
                             <Text style={styles.textButtonsModal}>Confirmar</Text>
                         </TouchableOpacity>
@@ -128,9 +249,9 @@ function Home({ navigation }) {
                 }}>
                     <Text style={styles.textButton}>Servos</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.buttonMain} onPress={() => {}}>
+                {/* <TouchableOpacity style={styles.buttonMain} onPress={() => {}}>
                     <Text style={styles.textButton}>Encontristas</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity style={styles.buttonExit} onPress={() => {}}>
                     <Text style={styles.textExit}>SAIR</Text>
                 </TouchableOpacity>
