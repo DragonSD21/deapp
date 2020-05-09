@@ -13,7 +13,10 @@ module.exports = {
             .first();
 
         if(oldPassword !== servant.password) {
-            return response.status(400).json({ error: 'Old password incorrect' });
+            return response.status(400).json({
+                errorCode: 1,
+                errorDescription: 'Old password incorrect'
+            });
         }
 
         if(servant.passwordTemporary) { 
