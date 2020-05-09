@@ -10,7 +10,6 @@ function FirstAccess({ route, navigation }) {
 
     const { user, password } = route.params;
     const oldPassword = password;
-    // const user = rafaelmontrezol;
 
     const [password1, setPassword1] = useState("");
     const [icon1, setIcon1] = useState("visibility"); // visibility || visibility-off
@@ -110,11 +109,9 @@ function FirstAccess({ route, navigation }) {
                         oldPassword: oldPassword,
                         newPassword: password2,
                     }).then(response => {
-                        Alert.alert('Senha alterada com sucesso', 'Bem vindo ao DÉApp!');
+                        Alert.alert('Senha alterada com sucesso', 'Favor faça o login novamente com sua nova senha');
                         resetForm();
-                        navigation.navigate('Main', {
-                            user: user,
-                        });
+                        navigation.pop();
                     }).catch(err => {
                         Alert.alert(
                             'Erro no servidor',
