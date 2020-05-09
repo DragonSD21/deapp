@@ -66,6 +66,15 @@ function Home({ navigation }) {
 
     }
 
+    function resetForm() {
+        setUser("");
+        setColorTextUser('#000');
+        setPassword("");
+        setIcon1("visibility");
+        setSecureTextEntry1(true);
+        setColorTextPassowrd('#000');
+    }
+
     async function confirmData() {
 
         const data = {
@@ -87,6 +96,7 @@ function Home({ navigation }) {
                     user: user,
                 });
             }
+            resetForm();
 
         } catch (err) {
             const errorType = err.response.data;

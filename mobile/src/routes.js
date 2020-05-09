@@ -31,16 +31,16 @@ export default function App() {
                     },
                 }}
             >
-                {/* <AppStack.Screen
+                <AppStack.Screen
                     name="Home"
                     component={Home}
                     options={{ headerShown: false }}
-                /> */}
-                {/* <AppStack.Screen
+                />
+                <AppStack.Screen
                     name="FirstAccess"
                     component={FirstAccess}
                     options={{ title: 'Primeiro acesso' }}
-                /> */}
+                />
                 <AppStack.Screen
                     name="Main"
                     component={Main}

@@ -9,6 +9,7 @@ import styles from './styles';
 function Profile({ route, navigation }) {
 
     const { user } = route.params;
+    
     const [name, setName] = useState('');
     const [type, setType] = useState('');
     const [ministry, setMinistry] = useState('');

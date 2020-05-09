@@ -39,7 +39,7 @@ export default StyleSheet.create({
     },
     containerPassword: {
         flexDirection: 'row',
-        borderBottomWidth: 1,
+        // borderBottomWidth: 1,
         justifyContent: 'space-between',
         paddingVertical: 2,
         marginTop: 5,

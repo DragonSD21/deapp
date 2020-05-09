@@ -257,7 +257,7 @@ function Main({ route, navigation }) {
                         data={
                             textSearchServants !== "" ? arrayServantsFiltered : arrayServants
                         }
-                        keyExtractor={item => item._id}
+                        keyExtractor={item => item.user}
                         // keyExtractor={item => item.user}
                         renderItem={renderItem}
                     />
