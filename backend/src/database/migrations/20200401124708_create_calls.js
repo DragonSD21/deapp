@@ -6,7 +6,8 @@ exports.up = function(knex) {
         table.date('day').notNullable();
         table.time('time').notNullable();
         table.string('user').notNullable();
-        table.boolean('absences').notNullable();
+        table.boolean('present').notNullable();
+        table.string('absences').notNullable();
         table.string('justification');
 
         table.foreign('user').references('user').inTable('servants');

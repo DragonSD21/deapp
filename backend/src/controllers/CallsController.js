@@ -44,7 +44,7 @@ module.exports = {
                 'calls.time': time,
                 })
             .innerJoin('servants', 'calls.user', 'servants.user')
-            .select('calls.user', 'servants.name', 'calls.absences', 'calls.justification');
+            .select('calls.user', 'servants.name', 'calls.present', 'calls.absences', 'calls.justification');
 
         return response.json(call);
 
@@ -55,19 +55,37 @@ module.exports = {
         const { day } = request.query;
 
         const calls = await connection('calls')
-            .select('day')
+            .select('day', 'time')
             .where('id', (connection('calls').max('id')))
             .first();
 
         var callReturn = [];
+
+        if(calls == null) {
+            const servants = await connection('servants')
+                .select('user', 'name', 'absences')
+
+            servants.forEach((element) => {
+                callReturn.push({
+                    user: element.user,
+                    name: element.name,
+                    present: false,
+                    absences: element.absences + 1,
+                    justification: "",
+                })
+            });
+
+            return response.json(callReturn);
+        }
+
         if(calls.day === day) {
             callReturn = await connection('calls')
                 .where({
-                    'calls.day': day,
-                    'calls.time': (connection('calls').max('time')),
+                    'calls.day': calls.day,
+                    'calls.time': calls.time,
                     })
                 .innerJoin('servants', 'calls.user', 'servants.user')
-                .select('calls.user', 'servants.name', 'calls.absences', 'calls.justification');
+                .select('calls.user', 'servants.name', 'calls.present', 'calls.absences', 'calls.justification');
         }
         else {
             const servants = await connection('servants')
@@ -77,6 +95,7 @@ module.exports = {
                 callReturn.push({
                     user: element.user,
                     name: element.name,
+                    present: false,
                     absences: element.absences + 1,
                     justification: "",
                 })
@@ -92,12 +111,13 @@ module.exports = {
 
         await servants.forEach(async function (servant) {
 
-            const { user, absences, justification } = servant;
+            const { user, name, present, absences, justification } = servant;
             
             await connection('calls').insert({
                 day,
                 time,
                 user,
+                present,
                 absences, 
                 justification
             });
@@ -109,11 +129,13 @@ module.exports = {
 
         });
 
-        return response.json({
-            day,
-            time,
-            servants
-        });
+        // return response.json({
+        //     day,
+        //     time,
+        //     servants
+        // });
+
+        return response.status(204).send();
 
     },
 

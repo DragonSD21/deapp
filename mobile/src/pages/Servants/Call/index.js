@@ -1,26 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, FlatList, Text, TouchableOpacity, TextInput, Platform, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { View, FlatList, Text, TouchableOpacity, TextInput, Platform, KeyboardAvoidingView, ScrollView, Alert } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 // import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { MaterialIcons } from '@expo/vector-icons';
 import { parseISO, format } from 'date-fns';
 import { YellowBox } from 'react-native';
 
+import api from '../../../services/api';
+
 import styles from './styles';
 
 YellowBox.ignoreWarnings([
   'VirtualizedLists should never be nested'
 ]);
-
-{/*
-Ao entrar nesta tela pela primeira vez, é criada uma nova chamada onde todos recebem falta inteira
-A cada nova chamada realizado em um meso dia, os valores são revistos para cada servo de acordo com a última chamda já feita no mesmo dia:
-|Anterior\Novo      | Presente          | Falta Justificada   | Falta inteira
-|Presente           | Não fazer nada    | Adicionar 0.5 falta | Adicionar 1 falta
-|Falta justificada  | Retirar 0.5 falta | Não fazer nada      | Adicionar 0.5 falta
-|Falta inteira      | Retirar 1 falta   | Retirar 0.5 falta   | Não fazer nada
-    
-*/}
 
 function Call({ navigation }) {
     const [selected, setSelected] = useState(new Map());
@@ -29,67 +21,76 @@ function Call({ navigation }) {
     const [textSearchServant, setTextSearchServant] = useState("");
     const [arrayServantsFiltered, setArrayServantsFiltered] = useState([]);
 
-    var varArrayServants = [
-        {
-            id: "1",
-            name: "ARafael Rosman Rodrigues Montrezol",
-            absences: 1,
-            justification: "",
-        },
-        {
-            id: "2",
-            name: "Nathalia Emily de Oliveira Pinto",
-            absences: 3,
-            justification: "",
-        },
-        {
-            id: "3",
-            name: "Maria Joana da Silva Rodrigues Colarinho",
-            absences: 2.5,
-            justification: "",
-        },
-        {
-            id: "4",
-            name: "Rafael Rosman Rodrigues Montrezol",
-            absences: 1,
-            justification: "",
-        },
-        {
-            id: "5",
-            name: "João Carlos de Jesus Silva Dias",
-            absences: 3,
-            justification: "",
-        },
-        {
-            id: "6",
-            name: "Maria Joana da Silva Rodrigues Colarinho",
-            absences: 2.5,
-            justification: "",
-        },
-    ];
+    const [temp, setTemp] = useState(true);
 
-    useEffect(() => {
-        setSelected(new Map());
-        setArrayServants(
-            varArrayServants.sort(function (a, b) {
-                return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
-            })
-        );
-        setArrayServantsFiltered([]);
-    }, []);
+    const date = new Date();
+    const formattedDate = format(date, 'dd/MM/yyyy');
+    const formattedDateBD = format(date, 'yyyy-MM-dd');
 
-    const onSelect = useCallback(
-        (id, confirm) => {
-                const newSelected = new Map(selected);
-                if(confirm) newSelected.set(id, !selected.get(id));
-                setSelected(newSelected);
-        },
-        [selected],
-    );
+    async function getLastCall() {
+
+        await api.get("lastcall", {
+            params: { day: formattedDateBD }
+        }).then(response => {
+            setArrayServants(
+                response.data.sort(function (a, b) {
+                    return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
+                })
+            );
+        });
+
+    }
+
+    async function confirmCall() {
+        const dateAtt = new Date();
+        var hour = dateAtt.getHours();
+        var min = dateAtt.getMinutes();
+        var time = hour + ':' + min;
+
+        // await api.post("calls", {
+        //     day: formattedDateBD,
+        //     time: time,
+        //     servants: arrayServants
+        // }).then(response => {
+        //     Alert.alert('Chamada realizada com sucesso!');
+        //     navigation.pop();
+        // }).catch(err => {
+        //     Alert.alert("Erro no servidor", "Tente novamente mais tarde");
+        // });
+
+    }
+
+    function setAbsences(user, index) {
+        if(!selected.get(user)) {
+            if(arrayServants[index].justification === "") {
+                arrayServants[index].absences -= 1;
+            }
+            else {
+                arrayServants[index].justification = "";
+                arrayServants[index].absences -= 0.5;
+            }
+        } 
+        else {
+            if(arrayServants[index].justification === "") {
+                arrayServants[index].absences += 1;
+            }
+            else {
+                arrayServants[index].absences += 0.5;
+            }
+        }
+        setArrayServants(arrayServants);
+    }
+
+    const onSelect = useCallback((user) => {
+        const newSelected = new Map(selected);
+        newSelected.set(user, !selected.get(user));
+        setSelected(newSelected);
+    }, [selected]);
     
     function renderItem(item, selected) {
         var colorAbsences;
         var indexServant = arrayServants.indexOf(item);
+        var oldJustification = false;
 
         if(item.absences < 1.5) {
             colorAbsences = "#70aa5e";
@@ -104,10 +105,13 @@ function Call({ navigation }) {
         return (
             <TouchableOpacity
                 activeOpacity={0.2}
-                onPress={() => onSelect(item.id, 1)}
+                onPress={() => {
+                    onSelect(item.user);
+                    setAbsences(item.user, indexServant);
+                }}
                 style={[
                     styles.containerItem,
-                    { backgroundColor: selected.get(item.id) ? '#B2B6BD' : '#fff' }
+                    { backgroundColor: selected.get(item.user) ? '#B2B6BD' : '#fff' }
                 ]}
             >
                 <View style={styles.containerHorizontal}>
@@ -125,21 +129,39 @@ function Call({ navigation }) {
                     defaultValue={""}
                     value={arrayServants[indexServant].justification}
                     onChangeText={text => {
-                        let aux = arrayServants;
-                        aux[indexServant].justification = text;
-                        // alert([indexServant, aux[indexServant].justification]);
-                        setArrayServants(aux);
-                        onSelect(item.id, 0); //<<<<<<<<<<<<<<< ARRUMAR ISSO AQUI
-                        // alert([arrayServants[indexServant].justification]);
+                        arrayServants[indexServant].justification = text;
+                        setArrayServants(arrayServants);
+                        setTemp(!temp);
+                    }}
+                    onFocus={() => {
+                        if(arrayServants[indexServant].justification === "") {
+                            oldJustification = false;
+                        }
+                        else {
+                            oldJustification = true;
+                        }
+                    }}
+                    onBlur={() => {
+                        if(!selected.get(item.user)) {
+                            if(!oldJustification) {
+                                if(arrayServants[indexServant].justification !== "") {
+                                    arrayServants[indexServant].absences -= 0.5;
+                                }
+                            }
+                            else {
+                                if(arrayServants[indexServant].justification === "") {
+                                    arrayServants[indexServant].absences += 0.5;
+                                }
+                            }
+                        }
+                        setArrayServants(arrayServants);
+                        setTemp(!temp);
                     }}
                 />
             </TouchableOpacity>
 
         );
     }
-
-    const date = new Date();
-    const formattedDate = format(date, 'dd/MM/yyyy');
 
     function filterServants(searchText) {
         setTextSearchServant(searchText);
@@ -153,17 +175,19 @@ function Call({ navigation }) {
         setArrayServantsFiltered(arrayFiltered);
     }
 
-    function confirmCall() {
-        // for(var servant in arrayServants) {
-        //     if(selected.get(servant.id)) {
-        //         if(servant.justification == "") servant.absences++;
-        //         else servant.absences++;
-        //     }
-        // }
-        // for(var servant in arrayServants) {
-        //     alert(servant.absences);
-        // }
-    }
+    useEffect(() => {
+        setSelected(new Map());
+        getLastCall();
+        setArrayServantsFiltered([]);
+
+        arrayServants.forEach(element => {
+            element.absences = parseFloat(element.absences);
+        });
+
+        setArrayServants(arrayServants);
+
+    }, []);
+
 
     return (
         <View style={styles.container}>
@@ -191,7 +215,7 @@ function Call({ navigation }) {
                     data={
                         arrayServantsFiltered && arrayServantsFiltered.length > 0 ? arrayServantsFiltered : arrayServants
                     }
-                    keyExtractor={item => item.id}
+                    keyExtractor={item => item.user}
                     renderItem={({ item }) => renderItem(item, selected)}
                     extraData={onSelect}
                 />
@@ -206,10 +230,7 @@ function Call({ navigation }) {
                         <Text style={styles.textButtonsBottom}>Cancelar</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={() => {
-                            confirmCall();
-                            // navigation.navigate('ServantsMain');
-                        }}
+                        onPress={confirmCall}
                         style={styles.buttonBottom}
                     >
                         <Text style={styles.textButtonsBottom}>Confirmar</Text>

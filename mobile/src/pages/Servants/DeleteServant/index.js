@@ -32,7 +32,7 @@ function DeleteServant({ navigation }) {
                 Alert.alert('Servo excluído com sucesso!');
             })
             .catch(err => {
-            Alert.alert("Erro no servidor", "Tente novamente mais tarde");
+                Alert.alert("Erro no servidor", "Tente novamente mais tarde");
             });
 
         getServants();
