@@ -5,14 +5,11 @@ import {
     Text,
     TouchableOpacity,
     TextInput,
-    Modal,
-    Picker,
     Animated,
-    TouchableWithoutFeedback, 
     Dimensions
 } from 'react-native';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
-import { MaterialIcons, Feather } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 
 import api from '../../../services/api';
 
@@ -20,8 +17,7 @@ import styles from './styles';
 
 function Main({ route, navigation }) {
     
-    // const { user } = route.params;
-    const user = 'rafaelmontrezol';
+    const { user } = route.params;
 
     const [arrayServants, setArrayServants] = useState([]);
 
@@ -34,54 +30,6 @@ function Main({ route, navigation }) {
     const widthScreen = Dimensions.get('window').width*0.7;
     let offset = widthScreen;
     let opened = false;
-    
-    var varArrayServants = [
-        {
-            _id: "1",
-            name: "Rafael Rosman Rodrigues Montrezol",
-            absences: 1,
-        },
-        {
-            _id: "2",
-            name: "João Carlos de Jesus Silva Dias",
-            absences: 3,
-        },
-        {
-            _id: "3",
-            name: "Maria Joana da Silva Rodrigues Colarinho",
-            absences: 2.5,
-        },
-        {
-            _id: "4",
-            name: "Rafael Rosman Rodrigues Montrezol",
-            absences: 1,
-        },
-        {
-            _id: "5",
-            name: "João Carlos de Jesus Silva Dias",
-            absences: 3,
-        },
-        {
-            _id: "6",
-            name: "Maria Joana da Silva Rodrigues Colarinho",
-            absences: 2.5,
-        },
-        {
-            _id: "7",
-            name: "Rafael Rosman Rodrigues Montrezol",
-            absences: 1,
-        },
-        {
-            _id: "8",
-            name: "João Carlos de Jesus Silva Dias",
-            absences: 3,
-        },
-        {
-            _id: "9",
-            name: "Maria Joana da Silva Rodrigues Colarinho",
-            absences: 2.5,
-        },
-    ];
 
     navigation.setOptions({
         headerRight: () => (
@@ -97,6 +45,16 @@ function Main({ route, navigation }) {
             </TouchableOpacity>
         )
     });
+
+    async function getServants() {
+        api.get("servants").then(response => {
+            setArrayServants(
+                response.data.sort(function (a, b) {
+                    return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
+                })
+            );
+        });
+    }
 
     const animatedEvent = Animated.event([
         {
@@ -195,15 +153,10 @@ function Main({ route, navigation }) {
     }
 
     useEffect(() => {
-
-        const response = api.get("servants");
-        api.get("servants").then(response => {
-            setArrayServants(
-                response.data.sort(function (a, b) {
-                    return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
-                })
-            );
-        })
+        
+        navigation.addListener('focus', e => {
+            getServants();
+        });
 
         setArrayServantsFiltered([]);
 
@@ -215,55 +168,45 @@ function Main({ route, navigation }) {
     return (
         <View style={styles.container}>
 
-            {/* <TouchableWithoutFeedback
-                style={{ flex: 1 }}
-                onPress={() => {
-                    if(!opened) {
-                        opened = false;
-                        menuAnimated();
-                    }
+            <Animated.View
+                style={{
+                    flex: 1,
+                    opacity: translateX.interpolate({
+                        inputRange: [0, 100],
+                        outputRange: [0.5, 1],
+                        extrapolate: 'clamp'
+                    })
                 }}
-            > */}
-                <Animated.View
-                    style={{
-                        flex: 1,
-                        opacity: translateX.interpolate({
-                            inputRange: [0, 100],
-                            outputRange: [0.5, 1],
-                            extrapolate: 'clamp'
-                        })
-                    }}
-                >
+            >
 
-                    <View style={styles.containerSearchServants}>
-                        <TextInput
-                            style={styles.searchServants}
-                            placeholder="Pesquisar servo..."
-                            placeholderTextColor="#999"
-                            autoCapitalize="words"
-                            autoCorrect={false}
-                            value={textSearchServants}
-                            onChangeText={filterServants}
-                            ref={inputSearchServantRef}
-                            onFocus={() => {
-                                opened = false;
-                                menuAnimated();
-                            }}
-                        />
-                    </View>
-
-                    <FlatList
-                        contentContainerStyle={styles.list}
-                        data={
-                            textSearchServants !== "" ? arrayServantsFiltered : arrayServants
-                        }
-                        keyExtractor={item => item.user}
-                        // keyExtractor={item => item.user}
-                        renderItem={renderItem}
+                <View style={styles.containerSearchServants}>
+                    <TextInput
+                        style={styles.searchServants}
+                        placeholder="Pesquisar servo..."
+                        placeholderTextColor="#999"
+                        autoCapitalize="words"
+                        autoCorrect={false}
+                        value={textSearchServants}
+                        onChangeText={filterServants}
+                        ref={inputSearchServantRef}
+                        onFocus={() => {
+                            opened = false;
+                            menuAnimated();
+                        }}
                     />
-                
-                </Animated.View>
-            {/* </TouchableWithoutFeedback> */}
+                </View>
+
+                <FlatList
+                    contentContainerStyle={styles.list}
+                    data={
+                        textSearchServants !== "" ? arrayServantsFiltered : arrayServants
+                    }
+                    keyExtractor={item => item.user}
+                    // keyExtractor={item => item.user}
+                    renderItem={renderItem}
+                />
+            
+            </Animated.View>
             
             <PanGestureHandler
                 onGestureEvent={animatedEvent}

@@ -1,70 +1,176 @@
-import React, { useState, useEffect } from 'react';
-import { View, FlatList, Text, TouchableOpacity, TextInput, Modal, Picker } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons'
+import React, { useState, useEffect, useRef } from 'react';
+import { View, FlatList, Text, TouchableOpacity, TextInput, Modal, Picker, Alert, Animated } from 'react-native';
+
+import api from '../../../services/api';
 
 import styles from './styles';
 
 function ChangeServant({ navigation }) {
+    const [arrayServants, setArrayServants] = useState([]);
+
+    const [arrayServantsFiltered, setArrayServantsFiltered] = useState([]);
+    const [textSearchServant, setTextSearchServant] = useState("");
+
+    const [user, setUser] = useState("");
+    const [name, setName] = useState("");
+    const [absences, setAbsences] = useState("");
+    const [type, setType] = useState("");
+    const [ministry, setMinistry] = useState("");
+
     const [modalVisible, setModalVisible] = useState(false);
     const [opacityBackground, setOpacityBackground] = useState(1);
     
-    const [idServant, setIdServant] = useState("");
-    const [nameServant, setNameServant] = useState("");
-    const [absencesServant, setAbsencesServant] = useState("");
-    const [typeServant, setTypeServant] = useState("");
+    const borderBottomWidthName = useRef(new Animated.Value(1)).current;
+    const borderBottomWidthAbsences = useRef(new Animated.Value(1)).current;
 
-    const [textSearchServant, setTextSearchServant] = useState("");
-    const [arrayServantsFiltered, setArrayServantsFiltered] = useState([]);
-    
-    var varArrayServants = [
-        {
-            _id: "1",
-            name: "Rafael Rosman Rodrigues Montrezol",
-            absences: 1,
-        },
-        {
-            _id: "2",
-            name: "João Carlos de Jesus Silva Dias",
-            absences: 3,
-        },
-        {
-            _id: "3",
-            name: "Maria Joana da Silva Rodrigues Colarinho",
-            absences: 2.5,
-        },
-        {
-            _id: "4",
-            name: "Rafael Rosman Rodrigues Montrezol",
-            absences: 1,
-        },
-        {
-            _id: "5",
-            name: "João Carlos de Jesus Silva Dias",
-            absences: 3,
-        },
-        {
-            _id: "6",
-            name: "Maria Joana da Silva Rodrigues Colarinho",
-            absences: 2.5,
-        },
-    ];
-    const [arrayServants, setArrayServants] = useState([]);
-    useEffect(() => {
-        setArrayServants(
-            varArrayServants.sort(function (a, b) {
-                return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
-            })
-        );
-        setArrayServantsFiltered([]);
-    }, []);
+    const [colorTextName, setColorTextName] = useState('#000');
+    const [colorTextAbsences, setColorTextAbsences] = useState('#000');
 
-    function updateServant() {indIndex(obj => obj._id === idServant);
-        arrayServants[indexServant].name = nameServant;
-        if(absencesServant == "") arrayServants[indexServant].absences = "0";
-        else arrayServants[indexServant].absences = absencesServant;
-        arrayServants[indexServant].type = typeServant;
+    function confirmName(name) {
 
-        setArrayServants(arrayServants);
+        if(name === "") {
+            Alert.alert(
+                'Erro no nome',
+                'Nome não pode ser vazio. Tente novamente'
+            );
+            return false;
+        }
+
+        return true;
+    }
+
+    function confirmAbsences(absences) {
+
+        if(absences === "") {
+            Alert.alert(
+                'Erro nas faltas',
+                'Falta não pode ser vazia. Tente novamente'
+            );
+            return false;
+        }
+
+        const numberAbsences = parseFloat(absences);
+
+        if(numberAbsences < 0) {
+            Alert.alert(
+                'Erro nas faltas',
+                'Falta não pode ser negativa. Tente novamente'
+            );
+            return false;
+        }
+
+        if(isNaN(numberAbsences)) {
+            Alert.alert(
+                'Erro nas faltas',
+                'Falta não é um número. Tente novamente'
+            );
+            return false;
+        }
+
+        return true;
+    }
+
+    function resetForm() {
+        setColorTextName('#000');
+        setColorTextAbsences('#000');
+    }
+
+    async function getServants() {
+        api.get("servants").then(response => {
+            setArrayServants(
+                response.data.sort(function (a, b) {
+                    return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
+                })
+            );
+        });
+    }
+
+    async function getProfile() {
+        await api.get(`profile/${user}`)
+            .then(response => {
+                setName(response.data.name);
+                setType(response.data.type);
+                setMinistry(response.data.ministry);
+                setAbsences(response.data.absences);
+            });
+    }
+
+    async function updateServant() {
+
+        if(confirmName(name)) {
+            if(confirmAbsences(absences)) {
+                const data = {
+                    name,
+                    type,
+                    ministry,
+                    absences
+                }
+
+                await api.put(`servants/${user}`, data)
+                    .then(response => {
+                        Alert.alert('Dados do servo alterado com sucesso!');
+                    })
+                    .catch(err => {
+                        Alert.alert("Erro no servidor", "Tente novamente mais tarde");
+                    });
+
+                getServants();
+                resetForm();
+                setOpacityBackground(1);
+                setModalVisible(!modalVisible);
+            }
+            else {
+                setColorTextName('#000');
+                setColorTextAbsences('#FF0000');
+            }
+        }
+        else {
+            setColorTextName('#FF0000');
+            setColorTextAbsences('#000');
+        }
+
+    }
+
+    function animationName(event) {
+
+        if(event) {
+            Animated.timing(borderBottomWidthName, {
+                toValue: 2,
+                duration: 300,
+            }).start(() => {
+                borderBottomWidthName.setValue(2);
+            });
+        }
+        else {
+            Animated.timing(borderBottomWidthName, {
+                toValue: 1,
+                duration: 300,
+            }).start(() => {
+                borderBottomWidthName.setValue(1);
+            });
+        }
+
+    }
+
+    function animationAbsences(event) {
+
+        if(event) {
+            Animated.timing(borderBottomWidthAbsences, {
+                toValue: 2,
+                duration: 300,
+            }).start(() => {
+                borderBottomWidthAbsences.setValue(2);
+            });
+        }
+        else {
+            Animated.timing(borderBottomWidthAbsences, {
+                toValue: 1,
+                duration: 300,
+            }).start(() => {
+                borderBottomWidthAbsences.setValue(1);
+            });
+        }
+
     }
 
     function renderItem({ item }) {
@@ -83,12 +189,8 @@ function ChangeServant({ navigation }) {
         
         return (
             <TouchableOpacity
-                onPress={() => {
-                    setNameServant(item.name);
-                    setAbsencesServant(item.absences);
-                    setIdServant(item._id);
-                    setTypeServant(item.type);
-                    
+                onPress={ async () => {
+                    setUser(item.user);                    
                     setOpacityBackground(0.5);
                     setModalVisible(true);
                 }}
@@ -116,6 +218,11 @@ function ChangeServant({ navigation }) {
         setArrayServantsFiltered(arrayFiltered);
     }
 
+    useEffect(() => {
+        getServants();
+
+        setArrayServantsFiltered([]);
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -126,41 +233,99 @@ function ChangeServant({ navigation }) {
                 visible={modalVisible}
                 onRequestClose={() => { 
                     setOpacityBackground(1);
-                    setModalVisible(!modalVisible) 
+                    setModalVisible(!modalVisible);
+                    resetForm();
                 }}
+                onShow={getProfile}
             >
 
                 <View style={styles.containerModal}>
                     <Text style={styles.textModalHeader}>Alterar servo</Text>
 
                     <View style={styles.containerForm}>
-                        <Text style={styles.textPropTitle}>Nome</Text>
-                        <TextInput
-                            style={styles.textInputPropValue}
-                            defaultValue={nameServant}
-                            autoCapitalize="words"
-                            autoCorrect={false}
-                            value={nameServant}
-                            onChangeText={setNameServant}
-                        />
+                        <Text style={[
+                            styles.textPropTitle,
+                            {
+                                color: colorTextName,
+                            }
+                        ]}>
+                            Nome
+                        </Text>
+                        <Animated.View style={{
+                            borderBottomWidth: borderBottomWidthName.interpolate({
+                                inputRange: [1, 2],
+                                outputRange: [1, 2],
+                                extrapolate: 'clamp'
+                            }),
+                            borderBottomColor: colorTextName
+                        }}>
+                            <TextInput
+                                style={styles.textInputPropValue}
+                                defaultValue={name}
+                                autoCapitalize="words"
+                                autoCorrect={false}
+                                value={name}
+                                onChangeText={setName}
+                                onFocus={() => animationName(1)}
+                                onBlur={() => animationName(0)}
+                            />
+                        </Animated.View>
 
-                        <Text style={styles.textPropTitle}>Faltas</Text>
-                        <TextInput
-                            style={styles.textInputPropValue}
-                            defaultValue={String(absencesServant)}
-                            autoCapitalize="words"
-                            autoCorrect={false}
-                            keyboardType="numeric"
-                            value={String(absencesServant)}
-                            onChangeText={setAbsencesServant}
-                        />
+                        <Text style={[
+                            styles.textPropTitle,
+                            {
+                                color: colorTextAbsences,
+                            }
+                        ]}>
+                            Faltas
+                        </Text>
+                        <Animated.View style={{
+                            borderBottomWidth: borderBottomWidthAbsences.interpolate({
+                                inputRange: [1, 2],
+                                outputRange: [1, 2],
+                                extrapolate: 'clamp'
+                            }),
+                            borderBottomColor: colorTextAbsences
+                        }}>
+                            <TextInput
+                                style={styles.textInputPropValue}
+                                defaultValue={String(absences)}
+                                autoCapitalize="words"
+                                autoCorrect={false}
+                                keyboardType="numeric"
+                                value={String(absences)}
+                                onChangeText={setAbsences}
+                                onFocus={() => animationAbsences(1)}
+                                onBlur={() => animationAbsences(0)}
+                            />
+                        </Animated.View>
+
+                        <View>
+                            <Text style={styles.textPropTitle}>Ministério</Text>
+                            <View style={styles.containerPickerType}>
+                                <Picker
+                                    selectedValue={ministry}
+                                    onValueChange={(itemValue, itemIndex) => {
+                                        setMinistry(itemValue);
+                                    }}
+                                >
+                                    <Picker.Item label="Dança" value="Dança" />
+                                    <Picker.Item label="Música" value="Música" />
+                                    <Picker.Item label="Teatro" value="Teatro" />
+                                    <Picker.Item label="Intersseção" value="Intersseção" />
+                                    <Picker.Item label="Espiritualidade" value="Espiritualidade" />
+                                    <Picker.Item label="Acolhimento" value="Acolhimento" />
+                                    <Picker.Item label="Comunicação" value="Comunicação" />
+                                </Picker>
+                            </View>
+                        </View>
 
                         <Text style={styles.textPropTitle}>Tipo do servo</Text>
-                        <View style={styles.containerPickerTypeServants}>
+                        <View style={styles.containerPickerType}>
                             <Picker
-                                selectedValue={typeServant}
+                                selectedValue={type}
                                 onValueChange={(itemValue, itemIndex) => {
-                                    setTypeServant(itemValue);
+                                    setType(itemValue);
                                 }}
                             >
                                 <Picker.Item label="Servo" value="Servo" />
@@ -173,20 +338,17 @@ function ChangeServant({ navigation }) {
                     <View style={styles.containerButtonsModal}>
                         <TouchableOpacity
                             style={styles.buttonsModal}
-                            onPress={() => { 
+                            onPress={() => {
+                                resetForm();
                                 setOpacityBackground(1);
-                                setModalVisible(!modalVisible) 
+                                setModalVisible(!modalVisible);
                             }}
                         >
                             <Text style={styles.textButtonsModal}>Cancelar</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.buttonsModal}
-                            onPress={() => {
-                                updateServant();
-                                setOpacityBackground(1);
-                                setModalVisible(!modalVisible)
-                            }}
+                            onPress={updateServant}
                         >
                             <Text style={styles.textButtonsModal}>Confirmar</Text>
                         </TouchableOpacity>
@@ -215,7 +377,7 @@ function ChangeServant({ navigation }) {
                     data={
                         arrayServantsFiltered && arrayServantsFiltered.length > 0 ? arrayServantsFiltered : arrayServants
                     }
-                    keyExtractor={item => item._id}
+                    keyExtractor={item => item.user}
                     renderItem={renderItem}
                 />
 

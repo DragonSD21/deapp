@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, Text, TouchableOpacity, TextInput, Modal } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { View, FlatList, Text, TouchableOpacity, TextInput, Modal, Alert } from 'react-native';
+
+import api from '../../../services/api';
 
 import styles from './styles';
 
@@ -9,60 +10,32 @@ function DeleteServant({ navigation }) {
     const [opacityBackground, setOpacityBackground] = useState(1);
     const [arrayServants, setArrayServants] = useState([]);
     
-    const [idServant, setIdServant] = useState("");
-    const [nameServant, setNameServant] = useState("");
-    const [absencesServant, setAbsencesServant] = useState("");
-    const [typeServant, setTypeServant] = useState("");
+    const [user, setUser] = useState("");
+    const [name, setName] = useState("");
 
     const [textSearchServant, setTextSearchServant] = useState("");
     const [arrayServantsFiltered, setArrayServantsFiltered] = useState([]);
-    
-    var varArrayServants = [
-        {
-            _id: "1",
-            name: "Rafael Rosman Rodrigues Montrezol",
-            absences: 1,
-        },
-        {
-            _id: "2",
-            name: "João Carlos de Jesus Silva Dias",
-            absences: 3,
-        },
-        {
-            _id: "3",
-            name: "Maria Joana da Silva Rodrigues Colarinho",
-            absences: 2.5,
-        },
-        {
-            _id: "4",
-            name: "Rafael Rosman Rodrigues Montrezol",
-            absences: 1,
-        },
-        {
-            _id: "5",
-            name: "João Carlos de Jesus Silva Dias",
-            absences: 3,
-        },
-        {
-            _id: "6",
-            name: "Maria Joana da Silva Rodrigues Colarinho",
-            absences: 2.5,
-        },
-    ];
-    
-    useEffect(() => {
-        setArrayServants(
-            varArrayServants.sort(function (a, b) {
-                return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
-            })
-        );
-        setArrayServantsFiltered([]);
-    }, []);
 
-    function deleteServant() {
-        var indexServant = arrayServants.findIndex(obj => obj._id === idServant);
-        arrayServants.splice(indexServant, 1);
-        setArrayServants(arrayServants);
+    async function getServants() {
+        api.get("servants").then(response => {
+            setArrayServants(
+                response.data.sort(function (a, b) {
+                    return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
+                })
+            );
+        });
+    }
+
+    async function deleteServant() {
+        await api.delete(`servants/${user}`)
+            .then(response => {
+                Alert.alert('Servo excluído com sucesso!');
+            })
+            .catch(err => {
+            Alert.alert("Erro no servidor", "Tente novamente mais tarde");
+            });
+
+        getServants();
     }
 
     function renderItem({ item }) {
@@ -81,10 +54,8 @@ function DeleteServant({ navigation }) {
         return (
             <TouchableOpacity
                 onPress={() => {
-                    setNameServant(item.name);
-                    setAbsencesServant(item.absences);
-                    setIdServant(item._id);
-                    setTypeServant(item.type);
+                    setName(item.name);
+                    setUser(item.user);
                     
                     setOpacityBackground(0.5);
                     setModalVisible(true);
@@ -113,6 +84,12 @@ function DeleteServant({ navigation }) {
         setArrayServantsFiltered(arrayFiltered);
     }
 
+    useEffect(() => {
+        getServants();
+
+        setArrayServantsFiltered([]);
+    }, []);
+
     return (
         <View style={styles.container} >
 
@@ -130,7 +107,7 @@ function DeleteServant({ navigation }) {
                     <Text style={styles.textModalHeader}>
                         Deseja confirmar a exclusão do(a) servo(a) abaixo? ESSA AÇÃO NÃO PODERÁ SER DESFEITA
                     </Text>
-                    <Text style={styles.textModalNameServant}>{nameServant}</Text>
+                    <Text style={styles.textModalName}>{name}</Text>
 
                     <View style={styles.containerButtonsModal}>
                         <TouchableOpacity
@@ -177,7 +154,7 @@ function DeleteServant({ navigation }) {
                     data={
                         arrayServantsFiltered && arrayServantsFiltered.length > 0 ? arrayServantsFiltered : arrayServants
                     }
-                    keyExtractor={item => item._id}
+                    keyExtractor={item => item.user}
                     renderItem={renderItem}
                 />
 

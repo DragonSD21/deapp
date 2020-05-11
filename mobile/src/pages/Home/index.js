@@ -105,7 +105,7 @@ function Home({ navigation }) {
                 Alert.alert("Usuário não encontrado", "Tente novamente");
 
                 setColorTextUser('#FF0000');
-                setColorTextPassowrd('#FF0000');
+                setColorTextPassowrd('#000');
             }
 
             if(errorType.errorCode === -2) { //Password

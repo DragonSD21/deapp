@@ -20,7 +20,10 @@ module.exports = {
             .first();
 
         if(servant) {
-            return response.status(400).json({ error: 'User already exists' });
+            return response.status(400).json({
+                erroCode: 1,
+                errorDescription: 'User already exists'
+            });
         }
 
         await connection('servants').insert({

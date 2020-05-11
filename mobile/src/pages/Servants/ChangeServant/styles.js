@@ -9,8 +9,8 @@ export default StyleSheet.create({
     //Modal Cadastrar
     containerModal: {
         backgroundColor: "#FFF",
-        height: 380,
-        marginTop: 80,
+        height: 480,
+        marginTop: 20,
         marginBottom: 200,
         marginHorizontal: 10,
         alignItems: 'center',
@@ -32,11 +32,11 @@ export default StyleSheet.create({
         marginBottom: 5,
     },
     textInputPropValue: {
-        borderBottomWidth: 1,
+        // borderBottomWidth: 1,
         fontSize: 18,
     },
 
-    containerPickerTypeServants: {
+    containerPickerType: {
         backgroundColor: "#fff",
         borderWidth: 1,
         borderRadius: 8,

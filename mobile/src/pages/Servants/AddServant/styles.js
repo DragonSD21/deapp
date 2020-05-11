@@ -19,10 +19,10 @@ export default StyleSheet.create({
         marginBottom: 5,
     },
     textInputPropValue: {
-        borderBottomWidth: 1,
+        // borderBottomWidth: 1,
         fontSize: 20,
     },
-    containerPickerTypeServants: {
+    containerPickerTypes: {
         backgroundColor: "#fff",
         borderWidth: 1,
         borderRadius: 8,
@@ -36,7 +36,7 @@ export default StyleSheet.create({
     },
     buttonsBottom: {
         backgroundColor: "#3e56e8",
-        marginTop: 50,
+        marginTop: 20,
         width: 100,
         height: 50,
         borderRadius: 8,

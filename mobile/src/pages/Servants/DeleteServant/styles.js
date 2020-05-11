@@ -21,7 +21,7 @@ export default styles = StyleSheet.create({
         fontSize: 18,
         textAlign: 'center',
     },
-    textModalNameServant: {
+    textModalName: {
         marginTop: 10,
         fontWeight: "bold",
         fontSize: 24,
