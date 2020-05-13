@@ -6,8 +6,8 @@ import styles from './styles';
 function CallHistoryDetail({ route, navigation }) {
 
     const { date } = route.params;
-    const { schedule } = route.params;
-    const dateSchedule = date + " - " + schedule.substring(0, 5) + " " + schedule.substring(22);
+    const { time } = route.params;
+    const dateTime = date + " - " + time.substring(0, 5) + " " + time.substring(22);
     const [arrayServants, setArrayServants] = useState([]);
 
     const [textSearchServant, setTextSearchServant] = useState("");
@@ -101,7 +101,7 @@ function CallHistoryDetail({ route, navigation }) {
     return (
         <View style={styles.container}>
             <View style={styles.containerTop}>
-                <Text style={styles.textDate}>{dateSchedule}</Text>
+                <Text style={styles.textDate}>{dateTime}</Text>
             </View>
 
             <View style={styles.containerSearchServant}>

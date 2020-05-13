@@ -48,10 +48,10 @@ function Main({ route, navigation }) {
         )
     });
 
-    navigation.addListener('focus', e => {
-        getServants();
-        setTemp(!temp);
-    });
+    // navigation.addListener('focus', e => {
+    //     getServants();
+    //     setTemp(!temp);
+    // });
 
 
     async function getServants() {
@@ -164,10 +164,10 @@ function Main({ route, navigation }) {
         
         // navigation.addListener('focus', e => {
         //     getServants();
+        //     setTemp(!temp);
         // });
 
         getServants();
-        setTemp(!temp);
 
         setArrayServantsFiltered([]);
 
@@ -243,10 +243,10 @@ function Main({ route, navigation }) {
                         style={styles.buttonsMenu}
                         onPress={() => {
                             opened = false;
+                            menuAnimated();
                             navigation.navigate('Profile', {
                                 user: user,
                             });
-                            menuAnimated();
                         }}
                     >
                         <Feather name="user" size={30} />
@@ -257,8 +257,8 @@ function Main({ route, navigation }) {
                         style={styles.buttonsMenu}
                         onPress={() => {
                             opened = false;
-                            navigation.navigate('CallHistory');
                             menuAnimated();
+                            navigation.navigate('CallHistory');
                         }}
                     >
                         <Feather name="file-text" size={30} />
@@ -269,8 +269,8 @@ function Main({ route, navigation }) {
                         style={styles.buttonsMenu}
                         onPress={() => {
                             opened = false;
-                            navigation.navigate('Call');
                             menuAnimated();
+                            navigation.navigate('Call');
                         }}
                     >
                         <Feather name="file-plus" size={30} />
@@ -281,8 +281,8 @@ function Main({ route, navigation }) {
                         style={styles.buttonsMenu}
                         onPress={() => {
                             opened = false;
-                            navigation.navigate('AddServant');
                             menuAnimated();
+                            navigation.navigate('AddServant');
                         }}
                     >
                         <Feather name="user-plus" size={30} />
@@ -293,8 +293,8 @@ function Main({ route, navigation }) {
                         style={styles.buttonsMenu}
                         onPress={() => {
                             opened = false;
-                            navigation.navigate('ChangeServant');
                             menuAnimated();
+                            navigation.navigate('ChangeServant');
                         }}
                     >
                         <Feather name="user-check" size={30} />
@@ -305,8 +305,8 @@ function Main({ route, navigation }) {
                         style={styles.buttonsMenu}
                         onPress={() => {
                             opened = false;
-                            navigation.navigate('DeleteServant');
                             menuAnimated();
+                            navigation.navigate('DeleteServant');
                         }}
                     >
                         <Feather name="user-x" size={30} />
