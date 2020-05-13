@@ -26,6 +26,8 @@ function Main({ route, navigation }) {
 
     const inputSearchServantRef = useRef(null);
 
+    const [temp, setTemp] = useState(true);
+
     const translateX = useRef(new Animated.Value(0)).current;
     const widthScreen = Dimensions.get('window').width*0.7;
     let offset = widthScreen;
@@ -45,6 +47,12 @@ function Main({ route, navigation }) {
             </TouchableOpacity>
         )
     });
+
+    navigation.addListener('focus', e => {
+        getServants();
+        setTemp(!temp);
+    });
+
 
     async function getServants() {
         await api.get("servants").then(response => {
@@ -154,9 +162,12 @@ function Main({ route, navigation }) {
 
     useEffect(() => {
         
-        navigation.addListener('focus', e => {
-            getServants();
-        });
+        // navigation.addListener('focus', e => {
+        //     getServants();
+        // });
+
+        getServants();
+        setTemp(!temp);
 
         setArrayServantsFiltered([]);
 

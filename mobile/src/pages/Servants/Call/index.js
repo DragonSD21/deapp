@@ -15,8 +15,8 @@ YellowBox.ignoreWarnings([
 ]);
 
 function Call({ navigation }) {
-    const [selected, setSelected] = useState(new Map());
     const [arrayServants, setArrayServants] = useState([]);
+    const [oldJustification, setOldJustification] = useState(false);
 
     const [textSearchServant, setTextSearchServant] = useState("");
     const [arrayServantsFiltered, setArrayServantsFiltered] = useState([]);
@@ -45,52 +45,53 @@ function Call({ navigation }) {
         const dateAtt = new Date();
         var hour = dateAtt.getHours();
         var min = dateAtt.getMinutes();
-        var time = hour + ':' + min;
+        var sec = dateAtt.getSeconds();
+        var time = hour + ':' + min + ':' + sec;
 
-        // await api.post("calls", {
-        //     day: formattedDateBD,
-        //     time: time,
-        //     servants: arrayServants
-        // }).then(response => {
-        //     Alert.alert('Chamada realizada com sucesso!');
-        //     navigation.pop();
-        // }).catch(err => {
-        //     Alert.alert("Erro no servidor", "Tente novamente mais tarde");
-        // });
+        await api.post("calls", {
+            day: formattedDateBD,
+            time: time,
+            servants: arrayServants
+        }).then(response => {
+            Alert.alert('Chamada realizada com sucesso!');
+            navigation.goBack();
+        }).catch(err => {
+            Alert.alert("Erro no servidor", "Tente novamente mais tarde");
+        });
 
     }
 
-    function setAbsences(user, index) {
-        if(!selected.get(user)) {
+    function setAbsences(index) {
+        arrayServants[index].present = !arrayServants[index].present;
+        var aux = parseFloat(arrayServants[index].absences);
+        if(arrayServants[index].present) {
             if(arrayServants[index].justification === "") {
-                arrayServants[index].absences -= 1;
+                aux--;
             }
             else {
                 arrayServants[index].justification = "";
-                arrayServants[index].absences -= 0.5;
+                aux -= 0.5;
             }
         } 
         else {
             if(arrayServants[index].justification === "") {
-                arrayServants[index].absences += 1;
+                aux++;
             }
             else {
-                arrayServants[index].absences += 0.5;
+                aux += 0.5;
             }
         }
+        arrayServants[index].absences = aux;
         setArrayServants(arrayServants);
     }
 
-    const onSelect = useCallback((user) => {
-        const newSelected = new Map(selected);
-        newSelected.set(user, !selected.get(user));
-        setSelected(newSelected);
-    }, [selected]);
+    function controllJustification() {
+
+    }
     
-    function renderItem(item, selected) {
+    function renderItem(item) {
         var colorAbsences;
         var indexServant = arrayServants.indexOf(item);
-        var oldJustification = false;
 
         if(item.absences < 1.5) {
             colorAbsences = "#70aa5e";
@@ -106,12 +107,12 @@ function Call({ navigation }) {
             <TouchableOpacity
                 activeOpacity={0.2}
                 onPress={() => {
-                    onSelect(item.user);
-                    setAbsences(item.user, indexServant);
+                    setAbsences(indexServant);
+                    setTemp(!temp);
                 }}
                 style={[
                     styles.containerItem,
-                    { backgroundColor: selected.get(item.user) ? '#B2B6BD' : '#fff' }
+                    { backgroundColor: item.present ? '#B2B6BD' : '#fff' }
                 ]}
             >
                 <View style={styles.containerHorizontal}>
@@ -126,7 +127,7 @@ function Call({ navigation }) {
                     placeholderTextColor="#999"
                     autoCapitalize="none"
                     autoCorrect={true}
-                    defaultValue={""}
+                    defaultValue={arrayServants[indexServant].justification}
                     value={arrayServants[indexServant].justification}
                     onChangeText={text => {
                         arrayServants[indexServant].justification = text;
@@ -134,28 +135,34 @@ function Call({ navigation }) {
                         setTemp(!temp);
                     }}
                     onFocus={() => {
-                        if(arrayServants[indexServant].justification === "") {
-                            oldJustification = false;
-                        }
-                        else {
-                            oldJustification = true;
+                        if(!arrayServants[indexServant].present) {
+                            if(arrayServants[indexServant].justification === "") {
+                                // oldJustification = false;
+                                setOldJustification(false);
+                            }
+                            else {
+                                // oldJustification = true;
+                                setOldJustification(true);
+                            }
                         }
                     }}
                     onBlur={() => {
-                        if(!selected.get(item.user)) {
+                        if(!arrayServants[indexServant].present) {
+                            var aux = parseFloat(arrayServants[indexServant].absences);
                             if(!oldJustification) {
                                 if(arrayServants[indexServant].justification !== "") {
-                                    arrayServants[indexServant].absences -= 0.5;
+                                    aux -= 0.5;
                                 }
                             }
                             else {
                                 if(arrayServants[indexServant].justification === "") {
-                                    arrayServants[indexServant].absences += 0.5;
+                                    aux += 0.5;
                                 }
                             }
+                            arrayServants[indexServant].absences = aux;
+                            setArrayServants(arrayServants);
+                            setTemp(!temp);
                         }
-                        setArrayServants(arrayServants);
-                        setTemp(!temp);
                     }}
                 />
             </TouchableOpacity>
@@ -176,15 +183,15 @@ function Call({ navigation }) {
     }
 
     useEffect(() => {
-        setSelected(new Map());
         getLastCall();
         setArrayServantsFiltered([]);
 
         arrayServants.forEach(element => {
             element.absences = parseFloat(element.absences);
         });
-
         setArrayServants(arrayServants);
+
+        setTemp(!temp);
 
     }, []);
 
@@ -216,14 +223,13 @@ function Call({ navigation }) {
                         arrayServantsFiltered && arrayServantsFiltered.length > 0 ? arrayServantsFiltered : arrayServants
                     }
                     keyExtractor={item => item.user}
-                    renderItem={({ item }) => renderItem(item, selected)}
-                    extraData={onSelect}
+                    renderItem={({ item }) => renderItem(item)}
                 />
                 
                 <View style={styles.containerBottom}>
                     <TouchableOpacity 
                         onPress={() => {
-                            navigation.navigate('Main');
+                            navigation.goBack();
                         }}
                         style={styles.buttonBottom}
                     >
