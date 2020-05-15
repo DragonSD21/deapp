@@ -76,17 +76,12 @@ export default StyleSheet.create({
         fontWeight: "bold",
     },
 
-    containerJustification: {
-        height: 50,
-        width: 300,
-        borderWidth: 1,
-        borderRadius: 5,
-        borderColor: "#cbcbcb",
-        justifyContent: 'center',
-        marginTop: 5,
-    },
     textJustification: {
-        fontSize: 16,
+        marginTop: 15,
+        marginBottom: 5,
+        fontSize: 18,
+        width: '95%',
+        borderBottomWidth: 2,
     },
 
 });

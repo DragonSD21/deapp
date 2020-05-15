@@ -16,51 +16,6 @@ function CallHistory({ navigation }) {
     const [textSearchDay, setTextSearchDay] = useState("");
     const [arrayDaysFiltered, setArrayDaysFiltered] = useState([]);
 
-    const [temp, setTemp] = useState(true);
-
-    var varArrayDays = [
-        {
-            day: "04/02/2020",
-            time: [
-                "07:00 - Ver marcações",
-                "07:06 - Ver marcações",
-                "09:02 - Ver marcações (total)",
-            ],
-        },
-        {
-            day: "06/02/2020",
-            time: [
-                "07:00 - Ver marcações",
-                "07:06 - Ver marcações",
-                "09:02 - Ver marcações (total)",
-            ],
-        },
-        {
-            day: "11/02/2020",
-            time: [
-                "07:00 - Ver marcações",
-                "07:06 - Ver marcações",
-                "09:02 - Ver marcações (total)",
-            ],
-        },
-        {
-            day: "13/02/2020",
-            time: [
-                "07:00 - Ver marcações",
-                "07:06 - Ver marcações",
-                "09:02 - Ver marcações (total)",
-            ],
-        },
-        {
-            day: "19/02/2020",
-            time: [
-                "07:00 - Ver marcações",
-                "07:06 - Ver marcações",
-                "09:02 - Ver marcações (total)",
-            ],
-        },
-    ];
-
     async function getDays() {
         await api.get("calls").then(response => {
             setArrayDays(response.data);
@@ -81,7 +36,7 @@ function CallHistory({ navigation }) {
     }
 
     function renderContent(section) {
-        var timeList = section.time;
+        let timeList = section.time;
 
         var i;
         for(i=0; i<timeList.length; i++) {

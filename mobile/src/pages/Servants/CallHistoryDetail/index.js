@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, FlatList, Text, TouchableOpacity, TextInput } from 'react-native';
+import { View, FlatList, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
+
+import api from '../../../services/api';
 
 import styles from './styles';
 
@@ -7,11 +9,13 @@ function CallHistoryDetail({ route, navigation }) {
 
     const { date } = route.params;
     const { time } = route.params;
-    const dateTime = date + " - " + time.substring(0, 5) + " " + time.substring(22);
+    const dateTime = date + " - " + time;
     const [arrayServants, setArrayServants] = useState([]);
 
     const [textSearchServant, setTextSearchServant] = useState("");
     const [arrayServantsFiltered, setArrayServantsFiltered] = useState([]);
+
+    const [temp, setTemp] = useState(false);
 
     var varArrayServants = [
         {
@@ -45,17 +49,37 @@ function CallHistoryDetail({ route, navigation }) {
             absences: 2.5,
         },
     ];
-    useEffect(() => {
-        setArrayServants(
-            varArrayServants.sort(function (a, b) {
-                return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
-            })
-        );
-        setArrayServantsFiltered([]);
-    }, []);
+
+    async function getSpecificCall() {
+        let timeAux = time.split(' : ');
+
+        timeAux.forEach((element, index) => {
+            if(element[0] === '0') {
+                timeAux[index] = element[1];
+            }
+        });
+        timeAux = timeAux.join(':');
+
+        await api.get("specificcall", {
+            params: { 
+                day: date.split('/').reverse().join('-'),
+                time: timeAux
+             }
+        }).then(response => {
+            setArrayServants(
+                response.data.sort(function (a, b) {
+                    return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
+                })
+            );
+        }).catch(err => {
+            Alert.alert("Erro no servidor", "Tente novamente mais tarde");
+        })
+
+    }
 
     function renderItem(item) {
         var colorAbsences;
+        var indexServant = arrayServants.indexOf(item);
 
         if(item.absences < 1.5) {
             colorAbsences = "#70aa5e";
@@ -68,20 +92,17 @@ function CallHistoryDetail({ route, navigation }) {
         }
 
         return (
-            <View style={styles.containerItem}>
+            <View style={[
+                styles.containerItem,
+                { backgroundColor: item.present ? '#B2B6BD' : '#fff' }
+            ]}>
                 <View style={styles.containerHorizontal}>
                     <Text style={styles.textName}>{item.name}</Text>
                     <View style={[styles.containerAbsences, {backgroundColor: colorAbsences}]}>
                         <Text style={styles.textAbsences}>{item.absences}</Text>
                     </View>
                 </View>
-                <View style={styles.containerJustification}>
-                    <Text
-                        style={styles.textJustification}
-                    >
-                        Justificativa...
-                    </Text>
-                </View>
+                <Text style={styles.textJustification}>{item.justification}</Text>
             </View>
         );
     }
@@ -97,6 +118,13 @@ function CallHistoryDetail({ route, navigation }) {
 
         setArrayServantsFiltered(arrayFiltered);
     }
+
+    useEffect(() => {
+        getSpecificCall();
+        setTemp(!temp);
+        setArrayServantsFiltered([]);
+    }, []);
+
 
     return (
         <View style={styles.container}>
