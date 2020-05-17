@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, Text, TouchableOpacity, TextInput, Modal } from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity, TextInput, Modal, Alert } from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -7,7 +7,10 @@ import api from '../../../services/api';
 
 import styles from './styles';
 
-function CallHistory({ navigation }) {
+function CallHistory({ route, navigation }) {
+
+    const { type } = route.params;
+
     const [modalVisible, setModalVisible] = useState(false);
     const [opacityBackground, setOpacityBackground] = useState(1);
     const [activeSections, setActiveSections] = useState([]);
@@ -18,7 +21,31 @@ function CallHistory({ navigation }) {
 
     async function getDays() {
         await api.get("calls").then(response => {
-            setArrayDays(response.data);
+            var days = response.data
+
+            days.forEach((element, index) => {
+                var i;
+                for(i=0; i<element.time.length; i++) {
+                    var split = element.time[i].split(':');
+                    if(split[0].length < 2) split[0] = '0' + split[0];
+                    if(split[1].length < 2) split[1] = '0' + split[1];
+                    if(split[2].length < 2) split[2] = '0' + split[2];
+                    element.time[i] = split.join(' : ');
+                }
+            });
+
+            setArrayDays(days);
+
+        });
+    }
+
+    async function resetCall() {
+
+
+        await api.delete("calls").then(response => {
+            Alert.alert("Chamadas excluídas!", "Todas as faltas foram zeradas!!");
+        }).catch(err => {
+            Alert.alert("Erro no servidor", "Tente novamente mais tarde");
         });
     }
 
@@ -36,17 +63,6 @@ function CallHistory({ navigation }) {
     }
 
     function renderContent(section) {
-        let timeList = section.time;
-
-        var i;
-        for(i=0; i<timeList.length; i++) {
-            var split = timeList[i].split(':');
-            if(split[0].length < 2) split[0] = '0' + split[0];
-            if(split[1].length < 2) split[1] = '0' + split[1];
-            if(split[2].length < 2) split[2] = '0' + split[2];
-            timeList[i] = split.join(' : ');
-        }
-        // timeList[i-1] = timeList[i-1].concat(" (chamada final)");
 
         return (
             <View style={styles.contentAccordion}>
@@ -62,9 +78,9 @@ function CallHistory({ navigation }) {
                         >
                             <Text style={styles.textContentAccordion}>
                                 {
-                                    section.time.indexOf(element) === i-1 ?
-                                        timeList[section.time.indexOf(element)].concat(" (chamada final)") :
-                                        timeList[section.time.indexOf(element)]
+                                    section.time.indexOf(element) === section.time.length-1 ?
+                                        section.time[section.time.indexOf(element)].concat(" (chamada final)") :
+                                        section.time[section.time.indexOf(element)]
                                 }
                                 </Text>
                         </TouchableOpacity>
@@ -100,12 +116,11 @@ function CallHistory({ navigation }) {
         setArrayDaysFiltered(arrayFiltered);
     }
 
-    function resetCall() {
-        setArrayDays([]);
-    }
-
     useEffect(() => {
         getDays();
+
+        setArrayDays(arrayDays);
+
         setArrayDaysFiltered([]);
     }, []);
 
@@ -142,7 +157,7 @@ function CallHistory({ navigation }) {
                             onPress={() => {
                                 resetCall();
                                 setOpacityBackground(1);
-                                setModalVisible(!modalVisible)
+                                setModalVisible(!modalVisible);
                             }}
                         >
                             <Text style={styles.textButtonsModal}>Confirmar</Text>
@@ -180,7 +195,22 @@ function CallHistory({ navigation }) {
                         touchableComponent={TouchableOpacity}
                     />
 
-                    <View style={styles.containerBottom}>
+                    {
+                        type !== "Servo" ? 
+                            <View style={styles.containerBottom}>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        setOpacityBackground(0.5);
+                                        setModalVisible(true);
+                                    }}
+                                    style={styles.buttonCallReset}
+                                >
+                                    <Text style={styles.textButtonCallReset}>Resetar Chamadas</Text>
+                                </TouchableOpacity>
+                            </View>
+                        : <View></View>
+                    }
+                    {/* <View style={styles.containerBottom}>
                         <TouchableOpacity
                             onPress={() => {
                                 setOpacityBackground(0.5);
@@ -190,7 +220,7 @@ function CallHistory({ navigation }) {
                         >
                             <Text style={styles.textButtonCallReset}>Resetar Chamadas</Text>
                         </TouchableOpacity>
-                    </View>
+                    </View> */}
                 </ScrollView>
 
             </View>    

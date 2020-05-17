@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { 
     View, 
     FlatList,
@@ -8,6 +8,7 @@ import {
     Animated,
     Dimensions
 } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
 
@@ -18,6 +19,7 @@ import styles from './styles';
 function Main({ route, navigation }) {
     
     const { user } = route.params;
+    const [type, setType] = useState('');
 
     const [arrayServants, setArrayServants] = useState([]);
 
@@ -48,11 +50,12 @@ function Main({ route, navigation }) {
         )
     });
 
-    // navigation.addListener('focus', e => {
-    //     getServants();
-    //     setTemp(!temp);
-    // });
-
+    useFocusEffect(
+        useCallback(() => {
+            getServants();
+            setTemp(!temp);
+        }, [])
+      );
 
     async function getServants() {
         await api.get("servants").then(response => {
@@ -62,6 +65,13 @@ function Main({ route, navigation }) {
                 })
             );
         });
+    }
+
+    async function getProfile() {
+        await api.get(`profile/${user}`)
+            .then(response => {
+                setType(response.data.type);
+            });
     }
 
     const animatedEvent = Animated.event([
@@ -161,13 +171,9 @@ function Main({ route, navigation }) {
     }
 
     useEffect(() => {
-        
-        // navigation.addListener('focus', e => {
-        //     getServants();
-        //     setTemp(!temp);
-        // });
 
         getServants();
+        getProfile();
 
         setArrayServantsFiltered([]);
 
@@ -265,7 +271,22 @@ function Main({ route, navigation }) {
                         <Text style={styles.textButtonsMenu}>Histórico de chamadas</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity
+                    {
+                        type !== "Servo" ? 
+                            <TouchableOpacity
+                                style={styles.buttonsMenu}
+                                onPress={() => {
+                                    opened = false;
+                                    menuAnimated();
+                                    navigation.navigate('Call');
+                                }}
+                            >
+                                <Feather name="file-plus" size={30} />
+                                <Text style={styles.textButtonsMenu}>Nova chamada</Text>
+                            </TouchableOpacity>
+                        : <View></View>
+                    }
+                    {/* <TouchableOpacity
                         style={styles.buttonsMenu}
                         onPress={() => {
                             opened = false;
@@ -275,9 +296,51 @@ function Main({ route, navigation }) {
                     >
                         <Feather name="file-plus" size={30} />
                         <Text style={styles.textButtonsMenu}>Nova chamada</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
 
-                    <TouchableOpacity
+                    {
+                        type === "Servo responsável geral" ? (
+                            <>
+                                <TouchableOpacity
+                                    style={styles.buttonsMenu}
+                                    onPress={() => {
+                                        opened = false;
+                                        menuAnimated();
+                                        navigation.navigate('AddServant');
+                                    }}
+                                >
+                                    <Feather name="user-plus" size={30} />
+                                    <Text style={styles.textButtonsMenu}>Novo servo</Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    style={styles.buttonsMenu}
+                                    onPress={() => {
+                                        opened = false;
+                                        menuAnimated();
+                                        navigation.navigate('ChangeServant');
+                                    }}
+                                >
+                                    <Feather name="user-check" size={30} />
+                                    <Text style={styles.textButtonsMenu}>Alterar servo</Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    style={styles.buttonsMenu}
+                                    onPress={() => {
+                                        opened = false;
+                                        menuAnimated();
+                                        navigation.navigate('DeleteServant');
+                                    }}
+                                >
+                                    <Feather name="user-x" size={30} />
+                                    <Text style={styles.textButtonsMenu}>Excluir servo</Text>
+                                </TouchableOpacity>
+                            </>
+                        ) : <View></View>
+                    }
+
+                    {/* <TouchableOpacity
                         style={styles.buttonsMenu}
                         onPress={() => {
                             opened = false;
@@ -311,7 +374,7 @@ function Main({ route, navigation }) {
                     >
                         <Feather name="user-x" size={30} />
                         <Text style={styles.textButtonsMenu}>Excluir servo</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
 
                 </Animated.View>
             </PanGestureHandler>
