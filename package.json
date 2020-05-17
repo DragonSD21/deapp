@@ -1,6 +1,6 @@
 {
   "name": "deapp",
   "scripts": {
-    "postinstall": "npm install --prefix backend && npm install --prefix mobile"
+    "postinstall": "yarn install --prefix backend && yarn install --prefix mobile"
   }
 }
