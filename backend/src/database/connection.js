@@ -1,7 +1,3 @@
-
-var pg = require('pg');
-pg.defaults.ssl = true;
-
 const knex = require('knex');
 const configuration = require('../../knexfile');
 
