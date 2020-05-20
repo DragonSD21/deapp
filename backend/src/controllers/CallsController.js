@@ -109,18 +109,40 @@ module.exports = {
     async create(request, response) {
         const { day, time, servants } = request.body;
 
+        const calls = await connection('calls')
+            .select('day')
+            .where('id', (connection('calls').max('id')))
+            .first();
+
         await servants.forEach(async function (servant) {
 
             const { user, name, present, absences, justification } = servant;
-            
-            await connection('calls').insert({
-                day,
-                time,
-                user,
-                present,
-                absences, 
-                justification
-            });
+
+            if(calls == null) {
+                await connection('calls').insert({
+                    day,
+                    time,
+                    user,
+                    present,
+                    absences, 
+                    justification
+                });
+            }
+            else {
+                await connection('calls')
+                    .where({
+                        'day': day,
+                        'user': user,
+                        })
+                    .update({
+                    day,
+                    time,
+                    user,
+                    present,
+                    absences, 
+                    justification
+                });
+            }
 
             // Atualizar falta no banco de dados do servo
             await connection('servants')
