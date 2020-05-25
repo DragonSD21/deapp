@@ -50,11 +50,13 @@
 // Update with your config settings.
 
 require('dotenv').config();
+require('pg').defaults.ssl = true;
 
 module.exports = {
   development: {
     client: 'pg',
-    connection: [process.env.DATABASE_URL, { ssl: true }],
+    // connection: [process.env.DATABASE_URL, { ssl: true }],
+    connection: process.env.DATABASE_URL,
     migrations: {
       directory: './src/database/migrations',
     },
