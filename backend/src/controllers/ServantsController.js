@@ -10,13 +10,7 @@ module.exports = {
     },
 
     async create(request, response) {
-        // const { user, password, name, type, ministry } = request.body;
-        let user = 'testedois';
-        let password = '12345';
-        let name = 'Teste Dois';
-        let type = 'Responsável geral';
-        let ministry = 'Teatro';
-
+        const { user, password, name, type, ministry } = request.body;
         const passwordTemporary = true;
         const absences = 0;
 
