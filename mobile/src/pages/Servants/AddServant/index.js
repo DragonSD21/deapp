@@ -315,7 +315,7 @@ function AddServant({ navigation }) {
                             <Picker.Item label="Dança" value="Dança" />
                             <Picker.Item label="Música" value="Música" />
                             <Picker.Item label="Teatro" value="Teatro" />
-                            <Picker.Item label="Interseção" value="Interseção" />
+                            <Picker.Item label="intercessão" value="Intercessão" />
                             <Picker.Item label="Espiritualidade" value="Espiritualidade" />
                             <Picker.Item label="Acolhimento" value="Acolhimento" />
                             <Picker.Item label="Comunicação" value="Comunicação" />
