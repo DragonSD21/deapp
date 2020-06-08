@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, TouchableOpacity, Text, Image, Modal, TextInput, Alert, Animated } from 'react-native';
+import { View, TouchableOpacity, Text, Image, Modal, TextInput, Alert, Animated, BackHandler } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'
 
 import api from '../../services/api';
@@ -263,32 +263,7 @@ function Home({ navigation }) {
                     <Text style={styles.textButton}>Encontristas</Text>
                 </TouchableOpacity> */}
                 <TouchableOpacity style={styles.buttonExit} onPress={() => {
-                    const data = {
-                        user: "rafaelmontrezol",
-                        password: "12345",
-                        name: "Rafael Rosman Rodrigues Montrezol",
-                        type: "Servo responsável geral",
-                        ministry: "Intercessão",
-                    }
-
-                    await api.post("servants", data).then(response => {
-                        Alert.alert(
-                            'Novo servo cadastrado com sucesso!',
-                            `Lembre-se de passar o usuário (${user}) e a senha (${password}) para o novo servo conseguir acessar o DÉApp.`,
-                        );
-                        // resetForm();
-                        // navigation.pop();
-                    }).catch(err => {
-                        alert("erro");
-                        // const errorType = err.response.data;
-    
-                        // if(errorType.errorCode === 1) {
-                        //     Alert.alert('Usuário já existe', 'Tente novamente com outro usuário');
-                        //     setColorTextName('#000')
-                        //     setColorTextLogin('#FF0000');
-                        //     setColorTextPassowrd('#000');
-                        // }
-                    });
+                    BackHandler.exitApp();
                 }}>
                     <Text style={styles.textExit}>SAIR</Text>
                 </TouchableOpacity>
