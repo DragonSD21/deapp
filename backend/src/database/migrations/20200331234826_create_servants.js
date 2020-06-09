@@ -9,7 +9,7 @@ exports.up = function(knex) {
         table.string('name').notNullable();
         table.string('type').notNullable();
         table.string('ministry').notNullable();
-        table.decimal('absences', 1).notNullable();
+        table.decimal('absences', 8, 1).notNullable();
     });
 };
 
