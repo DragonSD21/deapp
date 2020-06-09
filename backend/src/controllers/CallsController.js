@@ -70,7 +70,7 @@ module.exports = {
                     user: element.user,
                     name: element.name,
                     present: false,
-                    absences: element.absences + 1,
+                    absences: element.absences + 1.0,
                     justification: "",
                 })
             });
@@ -96,7 +96,7 @@ module.exports = {
                     user: element.user,
                     name: element.name,
                     present: false,
-                    absences: element.absences + 1,
+                    absences: element.absences + 1.0,
                     justification: "",
                 })
             });

@@ -63,7 +63,8 @@ function Call({ navigation }) {
 
     function setAbsences(index) {
         arrayServants[index].present = !arrayServants[index].present;
-        var aux = parseFloat(arrayServants[index].absences);
+        // var aux = parseFloat(arrayServants[index].absences);
+        var aux = arrayServants[index].absences;
         if(arrayServants[index].present) {
             if(arrayServants[index].justification === "") {
                 aux--;
