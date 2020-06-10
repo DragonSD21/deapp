@@ -288,8 +288,8 @@ function Home({ navigation }) {
                     <Text style={styles.textButton}>Encontristas</Text>
                 </TouchableOpacity> */}
                 <TouchableOpacity style={styles.buttonExit} onPress={() => {
-                    // BackHandler.exitApp();
-                    confirmInsert();
+                    BackHandler.exitApp();
+                    // confirmInsert();
                 }}>
                     <Text style={styles.textExit}>SAIR</Text>
                 </TouchableOpacity>

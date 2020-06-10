@@ -66,7 +66,7 @@ function CallHistory({ route, navigation }) {
                                         section.time[section.time.indexOf(element)].concat(" (chamada final)") :
                                         section.time[section.time.indexOf(element)]
                                 }
-                                </Text>
+                            </Text>
                         </TouchableOpacity>
                     ))
                 }

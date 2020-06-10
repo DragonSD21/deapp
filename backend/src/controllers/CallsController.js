@@ -8,26 +8,26 @@ module.exports = {
             .select('day', 'time')
             .groupBy('day', 'time');
 
-        var callsFormat = [];
-        var i = -1;
-        var currentDay = "";
-        calls.forEach((element) => {
+        // var callsFormat = [];
+        // var i = -1;
+        // var currentDay = "";
+        // calls.forEach((element) => {
 
-            if(currentDay === element.day) {
-                callsFormat[i].time.push(element.time);
-            }
-            else {
-                callsFormat.push({
-                    day: element.day,
-                    time: [
-                        element.time
-                    ]
-                });
-                currentDay = element.day;
-                i++;
-            }
+        //     if(currentDay === element.day) {
+        //         callsFormat[i].time.push(element.time);
+        //     }
+        //     else {
+        //         callsFormat.push({
+        //             day: element.day,
+        //             time: [
+        //                 element.time
+        //             ]
+        //         });
+        //         currentDay = element.day;
+        //         i++;
+        //     }
 
-        });
+        // });
 
         return response.json(calls);
         

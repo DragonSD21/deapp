@@ -264,7 +264,9 @@ function Main({ route, navigation }) {
                         onPress={() => {
                             opened = false;
                             menuAnimated();
-                            navigation.navigate('CallHistory');
+                            navigation.navigate('CallHistory', {
+                                user: type,
+                            });
                         }}
                     >
                         <Feather name="file-text" size={30} />
