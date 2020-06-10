@@ -119,6 +119,31 @@ function Home({ navigation }) {
 
     }
 
+    async function confirmInsert() {
+
+        const data = {
+            user: 'rafaelmontrezol',
+            password: '12345',
+            name: 'Rafael Rosman Rodrgiues Montrezol',
+            type: 'Servo responsável geral',
+            ministry: 'Intercessão'
+        }
+        
+        await api.post("servants", data).then(response => {
+            Alert.alert(
+                'Novo servo cadastrado com sucesso!',
+                `Lembre-se de passar o usuário (${user}) e a senha (${password}) para o novo servo conseguir acessar o DÉApp.`,
+            );
+        }).catch(err => {
+            const errorType = err.response.data;
+
+            if(errorType.errorCode === 1) {
+                Alert.alert('Usuário já existe', 'Tente novamente com outro usuário');
+            }
+        });
+
+    }
+
     useEffect(() => {
         setUser("");
         setPassword("");
@@ -263,7 +288,8 @@ function Home({ navigation }) {
                     <Text style={styles.textButton}>Encontristas</Text>
                 </TouchableOpacity> */}
                 <TouchableOpacity style={styles.buttonExit} onPress={() => {
-                    BackHandler.exitApp();
+                    // BackHandler.exitApp();
+                    confirmInsert();
                 }}>
                     <Text style={styles.textExit}>SAIR</Text>
                 </TouchableOpacity>
