@@ -17,53 +17,11 @@ function CallHistoryDetail({ route, navigation }) {
 
     const [temp, setTemp] = useState(false);
 
-    var varArrayServants = [
-        {
-            id: "1",
-            name: "Rafael Rosman Rodrigues Montrezol",
-            absences: 1,
-        },
-        {
-            id: "2",
-            name: "João Carlos de Jesus Silva Dias",
-            absences: 3,
-        },
-        {
-            id: "3",
-            name: "Maria Joana da Silva Rodrigues Colarinho",
-            absences: 2.5,
-        },
-        {
-            id: "4",
-            name: "Rafael Rosman Rodrigues Montrezol",
-            absences: 1,
-        },
-        {
-            id: "5",
-            name: "João Carlos de Jesus Silva Dias",
-            absences: 3,
-        },
-        {
-            id: "6",
-            name: "Maria Joana da Silva Rodrigues Colarinho",
-            absences: 2.5,
-        },
-    ];
-
     async function getSpecificCall() {
-        let timeAux = time.split(' : ');
-
-        timeAux.forEach((element, index) => {
-            if(element[0] === '0') {
-                timeAux[index] = element[1];
-            }
-        });
-        timeAux = timeAux.join(':');
-
         await api.get("specificcall", {
             params: { 
-                day: date.split('/').reverse().join('-'),
-                time: timeAux
+                day: date,
+                time: time
              }
         }).then(response => {
             setArrayServants(

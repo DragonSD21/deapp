@@ -25,12 +25,11 @@ function Call({ navigation }) {
 
     const date = new Date();
     const formattedDate = format(date, 'dd/MM/yyyy');
-    const formattedDateBD = format(date, 'yyyy-MM-dd');
 
     async function getLastCall() {
 
         await api.get("lastcall", {
-            params: { day: formattedDateBD }
+            params: { day: formattedDate }
         }).then(response => {
             setArrayServants(
                 response.data.sort(function (a, b) {
@@ -43,13 +42,13 @@ function Call({ navigation }) {
 
     async function confirmCall() {
         const dateAtt = new Date();
-        var hour = dateAtt.getHours();
-        var min = dateAtt.getMinutes();
-        var sec = dateAtt.getSeconds();
+        var hour = (dateAtt.getHours() < 10 ? '0' : '') + dateAtt.getHours();
+        var min = (dateAtt.getMinutes() < 10 ? '0' : '') + dateAtt.getMinutes();
+        var sec = (dateAtt.getSeconds() < 10 ? '0' : '') + dateAtt.getSeconds();
         var time = hour + ':' + min + ':' + sec;
 
         await api.post("calls", {
-            day: formattedDateBD,
+            day: formattedDate,
             time: time,
             servants: arrayServants
         }).then(response => {

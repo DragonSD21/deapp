@@ -21,27 +21,11 @@ function CallHistory({ route, navigation }) {
 
     async function getDays() {
         await api.get("calls").then(response => {
-            var days = response.data
-
-            days.forEach((element, index) => {
-                var i;
-                for(i=0; i<element.time.length; i++) {
-                    var split = element.time[i].split(':');
-                    if(split[0].length < 2) split[0] = '0' + split[0];
-                    if(split[1].length < 2) split[1] = '0' + split[1];
-                    if(split[2].length < 2) split[2] = '0' + split[2];
-                    element.time[i] = split.join(' : ');
-                }
-            });
-
-            setArrayDays(days);
-
+            setArrayDays(response.data);
         });
     }
 
     async function resetCall() {
-
-
         await api.delete("calls").then(response => {
             Alert.alert("Chamadas excluídas!", "Todas as faltas foram zeradas!!");
         }).catch(err => {
