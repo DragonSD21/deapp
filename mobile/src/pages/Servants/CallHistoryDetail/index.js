@@ -107,7 +107,7 @@ function CallHistoryDetail({ route, navigation }) {
                 data={
                     textSearchServant !== "" ? arrayServantsFiltered : arrayServants
                 }
-                keyExtractor={item => item.id}
+                keyExtractor={item => item.user}
                 renderItem={({ item }) => renderItem(item)}
             />
 

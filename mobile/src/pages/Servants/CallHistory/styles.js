@@ -53,27 +53,20 @@ export default StyleSheet.create({
     },
 
     //Lista dias
-    scrollView: {
-        // marginBottom: 10,
+    list: {
+        // paddingHorizontal: 20,
+        paddingLeft: 20,
+        // borderWidth: 2,
+        // borderColor: '#F00'
     },
-    headerAccordion: {
+    buttonDay: {
         backgroundColor: '#000',
         padding: 10,
         flexDirection: 'row',
     },
-    textHeaderAccordion: {
+    textButtonDay: {
         fontSize: 32,
-        fontWeight: "bold",
-        color: "#fff",
-        textAlign: 'left',
-    },
-    contentAccordion: {
-        backgroundColor: '#000',
-        marginLeft: 30,
-    },
-    textContentAccordion: {
-        fontSize: 20,
-        fontWeight: "bold",
+        // fontWeight: "bold",
         color: "#fff",
         textAlign: 'left',
     },

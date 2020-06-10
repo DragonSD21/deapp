@@ -8,26 +8,26 @@ module.exports = {
             .select('day', 'time')
             .groupBy('day', 'time');
 
-        // var callsFormat = [];
-        // var i = -1;
-        // var currentDay = "";
-        // calls.forEach((element) => {
+        var callsFormat = [];
+        var i = -1;
+        var currentDay = "";
+        calls.forEach((element) => {
 
-        //     if(currentDay === element.day) {
-        //         callsFormat[i].time.push(element.time);
-        //     }
-        //     else {
-        //         callsFormat.push({
-        //             day: element.day,
-        //             time: [
-        //                 element.time
-        //             ]
-        //         });
-        //         currentDay = element.day;
-        //         i++;
-        //     }
+            if(currentDay === element.day) {
+                callsFormat[i].time.push(element.time);
+            }
+            else {
+                callsFormat.push({
+                    day: element.day,
+                    time: [
+                        element.time
+                    ]
+                });
+                currentDay = element.day;
+                i++;
+            }
 
-        // });
+        });
 
         return response.json(calls);
         
@@ -82,7 +82,7 @@ module.exports = {
                 .where({
                     'calls.day': calls.day,
                     'calls.time': calls.time,
-                    })
+                })
                 .innerJoin('servants', 'calls.user', 'servants.user')
                 .select('calls.user', 'servants.name', 'calls.present', 'calls.absences', 'calls.justification');
         }
@@ -110,7 +110,7 @@ module.exports = {
 
         const calls = await connection('calls')
             .select('day')
-            .where('id', (connection('calls').max('id')))
+            .where('day', day)
             .first();
 
         await servants.forEach(async function (servant) {
@@ -129,10 +129,7 @@ module.exports = {
             }
             else {
                 await connection('calls')
-                    .where({
-                        'day': day,
-                        'user': user,
-                        })
+                    .where({ 'day': day, 'user': user, })
                     .update({
                     day,
                     time,
@@ -150,13 +147,14 @@ module.exports = {
 
         });
 
-        // return response.json({
-        //     day,
-        //     time,
-        //     servants
-        // });
+        return response.json({
+            day,
+            time,
+            servants
+        });
+        // return response.json(calls);
 
-        return response.status(204).send();
+        // return response.status(204).send();
 
     },
 

@@ -53,6 +53,7 @@ function Call({ navigation }) {
             servants: arrayServants
         }).then(response => {
             Alert.alert('Chamada realizada com sucesso!');
+            // console.log(response.data);
             navigation.goBack();
         }).catch(err => {
             Alert.alert("Erro no servidor", "Tente novamente mais tarde");
