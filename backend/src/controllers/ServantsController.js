@@ -77,7 +77,9 @@ module.exports = {
 
     async delete(request, response) {
         const { user } = request.params;
+        console.log(user);
 
+        await connection('calls').where('user', user).delete();
         await connection('servants').where('user', user).delete();
 
         return response.status(204).send();

@@ -263,7 +263,7 @@ function Home({ navigation }) {
                     {
                         loading ? 
                             <View style={{ marginTop: 30, alignItems: 'center' }}>
-                                <ActivityIndicator size="large" color="#0000ff" />
+                                <ActivityIndicator size="large" color="#3872D8" />
                             </View>
                         :
                             <View style={styles.containerButtonsModal}>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, FlatList, Text, TouchableOpacity, TextInput, Platform, KeyboardAvoidingView, ScrollView, Alert } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-// import KeyboardSpacer from 'react-native-keyboard-spacer';
+import { KeyboardAwareScrollView, KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { MaterialIcons } from '@expo/vector-icons';
 import { parseISO, format } from 'date-fns';
 import { YellowBox } from 'react-native';
@@ -225,6 +225,7 @@ function Call({ navigation }) {
                     }
                     keyExtractor={item => item.user}
                     renderItem={({ item }) => renderItem(item)}
+                    scrollEnabled={false}
                 />
                 
                 <View style={styles.containerBottom}>
@@ -245,7 +246,7 @@ function Call({ navigation }) {
                 </View>
 
             </KeyboardAwareScrollView>
-            
+
         </View>
     );
 }
