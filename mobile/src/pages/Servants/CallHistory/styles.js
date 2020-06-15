@@ -66,7 +66,7 @@ export default StyleSheet.create({
     },
     textButtonDay: {
         fontSize: 32,
-        // fontWeight: "bold",
+        fontWeight: "bold",
         color: "#fff",
         textAlign: 'left',
     },

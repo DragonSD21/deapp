@@ -21,7 +21,11 @@ function CallHistory({ route, navigation }) {
 
     async function getDays() {
         await api.get("calls").then(response => {
-            setArrayDays(response.data);
+            let aux = response.data
+            aux.sort(function(a,b) {
+                return a.day < b.day ? -1 : a.day > b.day ? 1 : 0;
+            });
+            setArrayDays(aux);
         });
     }
 
