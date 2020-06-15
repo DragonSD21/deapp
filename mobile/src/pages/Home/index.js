@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, TouchableOpacity, Text, Image, Modal, TextInput, Alert, Animated, BackHandler } from 'react-native';
+import { View, TouchableOpacity, Text, Image, Modal, TextInput, Alert, Animated, BackHandler, ActivityIndicator } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'
 
 import api from '../../services/api';
@@ -23,6 +23,8 @@ function Home({ navigation }) {
 
     const [colorTextUser, setColorTextUser] = useState('#000');
     const [colorTextPassowrd, setColorTextPassowrd] = useState('#000');
+
+    const [loading, setLoading] = useState(false);
 
     function animationUser(event) {
 
@@ -77,6 +79,8 @@ function Home({ navigation }) {
 
     async function confirmData() {
 
+        setLoading(true);
+
         const data = {
             user,
             password,
@@ -116,6 +120,8 @@ function Home({ navigation }) {
             }
 
         }
+
+        setLoading(false);
 
     }
 
@@ -254,23 +260,30 @@ function Home({ navigation }) {
                         </Animated.View>
                     </View>
 
-                    <View style={styles.containerButtonsModal}>
-                        <TouchableOpacity
-                            style={styles.buttonsModal}
-                            onPress={() => { 
-                                setOpacityBackground(1);
-                                setModalVisible(!modalVisible);
-                            }}
-                        >
-                            <Text style={styles.textButtonsModal}>Cancelar</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.buttonsModal}
-                            onPress={confirmData}
-                        >
-                            <Text style={styles.textButtonsModal}>Confirmar</Text>
-                        </TouchableOpacity>
-                    </View>
+                    {
+                        loading ? 
+                            <View style={{ marginTop: 30, alignItems: 'center' }}>
+                                <ActivityIndicator size="large" color="#0000ff" />
+                            </View>
+                        :
+                            <View style={styles.containerButtonsModal}>
+                                <TouchableOpacity
+                                    style={styles.buttonsModal}
+                                    onPress={() => { 
+                                        setOpacityBackground(1);
+                                        setModalVisible(!modalVisible);
+                                    }}
+                                >
+                                    <Text style={styles.textButtonsModal}>Cancelar</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={styles.buttonsModal}
+                                    onPress={confirmData}
+                                >
+                                    <Text style={styles.textButtonsModal}>Confirmar</Text>
+                                </TouchableOpacity>
+                            </View>
+                        }
 
                 </View>
             </Modal>
