@@ -265,7 +265,7 @@ function Main({ route, navigation }) {
                             opened = false;
                             menuAnimated();
                             navigation.navigate('CallHistory', {
-                                user: type,
+                                type: type,
                             });
                         }}
                     >
