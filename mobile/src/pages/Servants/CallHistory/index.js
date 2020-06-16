@@ -68,8 +68,6 @@ function CallHistory({ route, navigation }) {
         setArrayDays(arrayDays);
 
         setArrayDaysFiltered([]);
-
-        alert(type);
     }, []);
 
     return (
