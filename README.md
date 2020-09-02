@@ -8,7 +8,7 @@
 
 :small_blue_diamond: [Funcionalidades](#funcionalidades)
 
-:small_blue_diamond: [Deploy da Aplicação](#deploy-da-aplicação-dash)
+:small_blue_diamond: [Layout da Aplicação](#layout-da-aplicação-dash)
 
 :small_blue_diamond: [Pré-requisitos](#pré-requisitos)
 
@@ -28,9 +28,30 @@
 
 :heavy_check_mark: Controle de cadastro
 
-## Layout ou Deploy da Aplicação :dash:
+## Layout da Aplicação :dash:
 
-Tópico em desenvolvimento :warning:
+<p align="justify">
+  A seguir são mostradas algumas imagens retiradas do app:
+</p>
+
+<p align="center">
+  <Img src="https://github.com/rafarod21/DEApp/blob/master/Screens/Screen_Home.jpeg" width=100>
+  <Img src="https://github.com/rafarod21/DEApp/blob/master/Screens/Screen_Home_Login.jpeg" width=100>
+  <Img src="https://github.com/rafarod21/DEApp/blob/master/Screens/Screen_FirstAccess.jpeg" width=100/>
+  <Img src="https://github.com/rafarod21/DEApp/blob/master/Screens/Screen_Main_1.jpeg" width=100/>
+  <Img src="https://github.com/rafarod21/DEApp/blob/master/Screens/Screen_Main_DrawerMenu.jpeg" width=100/>
+  <Img src="https://github.com/rafarod21/DEApp/blob/master/Screens/Screen_NewCall.jpeg" width=100/>
+  <Img src="https://github.com/rafarod21/DEApp/blob/master/Screens/Screen_Main_2.jpeg" width=100/>
+</p>
+<p align="center">
+  <Img src="https://github.com/rafarod21/DEApp/blob/master/Screens/Screen_CallHistory.jpeg" width=100/>
+  <Img src="https://github.com/rafarod21/DEApp/blob/master/Screens/Screen_CallHistoryDetail.jpeg" width=100/>
+  <Img src="https://github.com/rafarod21/DEApp/blob/master/Screens/Screen_Profile.jpeg" width=100/>
+  <Img src="https://github.com/rafarod21/DEApp/blob/master/Screens/Screen_ChangePassword.jpeg" width=100/>
+  <Img src="https://github.com/rafarod21/DEApp/blob/master/Screens/Screen_NewServant.jpeg" width=100/>
+  <Img src="https://github.com/rafarod21/DEApp/blob/master/Screens/Screen_ChangeServant.jpeg" width=100/>
+</p>
+
 
 ## Pré-requisitos
 
@@ -50,8 +71,12 @@ Tópico em desenvolvimento :warning:
 
 ## Linguagens, dependencias e libs utilizadas :books:
 
-Tópico em desenvolvimento :warning:
+- [Node.js](https://nodejs.org/en/)
+- [React](https://pt-br.reactjs.org/)
+- [React Native](https://reactnative.dev/)
+- [React Navigation](https://reactnavigation.org/)
 
 ## Desenvolvedores/Contribuintes :octocat:
 
 [<img src="https://avatars0.githubusercontent.com/u/39251153?s=460&u=b18964e9a5e2c3c1ef9bc74ae8c35b11095c841b&v=4" width=115><br><sub>Rafael Rodrigues</sub>](https://github.com/rafarod21)
+
