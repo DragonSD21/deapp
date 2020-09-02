@@ -109,7 +109,7 @@ Exemplos usados no banco de dados:
 | -------- |-------- |-------- |-------- |-------- |-------- |-------- |
 |1|2020-03-10|19:05:22|marcosborges|false|1.5|Avisou que não viria|
 |2|2020-03-10|19:05:22|joaosilva|true|0.0||
-|3|2020-03-10|19:05:22|marialima|true|0.5|Avisou que não viria|
+|3|2020-03-10|19:05:22|marialima|true|0.5||
 |4|2020-10-10|19:08:32|marcosborges|true|1.5||
 |5|2020-10-10|19:08:32|joaosilva|false|1.0||
 |6|2020-10-10|19:08:32|marialima|true|0.5||
