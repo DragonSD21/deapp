@@ -1,4 +1,4 @@
-<h1>DÉApp</h1>
+<h1 align="center">DÉApp</h1>
 
 > Status do Projeto: concluído :heavy_check_mark:
 
@@ -101,7 +101,7 @@ Exemplos usados no banco de dados:
 | -------- |-------- |-------- |-------- |-------- |-------- |-------- |
 |joaosilva|12345|true|João Martins da Silva|Servo|Música|1.0|
 |marcosborges|marcosBG14|false|Marcos Correia Borges|Servo responsável pela chamada|Acolhimento|1.5|
-|marialima|lima22campos|false|Maria Ferreira de Campos Lima|Servo|Servo responsável geral|0.5|
+|marialima|lima22campos|false|Maria Ferreira de Campos Lima|Servo responsável geral|Teatro|0.5|
 
 ### Chamadas (calls): 
 
